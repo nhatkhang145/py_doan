@@ -57,7 +57,7 @@
             <div class="navbar__menu-logo">
               <a href="/index.html">
                 <img class="navbar__menu-logo-img"
-                  src="https://mint07.com/wp-content/uploads/2022/10/logo-web.png"
+                  src="https://ik.imagekit.io/8tm3umulk/image/logonew_fG_70DXF8?updatedAt=1762866381508"
                   alt="Organic Harvest Logo" />
               </a>
             </div>
@@ -153,7 +153,7 @@
         <div class="slide-wrapper">
           <!-- Slide 1 -->
           <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Fresh Fruit" />
+            <img src="https://i.pinimg.com/1200x/25/54/15/255415908ab241b565a5dbe42795519f.jpg" alt="Fresh Fruit" />
             <div class="slide-caption">
               <h2>Chăm sóc da mặt</h2>
               <p>Bật sắc xinh, chinh phục cá tính</p>
@@ -162,7 +162,7 @@
 
           <!-- Slide 2 -->
           <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Clear Origin" />
+            <img src="https://i.pinimg.com/736x/ba/cc/a7/bacca77883505e3fa726612bb78951ee.jpg" alt="Clear Origin" />
             <div class="slide-caption">
               <h2>Trang điểm</h2>
               <p>Biến hoá đa sắc màu</p>
@@ -171,7 +171,7 @@
 
           <!-- Slide 3 -->
           <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/9f/b1/18/9fb118d3d637cf3ac9bba3343ac52e69.jpg" alt="City Lights" />
+            <img src="https://bloganchoi.com/wp-content/uploads/2018/06/cac-loai-trai-cay.jpg" alt="City Lights" />
             <div class="slide-caption">
               <h2>Phụ kiện làm đẹp</h2>
               <p>"Hack" nhan sắc, tự tin "Level Max"</p>
@@ -180,7 +180,7 @@
 
           <!-- Slide 4 -->
           <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/f0/ee/f3/f0eef3a42c6f9e85a3ea25eab01d297b.jpg"
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&h=500&fit=crop"
               alt="Forest Path" />
             <div class="slide-caption">
               <h2>Chăm sóc cơ thể</h2>
@@ -190,7 +190,7 @@
 
           <!-- Slide 5 -->
           <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/eb/79/46/eb794603f0cd90fb31f80dbd70cb4074.jpg"
+            <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=900&h=500&fit=crop"
               alt="Sunset View" />
             <div class="slide-caption">
               <h2>Phụ kiện làm đẹp</h2>
@@ -245,7 +245,7 @@
                   <div class="product-image">
                     <a href="/product-detail.html?id=1">
                       <img
-                        src="https://mint07.com/wp-content/uploads/2024/03/9388cc6f877b446ebbe2485b1223cac6-190x243.jpg"
+                        src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                         alt="Son môi" loading="lazy" />
                     </a>
 
@@ -284,7 +284,7 @@
 
                     <div class="price">
                       <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
+                      <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                     </div>
                   </div>
                 </div>
@@ -292,7 +292,7 @@
                   <div class="product-image">
                     <a href="/product-detail.html?id=1">
                       <img
-                        src="https://mint07.com/wp-content/uploads/2025/02/son-kem-libbia-fit-tint-4g-2-190x243.jpg"
+                        src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                         alt="Dưa" loading="lazy" />
                     </a>
 
@@ -317,7 +317,7 @@
                     <div class="category">Trái cây nhập khẩu</div>
 
                     <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                      <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                     </h3>
 
                     <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -331,7 +331,7 @@
 
                     <div class="price">
                       <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
+                      <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                     </div>
                   </div>
                 </div>
@@ -339,7 +339,7 @@
                   <div class="product-image">
                     <a href="/product-detail.html?id=1">
                       <img
-                        src="https://mint07.com/wp-content/uploads/2024/05/z5418218877218-7e9eb979073dc19361c32df95f9c79f7-190x243.jpg"
+                        src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                         alt="Dưa" loading="lazy" />
                     </a>
 
@@ -364,7 +364,7 @@
                     <div class="category">Trái cây nhập khẩu</div>
 
                     <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                      <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                     </h3>
 
                     <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -378,7 +378,7 @@
 
                     <div class="price">
                       <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
+                      <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                     </div>
                   </div>
                 </div>
@@ -386,7 +386,7 @@
                   <div class="product-image">
                     <a href="/product-detail.html?id=1">
                       <img
-                        src="https://mint07.com/wp-content/uploads/2020/07/son-kem-bbia-last-velvet-lip-tint-190x243.jpg"
+                        src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                         alt="Dưa" loading="lazy" />
                     </a>
 
@@ -411,7 +411,7 @@
                     <div class="category">Trái cây nhập khẩu</div>
 
                     <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                      <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                     </h3>
 
                     <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -425,7 +425,7 @@
 
                     <div class="price">
                       <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
+                      <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                     </div>
                   </div>
                 </div>
@@ -433,7 +433,7 @@
                   <div class="product-image">
                     <a href="/product-detail.html?id=1">
                       <img
-                        src="https://mint07.com/wp-content/uploads/2019/04/black-rouge-cac-ver-190x243.png"
+                        src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                         alt="Dưa" loading="lazy" />
                     </a>
 
@@ -458,7 +458,7 @@
                     <div class="category">Trái cây nhập khẩu</div>
 
                     <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                      <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                     </h3>
 
                     <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -472,7 +472,7 @@
 
                     <div class="price">
                       <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
+                      <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                     </div>
                   </div>
                 </div>
@@ -480,7 +480,7 @@
                   <div class="product-image">
                     <a href="/product-detail.html?id=1">
                       <img
-                        src="https://mint07.com/wp-content/uploads/2025/03/son-kem-bong-3ce-drop-glow-gel-4g-190x243.webp"
+                        src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                         alt="Dưa" loading="lazy" />
                     </a>
 
@@ -505,7 +505,7 @@
                     <div class="category">Trái cây nhập khẩu</div>
 
                     <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                      <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                     </h3>
 
                     <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -519,7 +519,7 @@
 
                     <div class="price">
                       <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
+                      <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                     </div>
                   </div>
                 </div>
@@ -527,7 +527,7 @@
                   <div class="product-image">
                     <a href="/product-detail.html?id=1">
                       <img
-                        src="https://mint07.com/wp-content/uploads/2024/06/son-tint-carslan-lip-glow-serum-45g-2-190x243.jpg"
+                        src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                         alt="Dưa" loading="lazy" />
                     </a>
 
@@ -552,7 +552,7 @@
                     <div class="category">Trái cây nhập khẩu</div>
 
                     <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                      <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                     </h3>
 
                     <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -566,7 +566,7 @@
 
                     <div class="price">
                       <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
+                      <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                     </div>
                   </div>
                 </div>
@@ -602,17 +602,17 @@
             <!-- Deal item -->
             <div class="deal-item">
               <div class="deal-left">
-                <p class="sub-title">Hot deal cuối tuần</p>
-                <h2 class="product-title">Son Tint Carslan Lip Glowc</h2>
-                <p class="product-desc">Tăng tốc độ hấp thụ tinh chất chăm sóc đôi môi mềm mại, đầy dặn và căng bóng</p>
-                <p class="product-price">169.000 Đ</p>
+                <p class="sub-title">Ưu đãi cuối tuần</p>
+                <h2 class="product-title">Dừa sáp</h2>
+                <p class="product-desc">Thơm ngon mọng nước</p>
+                <p class="product-price">10.000 Đ</p>
                 <a href="#" class="shop-now">
                   MUA NGAY <span class="arrow">→</span>
                 </a>
               </div>
 
               <div class="deal-right">
-                <img src="https://mint07.com/wp-content/uploads/2024/06/son-tint-carslan-lip-glow-serum-45g-2-190x243.jpg" alt="Fresh Coconut" />
+                <img src="https://botanica.risingbamboo.com/wp-content/uploads/2023/06/bn6-1.png" alt="Fresh Coconut" />
               </div>
             </div>
 
@@ -638,7 +638,7 @@
                 <div class="product-image">
                   <a href="/product-detail.html?id=1">
                     <img
-                      src="https://mint07.com/wp-content/uploads/2024/08/nh-chup-man-hinh-2024-08-01-181352-190x243.png"
+                      src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                       alt="Dưa" loading="lazy" />
                   </a>
 
@@ -663,7 +663,7 @@
                   <div class="category">Trái cây nhập khẩu</div>
 
                   <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                    <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                   </h3>
 
                   <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -677,7 +677,7 @@
 
                   <div class="price">
                     <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
+                    <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                   </div>
                 </div>
               </div>
@@ -685,7 +685,7 @@
                 <div class="product-image">
                   <a href="/product-detail.html?id=1">
                     <img
-                      src="https://mint07.com/wp-content/uploads/2024/11/son-kem-li-peripera-ink-airy-velvet-4g-190x243.jpg"
+                      src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                       alt="Dưa" loading="lazy" />
                   </a>
 
@@ -710,7 +710,7 @@
                   <div class="category">Trái cây nhập khẩu</div>
 
                   <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                    <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                   </h3>
 
                   <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -724,7 +724,7 @@
 
                   <div class="price">
                     <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
+                    <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                   </div>
                 </div>
               </div>
@@ -732,7 +732,7 @@
                 <div class="product-image">
                   <a href="/product-detail.html?id=1">
                     <img
-                      src="https://mint07.com/wp-content/uploads/2022/08/son-tint-bong-lilybyred-glassy-layer-fixing-tint-3-8gr-190x243.jpg"
+                      src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                       alt="Dưa" loading="lazy" />
                   </a>
 
@@ -757,7 +757,7 @@
                   <div class="category">Trái cây nhập khẩu</div>
 
                   <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                    <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                   </h3>
 
                   <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -771,7 +771,7 @@
 
                   <div class="price">
                     <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
+                    <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                   </div>
                 </div>
               </div>
@@ -779,7 +779,7 @@
                 <div class="product-image">
                   <a href="/product-detail.html?id=1">
                     <img
-                      src="https://mint07.com/wp-content/uploads/2024/04/son-thoi-espoir-the-sleek-lipstick-09g-1-190x243.png"
+                      src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
                       alt="Dưa" loading="lazy" />
                   </a>
 
@@ -804,7 +804,7 @@
                   <div class="category">Trái cây nhập khẩu</div>
 
                   <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
+                    <a href="/product-detail.html?id=1" title="Dừa">Dừa</a>
                   </h3>
 
                   <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
@@ -818,7 +818,7 @@
 
                   <div class="price">
                     <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
+                    <span class="unit" style="font-size: 12px; color: #666;">/ Kg</span>
                   </div>
                 </div>
               </div>
@@ -829,7 +829,7 @@
         </section>
       </section>
     </section>
-    {% comment %} <!-- video -->
+    <!-- video -->
     <section class="hero-video">
       <video autoplay muted loop class="hero-video__video">
         <source src="https://botanica.risingbamboo.com/wp-content/uploads/2023/06/Video-HD.mp4" type="video/mp4" />
@@ -840,7 +840,7 @@
         <p>Tươi ngon – An toàn – Dinh dưỡng mỗi ngày</p>
         <span>Cam kết chất lượng trong từng sản phẩm</span>
       </div>
-    </section> {% endcomment %}
+    </section>
     <!-- blog -->
     <section class="blog">
       <div class="blog__container">
@@ -852,7 +852,7 @@
         <div class="blog__grid">
           <!-- Bài viết 1 -->
           <div class="blog__item">
-            <img src="https://i.pinimg.com/1200x/3f/39/62/3f3962f01a632cf46740aa390fd0e3dc.jpg"
+            <img src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
               alt="Blog 1" class="blog__image" />
             <div class="blog__content">
               <div class="blog__meta">
@@ -868,7 +868,7 @@
 
           <!-- Bài viết 2 -->
           <div class="blog__item">
-            <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg"
+            <img src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
               alt="Blog 2" class="blog__image" />
             <div class="blog__content">
               <div class="blog__meta">
@@ -884,7 +884,7 @@
 
           <!-- Bài viết 3 -->
           <div class="blog__item">
-            <img src="https://i.pinimg.com/1200x/9f/b1/18/9fb118d3d637cf3ac9bba3343ac52e69.jpg"
+            <img src="https://ik.imagekit.io/8tm3umulk/image/s%E1%BA%A3n%20ph%E1%BA%A9m/dua?updatedAt=1762455965231"
               alt="Blog 3" class="blog__image" />
             <div class="blog__content">
               <div class="blog__meta">
