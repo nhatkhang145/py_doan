@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  /* --- MÀU SẮC CHỦ ĐẠO --- */
+  --primary-color: #3d8b91;       /* Màu xanh chính của Header/Admin */
+  --primary-brand-color: #2fb45a; /* Màu xanh lá cây (Nút mua, Badge) */
+  --secondary-brand-color: #ff6b6b; /* Màu đỏ/cam (Sale, Thông báo) */
+  
+  /* --- MÀU CƠ BẢN --- */
+  --white-color: #fff;
+  --black-color: #000;
+  --text-color: #6e6e6e;
+  --text-dark: #333333;
+  --text-light: #666666;
+  
+  /* --- NỀN & VIỀN --- */
+  --bg-light: #eee;
+  --border-color: #e5e5e5;
+  --input-bg: #f3f3f3;
+  
+  /* --- KÍCH THƯỚC (Layout) --- */
+  --topbar-height: 36px;
+  --menu-height: 75px;
+  
+  /* --- HIỆU ỨNG --- */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* --- RESET CƠ BẢN --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  line-height: 1.6rem;
+  font-family: "Roboto", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-size: 1.6rem; /* Quay về 16px mặc định cho body */
+  color: var(--text-dark);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+button, input {
+  font-family: inherit;
+}
+
+/* --- HỆ THỐNG GRID (Utility) --- */
+.grid {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Trong file base.css hoặc main.css */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 15px;  /* Giảm padding an toàn xuống 15px */
+  padding-right: 15px;
+  box-sizing: border-box; /* QUAN TRỌNG: Để padding không làm to width */
+}
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.gird__full-width {
+  width: 100%;
+}
+
+.grid__row {
+  display: flex;
+  flex-wrap: wrap;
+}
