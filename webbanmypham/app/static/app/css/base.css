@@ -23,10 +23,10 @@
   --transition: all 0.3s ease;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
 }
 
 html {
@@ -86,11 +86,11 @@ img {
   height: auto;
 }
 
-.gird__full-width {
+.girdfull-width {
   width: 100%;
 }
 
-.grid__row {
+.gridrow {
   display: flex;
   flex-wrap: wrap;
 }

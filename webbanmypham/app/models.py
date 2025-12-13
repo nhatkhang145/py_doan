@@ -2,18 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-# =======================================================
-# PHẦN 1: QUẢN LÝ NGƯỜI DÙNG & HỒ SƠ DA
-# =======================================================
+
+#  QUẢN LÝ NGƯỜI DÙNG 
 
 class CustomerProfile(models.Model):
-    # Liên kết 1-1 với bảng User gốc của Django (để dùng tính năng đăng nhập sẵn có)
+    # Liên kết 1-1 với bảng User 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name="Tài khoản")
     fullname = models.CharField(max_length=100, verbose_name="Họ và tên")
     phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Số điện thoại")
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png', verbose_name="Ảnh đại diện")
     
-    # [QUAN TRỌNG CHO AI] Hồ sơ da
+    #   ai Loại da
     SKIN_TYPE_CHOICES = [
         ('unknown', 'Chưa xác định'),
         ('oily', 'Da dầu'),
@@ -49,9 +48,8 @@ class UserAddress(models.Model):
     def __str__(self):
         return f"{self.receiver_name} - {self.detail_address}"
 
-# =======================================================
-# PHẦN 2: SẢN PHẨM & KHO HÀNG (CORE)
-# =======================================================
+
+#  SẢN PHẨM & KHO HÀNG 
 
 class Brand(models.Model):
     name = models.CharField(max_length=100, verbose_name="Tên thương hiệu")
@@ -86,11 +84,10 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', verbose_name="Ảnh đại diện")
     gallery = models.JSONField(default=list, blank=True, verbose_name="Album ảnh (JSON)") # Lưu danh sách đường dẫn ảnh phụ
     
-    # [QUAN TRỌNG CHO AI]
+    #  AI phù hợp da & thành phần
     target_skin_type = models.CharField(max_length=50, default='Mọi loại da', verbose_name="Phù hợp loại da")
     main_ingredients = models.TextField(blank=True, verbose_name="Thành phần chính")
     usage_instructions = models.TextField(blank=True, verbose_name="Hướng dẫn sử dụng")
-    
     description = models.TextField(blank=True, verbose_name="Mô tả chi tiết")
     
     # Thông số kho & hiển thị
@@ -104,9 +101,8 @@ class Product(models.Model):
         return self.name
 
 class ProductBatch(models.Model):
-    """
-    BẢNG QUAN TRỌNG: Quản lý Date
-    """
+    
+    # Quản lý Date
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='batches')
     batch_code = models.CharField(max_length=50, verbose_name="Mã lô")
     quantity = models.IntegerField(default=0, verbose_name="Số lượng lô này")
@@ -120,9 +116,9 @@ class ProductBatch(models.Model):
     def __str__(self):
         return f"Lô {self.batch_code} - {self.product.name}"
 
-# =======================================================
-# PHẦN 3: BÁN HÀNG & ĐƠN HÀNG
-# =======================================================
+
+#  BÁN HÀNG & ĐƠN HÀNG
+
 
 class Order(models.Model):
     order_code = models.CharField(max_length=20, unique=True, verbose_name="Mã đơn hàng")
@@ -136,7 +132,6 @@ class Order(models.Model):
     total_money = models.DecimalField(max_digits=15, decimal_places=0, verbose_name="Tổng tiền hàng")
     shipping_fee = models.DecimalField(max_digits=15, decimal_places=0, default=0, verbose_name="Phí ship")
     final_money = models.DecimalField(max_digits=15, decimal_places=0, verbose_name="Thành tiền")
-    
     payment_method = models.CharField(max_length=50, default='COD', verbose_name="PT Thanh toán")
     payment_status = models.BooleanField(default=False, verbose_name="Đã thanh toán")
     
@@ -167,9 +162,9 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.product_name} x {self.quantity}"
 
-# =======================================================
-# PHẦN 4: ĐÁNH GIÁ (REVIEWS)
-# =======================================================
+
+# ĐÁNH GIÁ (REVIEWS)
+
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
