@@ -1,0 +1,198 @@
+/* =========================================================
+   7. AUTH PAGES (LOGIN / REGISTER)
+   ========================================================= */
+
+.fm-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 40px 20px;
+  background-color: #fffcfd; /* Nền hồng nhạt cho toàn trang */
+}
+
+.fm-card {
+  display: flex;
+  width: 900px;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #ffe3eb;
+}
+
+/* --- Cột Trái (Ảnh & Giới thiệu) --- */
+.fm-left {
+  width: 45%;
+  background: linear-gradient(135deg, #fff0f3 0%, #ffe3eb 100%);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.fm-left h2 {
+  font-size: 2.4rem;
+  color: var(--primary-brand-color); /* Màu đỏ hồng */
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.fm-left p {
+  font-size: 1.4rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* --- Cột Phải (Form) --- */
+.fm-right {
+  width: 55%;
+  padding: 50px;
+  background-color: #fff;
+}
+
+.fm-form-wrap {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* --- Tabs (Đăng nhập / Đăng ký) --- */
+.fm-tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.fm-tab {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: 600;
+  padding-bottom: 10px;
+  color: #999;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+}
+
+/* Tab đang chọn (Active) */
+.fm-tab.active {
+  color: var(--text-dark);
+}
+
+.fm-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary-brand-color);
+}
+
+/* --- Form Elements --- */
+.fm-label {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: var(--text-dark);
+}
+
+.fm-label input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.fm-label input:focus {
+  border-color: var(--primary-brand-color);
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+
+.fm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+}
+
+.fm-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #666;
+}
+
+.fm-link {
+  color: var(--primary-brand-color);
+  font-weight: 600;
+}
+
+.fm-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-brand-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.fm-btn:hover {
+  background-color: #e84118;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+}
+
+.fm-or {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 1.4rem;
+  color: #666;
+}
+
+.fm-or a {
+  color: var(--primary-brand-color);
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+/* Ẩn hiện panel */
+.hidden {
+  display: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .fm-card {
+    flex-direction: column;
+    margin: 20px;
+  }
+  .fm-left {
+    width: 100%;
+    padding: 30px 20px;
+  }
+  .fm-right {
+    width: 100%;
+    padding: 30px 20px;
+  }
+  .fm-logo-img {
+    height: 50px;
+  }
+}
