@@ -1,0 +1,100 @@
+/* =========================================================
+   8. CART & CHECKOUT (GIAO DIỆN GIỎ HÀNG)
+   ========================================================= */
+
+/* --- Bảng Giỏ Hàng --- */
+.cart-page { padding: 50px 0; background-color: #fffcfd; min-height: 60vh; }
+
+.table-responsive { overflow-x: auto; }
+
+.cart-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px; /* Tạo khoảng cách giữa các dòng */
+}
+
+.cart-table th {
+  background-color: transparent;
+  color: var(--text-light);
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #ffe3eb;
+}
+
+.cart-table td {
+  background-color: #fff;
+  padding: 20px;
+  vertical-align: middle;
+  border-top: 1px solid #ffe3eb;
+  border-bottom: 1px solid #ffe3eb;
+}
+
+.cart-table td:first-child { border-left: 1px solid #ffe3eb; border-radius: 10px 0 0 10px; }
+.cart-table td:last-child { border-right: 1px solid #ffe3eb; border-radius: 0 10px 10px 0; }
+
+.cart-item-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.cart-item-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.cart-price { color: var(--primary-brand-color); font-weight: 700; font-size: 1.5rem; }
+
+/* --- Checkout Box (Cột phải) --- */
+.checkout-box {
+  background: #fff;
+  border: 1px solid #ffe3eb;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.checkout-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ffe3eb;
+}
+
+.order-summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #666;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px dashed #ffe3eb;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-brand-color);
+}
+
+/* Nút xóa */
+.btn-remove {
+  width: 35px; height: 35px;
+  border-radius: 50%;
+  background: #fff0f3;
+  color: #ff4757;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.btn-remove:hover { background: #ff4757; color: #fff; }

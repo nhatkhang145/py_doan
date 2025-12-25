@@ -1,0 +1,165 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/product_detail.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+  <div class="container">
+    <a href="{% url 'home' %}">Trang chủ</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <a href="{% url 'shop' %}">Sản phẩm</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <span>{{ product.name }}</span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="product-detail__container">
+    <div class="product-detail__top">
+      
+      <div class="product-gallery">
+        <div class="product-gallery__thumbs">
+          <div class="thumb-item active" onclick="changeImage(this)">
+            <img src="{{ product.image.url }}" alt="Thumb">
+          </div>
+        </div>
+        <div class="product-gallery__main">
+          <img id="mainImage" src="{{ product.image.url }}" alt="{{ product.name }}">
+          {% if product.sale_price > 0 %}
+             <div class="product-badge sale">Sale</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="product-info">
+        <h1 class="product-title">{{ product.name }}</h1>
+        
+        <div class="product-meta-row">
+          <div class="product-rating">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <span class="divider">|</span>
+          <span class="product-sku">Mã: <strong>{{ product.sku }}</strong></span>
+          <span class="divider">|</span>
+          <span class="stock-status in-stock">
+              {% if product.stock_quantity > 0 %}Còn hàng{% else %}Hết hàng{% endif %}
+          </span>
+        </div>
+
+        <div class="product-price-box">
+          {% if product.sale_price > 0 %}
+             <span class="current-price">{{ product.sale_price }}₫</span>
+             <span class="old-price">{{ product.price }}₫</span>
+          {% else %}
+             <span class="current-price">{{ product.price }}₫</span>
+          {% endif %}
+        </div>
+
+        <div class="product-description-short">
+          <p>{{ product.description|linebreaks|truncatewords:50 }}</p>
+        </div>
+
+        <hr class="product-divider">
+
+        <div class="product-actions-wrapper">
+          <div class="qty-wrapper">
+            <button class="qty-btn" onclick="decreaseQty()">-</button>
+            <input type="number" value="1" min="1" id="qtyInput" class="qty-input">
+            <button class="qty-btn" onclick="increaseQty()">+</button>
+          </div>
+
+          <div class="action-buttons">
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-add-cart" style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
+              <i class="fa-solid fa-cart-plus"></i> &nbsp; Thêm vào giỏ
+            </a>
+            <button class="btn btn-buy-now">Mua ngay</button>
+          </div>
+        </div>
+
+        <div class="product-policies">
+           <div class="policy-item"><i class="fa-solid fa-truck-fast"></i><span>Giao hàng nhanh</span></div>
+           <div class="policy-item"><i class="fa-solid fa-rotate-left"></i><span>Đổi trả 24H</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-detail__bottom">
+       <div id="desc" class="tab-content" style="display: block;">
+          <div class="content-inner">
+            <p>{{ product.description|linebreaks }}</p>
+          </div>
+       </div>
+       </div>
+
+    <div class="related-products-section">
+      <h2 class="section-title">Sản phẩm liên quan</h2>
+      <div class="trending-grid" style="display: flex; gap: 20px; flex-wrap: wrap;">
+        {% for item in related_products %}
+         <div class="product-card" style="width: 23%; min-width: 200px;">
+          <div class="product-image">
+            <a href="{% url 'product_detail' item.id %}">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}">
+            </a>
+            <div class="product-actions">
+              <a href="{% url 'add_to_cart' item.id %}"><button class="action-btn"><i class="fas fa-shopping-basket"></i></button></a>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
+            <div class="price">
+               {% if item.sale_price > 0 %}
+                  <span class="current">{{ item.sale_price }}₫</span>
+               {% else %}
+                  <span class="current">{{ item.price }}₫</span>
+               {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // 1. Đổi ảnh (Giữ nguyên script của bạn)
+  function changeImage(element) {
+    document.querySelectorAll('.thumb-item').forEach(el => el.classList.remove('active'));
+    element.classList.add('active');
+    const newSrc = element.querySelector('img').src;
+    document.getElementById('mainImage').src = newSrc;
+  }
+
+  // 2. Tăng giảm số lượng (Giữ nguyên)
+  const qtyInput = document.getElementById('qtyInput');
+  function increaseQty() {
+    qtyInput.value = parseInt(qtyInput.value) + 1;
+  }
+  function decreaseQty() {
+    if (parseInt(qtyInput.value) > 1) {
+      qtyInput.value = parseInt(qtyInput.value) - 1;
+    }
+  }
+
+  // 3. Tabs (Giữ nguyên)
+  function openTab(evt, tabName) {
+    let i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
+{% endblock %}

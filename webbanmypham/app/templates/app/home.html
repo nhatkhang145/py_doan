@@ -1,756 +1,255 @@
-{% extends 'app/base.html' %} {% load static %}
+{% extends 'app/base.html' %} 
+{% load static %}
 
 {% block title %}Trang Chủ - Beauty Shop{% endblock %}
 
 {% block content %}
-    <div id="slide">
-      <div class="slide-container">
-        <div class="slide-wrapper">
-          <!-- Slide 1 -->
-          <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Fresh Fruit" />
-            <div class="slide-caption">
-              <h2>Chăm sóc da mặt</h2>
-              <p>Bật sắc xinh, chinh phục cá tính</p>
-            </div>
-          </div>
-
-          <!-- Slide 2 -->
-          <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Clear Origin" />
-            <div class="slide-caption">
-              <h2>Trang điểm</h2>
-              <p>Biến hoá đa sắc màu</p>
-            </div>
-          </div>
-
-          <!-- Slide 3 -->
-          <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/9f/b1/18/9fb118d3d637cf3ac9bba3343ac52e69.jpg" alt="City Lights" />
-            <div class="slide-caption">
-              <h2>Phụ kiện làm đẹp</h2>
-              <p>"Hack" nhan sắc, tự tin "Level Max"</p>
-            </div>
-          </div>
-
-          <!-- Slide 4 -->
-          <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/f0/ee/f3/f0eef3a42c6f9e85a3ea25eab01d297b.jpg" alt="Forest Path" />
-            <div class="slide-caption">
-              <h2>Chăm sóc cơ thể</h2>
-              <p>Khiến mọi người phải "GATO", Chinh phục xu hướng mới</p>
-            </div>
-          </div>
-
-          <!-- Slide 5 -->
-          <div class="slide-item">
-            <img src="https://i.pinimg.com/1200x/eb/79/46/eb794603f0cd90fb31f80dbd70cb4074.jpg" alt="Sunset View" />
-            <div class="slide-caption">
-              <h2>Phụ kiện làm đẹp</h2>
-              <p>Khui chất riêng-Bung màu cá tính</p>
-            </div>
-          </div>
+<div id="slide">
+  <div class="slide-container">
+    <div class="slide-wrapper">
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Slide 1" />
+        <div class="slide-caption">
+          <h2>Chăm sóc da mặt</h2>
+          <p>Bật sắc xinh, chinh phục cá tính</p>
         </div>
-
-        <!-- Nút Previous -->
-        <button class="nav-button prev-button" onclick="prevSlide()">
-          &#10094;
-        </button>
-
-        <!-- Nút Next -->
-        <button class="nav-button next-button" onclick="nextSlide()">
-          &#10095;
-        </button>
-
-        <!-- Chỉ báo dots -->
-        <div class="slide-indicators">
-          <span class="indicator-dot active" onclick="goToSlide(0)"></span>
-          <span class="indicator-dot" onclick="goToSlide(1)"></span>
-          <span class="indicator-dot" onclick="goToSlide(2)"></span>
-          <span class="indicator-dot" onclick="goToSlide(3)"></span>
-          <span class="indicator-dot" onclick="goToSlide(4)"></span>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Slide 2" />
+        <div class="slide-caption">
+          <h2>Trang điểm</h2>
+          <p>Biến hoá đa sắc màu</p>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/9f/b1/18/9fb118d3d637cf3ac9bba3343ac52e69.jpg" alt="Slide 3" />
+        <div class="slide-caption">
+          <h2>Phụ kiện làm đẹp</h2>
+          <p>"Hack" nhan sắc, tự tin "Level Max"</p>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/f0/ee/f3/f0eef3a42c6f9e85a3ea25eab01d297b.jpg" alt="Slide 4" />
+        <div class="slide-caption">
+          <h2>Chăm sóc cơ thể</h2>
+          <p>Khiến mọi người phải "GATO", Chinh phục xu hướng mới</p>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/eb/79/46/eb794603f0cd90fb31f80dbd70cb4074.jpg" alt="Slide 5" />
+        <div class="slide-caption">
+          <h2>Phụ kiện làm đẹp</h2>
+          <p>Khui chất riêng-Bung màu cá tính</p>
         </div>
       </div>
     </div>
-    <!-- main -->
-    <section id="main">
-      <section id="content">
-        <section id="top-offers">
-          <div class="container">
-            <div class="section-header">
-              <h2>Gợi ý dành cho bạn</h2>
-              <div class="header-icons">
-                <button class="home-icon">
-                  <i class="fas fa-home"></i>
-                </button>
-              </div>
-            </div>
 
-            <div class="offers-carousel">
-              <button class="arrow prev" aria-label="Previous products">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <button class="arrow next" aria-label="Next products">
-                <i class="fas fa-chevron-right"></i>
-              </button>
-              <div class="carousel-container">
-                <div class="product-card">
-                  <div class="product-image">
-                    <a href="/product-detail.html?id=1">
-                      <img
-                        src="https://mint07.com/wp-content/uploads/2024/03/9388cc6f877b446ebbe2485b1223cac6-190x243.jpg"
-                        alt="Son môi" loading="lazy" />
-                    </a>
+    <button class="nav-button prev-button" onclick="prevSlide()">&#10094;</button>
+    <button class="nav-button next-button" onclick="nextSlide()">&#10095;</button>
 
-                    <div class="product-badge sale">-10%</div>
+    <div class="slide-indicators">
+      <span class="indicator-dot active" onclick="goToSlide(0)"></span>
+      <span class="indicator-dot" onclick="goToSlide(1)"></span>
+      <span class="indicator-dot" onclick="goToSlide(2)"></span>
+      <span class="indicator-dot" onclick="goToSlide(3)"></span>
+      <span class="indicator-dot" onclick="goToSlide(4)"></span>
+    </div>
+  </div>
+</div>
 
-                    <div class="product-actions">
-                      <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                        <i class="far fa-heart"></i>
-                      </a>
-
-                      <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                        <i class="far fa-eye"></i>
-                      </a>
-
-                      <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                        <i class="fas fa-shopping-basket"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="product-info">
-                    <div class="category">Mỹ phẩm nhập khẩu</div>
-
-                    <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                    </h3>
-
-                    <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                      <span style="color: #999;">(15)</span>
-                    </div>
-
-                    <div class="price">
-                      <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
-                    </div>
-                  </div>
-                </div>
-                <div class="product-card">
-                  <div class="product-image">
-                    <a href="/product-detail.html?id=1">
-                      <img src="https://mint07.com/wp-content/uploads/2025/02/son-kem-libbia-fit-tint-4g-2-190x243.jpg"
-                        alt="Dưa" loading="lazy" />
-                    </a>
-
-                    <div class="product-badge sale">-10%</div>
-
-                    <div class="product-actions">
-                      <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                        <i class="far fa-heart"></i>
-                      </a>
-
-                      <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                        <i class="far fa-eye"></i>
-                      </a>
-
-                      <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                        <i class="fas fa-shopping-basket"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="product-info">
-                    <div class="category">Mỹ phẩm</div>
-
-                    <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                    </h3>
-
-                    <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                      <span style="color: #999;">(15)</span>
-                    </div>
-
-                    <div class="price">
-                      <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
-                    </div>
-                  </div>
-                </div>
-                <div class="product-card">
-                  <div class="product-image">
-                    <a href="/product-detail.html?id=1">
-                      <img
-                        src="https://mint07.com/wp-content/uploads/2024/05/z5418218877218-7e9eb979073dc19361c32df95f9c79f7-190x243.jpg"
-                        alt="Dưa" loading="lazy" />
-                    </a>
-
-                    <div class="product-badge sale">-10%</div>
-
-                    <div class="product-actions">
-                      <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                        <i class="far fa-heart"></i>
-                      </a>
-
-                      <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                        <i class="far fa-eye"></i>
-                      </a>
-
-                      <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                        <i class="fas fa-shopping-basket"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="product-info">
-                    <div class="category">Mỹ phẩm</div>
-
-                    <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                    </h3>
-
-                    <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                      <span style="color: #999;">(15)</span>
-                    </div>
-
-                    <div class="price">
-                      <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
-                    </div>
-                  </div>
-                </div>
-                <div class="product-card">
-                  <div class="product-image">
-                    <a href="/product-detail.html?id=1">
-                      <img
-                        src="https://mint07.com/wp-content/uploads/2020/07/son-kem-bbia-last-velvet-lip-tint-190x243.jpg"
-                        alt="Dưa" loading="lazy" />
-                    </a>
-
-                    <div class="product-badge sale">-10%</div>
-
-                    <div class="product-actions">
-                      <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                        <i class="far fa-heart"></i>
-                      </a>
-
-                      <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                        <i class="far fa-eye"></i>
-                      </a>
-
-                      <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                        <i class="fas fa-shopping-basket"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="product-info">
-                    <div class="category">Mỹ phẩm</div>
-
-                    <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                    </h3>
-
-                    <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                      <span style="color: #999;">(15)</span>
-                    </div>
-
-                    <div class="price">
-                      <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
-                    </div>
-                  </div>
-                </div>
-                <div class="product-card">
-                  <div class="product-image">
-                    <a href="/product-detail.html?id=1">
-                      <img src="https://mint07.com/wp-content/uploads/2019/04/black-rouge-cac-ver-190x243.png" alt="Dưa"
-                        loading="lazy" />
-                    </a>
-
-                    <div class="product-badge sale">-10%</div>
-
-                    <div class="product-actions">
-                      <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                        <i class="far fa-heart"></i>
-                      </a>
-
-                      <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                        <i class="far fa-eye"></i>
-                      </a>
-
-                      <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                        <i class="fas fa-shopping-basket"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="product-info">
-                    <div class="category">Mỹ phẩm</div>
-
-                    <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                    </h3>
-
-                    <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                      <span style="color: #999;">(15)</span>
-                    </div>
-
-                    <div class="price">
-                      <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
-                    </div>
-                  </div>
-                </div>
-                <div class="product-card">
-                  <div class="product-image">
-                    <a href="/product-detail.html?id=1">
-                      <img
-                        src="https://mint07.com/wp-content/uploads/2025/03/son-kem-bong-3ce-drop-glow-gel-4g-190x243.webp"
-                        alt="Dưa" loading="lazy" />
-                    </a>
-
-                    <div class="product-badge sale">-10%</div>
-
-                    <div class="product-actions">
-                      <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                        <i class="far fa-heart"></i>
-                      </a>
-
-                      <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                        <i class="far fa-eye"></i>
-                      </a>
-
-                      <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                        <i class="fas fa-shopping-basket"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="product-info">
-                    <div class="category">Mỹ phẩm</div>
-
-                    <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                    </h3>
-
-                    <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                      <span style="color: #999;">(15)</span>
-                    </div>
-
-                    <div class="price">
-                      <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
-                    </div>
-                  </div>
-                </div>
-                <div class="product-card">
-                  <div class="product-image">
-                    <a href="/product-detail.html?id=1">
-                      <img
-                        src="https://mint07.com/wp-content/uploads/2024/06/son-tint-carslan-lip-glow-serum-45g-2-190x243.jpg"
-                        alt="Dưa" loading="lazy" />
-                    </a>
-
-                    <div class="product-badge sale">-10%</div>
-
-                    <div class="product-actions">
-                      <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                        <i class="far fa-heart"></i>
-                      </a>
-
-                      <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                        <i class="far fa-eye"></i>
-                      </a>
-
-                      <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                        <i class="fas fa-shopping-basket"></i>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="product-info">
-                    <div class="category">Mỹ phẩm</div>
-
-                    <h3>
-                      <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                    </h3>
-
-                    <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                      <span style="color: #999;">(15)</span>
-                    </div>
-
-                    <div class="price">
-                      <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                      <!-- ko gì hết -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<section id="main">
+  <section id="content">
+    
+    <section id="top-offers">
+      <div class="container">
+        <div class="section-header">
+          <h2>Gợi ý dành cho bạn</h2>
+          <div class="header-icons">
+            <button class="home-icon"><i class="fas fa-home"></i></button>
           </div>
-        </section>
+        </div>
 
-        <!-- -------------------------------------------------------------------------- -->
+        <div class="offers-carousel">
+          <button class="arrow prev" onclick="scrollCarousel('offer_list', -1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="arrow next" onclick="scrollCarousel('offer_list', 1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
 
-        <section id="weekend-deals">
-          <div class="deal-container">
-            <!-- Countdown -->
-            <div class="countdown">
-              <div>
-                <span>0</span>
-                <p>Ngày</p>
-              </div>
-              <div>
-                <span>19</span>
-                <p>Giờ</p>
-              </div>
-              <div>
-                <span>50</span>
-                <p>Phút</p>
-              </div>
-              <div>
-                <span>57</span>
-                <p>Giây</p>
-              </div>
-            </div>
-
-            <!-- Deal item -->
-            <div class="deal-item">
-              <div class="deal-left">
-                <p class="sub-title">Hot deal cuối tuần</p>
-                <h2 class="product-title">Son Tint Carslan Lip Glowc</h2>
-                <p class="product-desc">Tăng tốc độ hấp thụ tinh chất chăm sóc đôi môi mềm mại, đầy dặn và căng bóng</p>
-                <p class="product-price">169.000 Đ</p>
-                <a href="#" class="shop-now">
-                  MUA NGAY <span class="arrow">→</span>
+          <div class="carousel-container" id="offer_list">
+            {% for product in offer_products %}
+            <div class="product-card">
+              <div class="product-image">
+                <a href="{% url 'product_detail' product.id %}">
+                  <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/190x243{% endif %}"
+                       alt="{{ product.name }}" loading="lazy" />
                 </a>
+                {% if product.sale_price > 0 %}
+                <div class="product-badge sale">Sale</div>
+                {% endif %}
+                <div class="product-actions">
+                  <a href="#" class="action-btn"><i class="far fa-heart"></i></a>
+                  <a href="{% url 'product_detail' product.id %}" class="action-btn"><i class="far fa-eye"></i></a>
+                  <a href="{% url 'add_to_cart' product.id %}" class="action-btn add-to-cart-btn"><i class="fas fa-shopping-basket"></i></a>
+                </div>
               </div>
-
-              <div class="deal-right">
-                <img
-                  src="https://mint07.com/wp-content/uploads/2024/06/son-tint-carslan-lip-glow-serum-45g-2-190x243.jpg"
-                  alt="Fresh Coconut" />
+              <div class="product-info">
+                <div class="category">{{ product.category.name }}</div>
+                <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <span style="color: #999;">(15)</span>
+                </div>
+                <div class="price">
+                  {% if product.sale_price > 0 %}
+                  <span class="current">{{ product.sale_price }}đ</span>
+                  <span class="original">{{ product.price }}đ</span>
+                  {% else %}
+                  <span class="current">{{ product.price }}đ</span>
+                  {% endif %}
+                </div>
               </div>
             </div>
-
-            <!-- Buttons -->
-            <button class="deal-btn prev-btn">❮</button>
-            <button class="deal-btn next-btn">❯</button>
-          </div>
-        </section>
-        <section id="top-trending">
-          <div class="container">
-            <div class="section-header">
-              <h2>Xu hướng</h2>
-              <div class="header-icons">
-                <button class="home-icon">
-                  <i class="fas fa-fire"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="trending-grid">
-              <!-- Giữ nguyên product-card của bạn -->
-              <div class="product-card">
-                <div class="product-image">
-                  <a href="/product-detail.html?id=1">
-                    <img
-                      src="https://mint07.com/wp-content/uploads/2024/08/nh-chup-man-hinh-2024-08-01-181352-190x243.png"
-                      alt="Dưa" loading="lazy" />
-                  </a>
-
-                  <div class="product-badge sale">-10%</div>
-
-                  <div class="product-actions">
-                    <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                      <i class="far fa-heart"></i>
-                    </a>
-
-                    <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                      <i class="far fa-eye"></i>
-                    </a>
-
-                    <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                      <i class="fas fa-shopping-basket"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="product-info">
-                  <div class="category">Mỹ phẩm</div>
-
-                  <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                  </h3>
-
-                  <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                    <span style="color: #999;">(15)</span>
-                  </div>
-
-                  <div class="price">
-                    <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
-                  </div>
-                </div>
-              </div>
-              <div class="product-card">
-                <div class="product-image">
-                  <a href="/product-detail.html?id=1">
-                    <img
-                      src="https://mint07.com/wp-content/uploads/2024/11/son-kem-li-peripera-ink-airy-velvet-4g-190x243.jpg"
-                      alt="Dưa" loading="lazy" />
-                  </a>
-
-                  <div class="product-badge sale">-10%</div>
-
-                  <div class="product-actions">
-                    <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                      <i class="far fa-heart"></i>
-                    </a>
-
-                    <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                      <i class="far fa-eye"></i>
-                    </a>
-
-                    <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                      <i class="fas fa-shopping-basket"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="product-info">
-                  <div class="category">Mỹ phẩm</div>
-
-                  <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                  </h3>
-
-                  <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                    <span style="color: #999;">(15)</span>
-                  </div>
-
-                  <div class="price">
-                    <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
-                  </div>
-                </div>
-              </div>
-              <div class="product-card">
-                <div class="product-image">
-                  <a href="/product-detail.html?id=1">
-                    <img
-                      src="https://mint07.com/wp-content/uploads/2022/08/son-tint-bong-lilybyred-glassy-layer-fixing-tint-3-8gr-190x243.jpg"
-                      alt="Dưa" loading="lazy" />
-                  </a>
-
-                  <div class="product-badge sale">-10%</div>
-
-                  <div class="product-actions">
-                    <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                      <i class="far fa-heart"></i>
-                    </a>
-
-                    <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                      <i class="far fa-eye"></i>
-                    </a>
-
-                    <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                      <i class="fas fa-shopping-basket"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="product-info">
-                  <div class="category">Mỹ phẩm</div>
-
-                  <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                  </h3>
-
-                  <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                    <span style="color: #999;">(15)</span>
-                  </div>
-
-                  <div class="price">
-                    <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
-                  </div>
-                </div>
-              </div>
-              <div class="product-card">
-                <div class="product-image">
-                  <a href="/product-detail.html?id=1">
-                    <img
-                      src="https://mint07.com/wp-content/uploads/2024/04/son-thoi-espoir-the-sleek-lipstick-09g-1-190x243.png"
-                      alt="Dưa" loading="lazy" />
-                  </a>
-
-                  <div class="product-badge sale">-10%</div>
-
-                  <div class="product-actions">
-                    <a href="#" class="action-btn" title="Thêm vào yêu thích">
-                      <i class="far fa-heart"></i>
-                    </a>
-
-                    <a href="/product-detail.html?id=1" class="action-btn" title="Xem nhanh">
-                      <i class="far fa-eye"></i>
-                    </a>
-
-                    <button class="action-btn add-to-cart-btn" data-id="1" title="Thêm vào giỏ">
-                      <i class="fas fa-shopping-basket"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="product-info">
-                  <div class="category">Mỹ phẩm</div>
-
-                  <h3>
-                    <a href="/product-detail.html?id=1" title="Son môi">Son môi</a>
-                  </h3>
-
-                  <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                    <span style="color: #999;">(15)</span>
-                  </div>
-
-                  <div class="price">
-                    <span class="current">120,000đ</span> <span class="original">200,000đ</span>
-                    <!-- ko gì hết -->
-                  </div>
-                </div>
-              </div>
-
-              <!-- Thêm 8 sản phẩm khác giống vậy để có 3×3 -->
-            </div>
-          </div>
-        </section>
-      </section>
-    </section>
-    {% comment %} <!-- video -->
-    <section class="hero-video">
-      <video autoplay muted loop class="hero-video__video">
-        <source src="https://botanica.risingbamboo.com/wp-content/uploads/2023/06/Video-HD.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <div class="hero-video__overlay">
-        <h1>HÀNH TRÌNH TỪ NÔNG TRẠI ĐẾN BÀN ĂN</h1>
-        <p>Tươi ngon – An toàn – Dinh dưỡng mỗi ngày</p>
-        <span>Cam kết chất lượng trong từng sản phẩm</span>
-      </div>
-    </section> {% endcomment %}
-    <!-- blog -->
-    <section class="blog">
-      <div class="blog__container">
-        <!-- Tiêu đề section -->
-        <span class="blog__subtitle">Tin mới nhất</span>
-        <h2 class="blog__title">Bài viết</h2>
-
-        <!-- Grid bài viết -->
-        <div class="blog__grid">
-          <!-- Bài viết 1 -->
-          <div class="blog__item">
-            <img src="https://i.pinimg.com/1200x/3f/39/62/3f3962f01a632cf46740aa390fd0e3dc.jpg" alt="Blog 1"
-              class="blog__image" />
-            <div class="blog__content">
-              <div class="blog__meta">
-                <span class="blog__author">Đăng bởi Admin</span>
-                <span class="blog__date">7/3/2025</span>
-              </div>
-              <h3 class="blog__post-title">
-                12 loại mỹ phẩm bạn nhất định nên có...
-              </h3>
-              <a href="#" class="blog__link">Xem thêm →</a>
-            </div>
-          </div>
-
-          <!-- Bài viết 2 -->
-          <div class="blog__item">
-            <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Blog 2"
-              class="blog__image" />
-            <div class="blog__content">
-              <div class="blog__meta">
-                <span class="blog__author">Đăng bởi Admin</span>
-                <span class="blog__date">29/6/2025</span>
-              </div>
-              <h3 class="blog__post-title">
-                Dinh dưỡng & calo trong nước cam tươi...
-              </h3>
-              <a href="#" class="blog__link">Xem thêm →</a>
-            </div>
-          </div>
-
-          <!-- Bài viết 3 -->
-          <div class="blog__item">
-            <img src="https://i.pinimg.com/1200x/9f/b1/18/9fb118d3d637cf3ac9bba3343ac52e69.jpg" alt="Blog 3"
-              class="blog__image" />
-            <div class="blog__content">
-              <div class="blog__meta">
-                <span class="blog__author">Đăng bởi Admin</span>
-                <span class="blog__date">16/11/2025</span>
-              </div>
-              <h3 class="blog__post-title">
-                Những công thức nấu ăn số lượng lớn giúp bạn...
-              </h3>
-              <a href="#" class="blog__link">Xem thêm →</a>
-            </div>
+            {% endfor %}
           </div>
         </div>
       </div>
     </section>
+
+    <section id="weekend-deals">
+      <div class="deal-container">
+        <div class="countdown">
+          <div><span>0</span><p>Ngày</p></div>
+          <div><span>19</span><p>Giờ</p></div>
+          <div><span>50</span><p>Phút</p></div>
+          <div><span>57</span><p>Giây</p></div>
+        </div>
+        <div class="deal-item">
+          <div class="deal-left">
+            <p class="sub-title">Hot deal cuối tuần</p>
+            <h2 class="product-title">Son Tint Carslan Lip Glowc</h2>
+            <p class="product-desc">Tăng tốc độ hấp thụ tinh chất chăm sóc đôi môi mềm mại...</p>
+            <p class="product-price">169.000 Đ</p>
+            <a href="#" class="shop-now">MUA NGAY <span class="arrow">→</span></a>
+          </div>
+          <div class="deal-right">
+            <img src="https://mint07.com/wp-content/uploads/2024/06/son-tint-carslan-lip-glow-serum-45g-2-190x243.jpg" alt="Deal" />
+          </div>
+        </div>
+        <button class="deal-btn prev-btn">❮</button>
+        <button class="deal-btn next-btn">❯</button>
+      </div>
+    </section>
+
+    <section id="top-trending">
+      <div class="container">
+        <div class="section-header">
+          <h2>Xu hướng</h2>
+          <div class="header-icons">
+            <button class="home-icon"><i class="fas fa-fire"></i></button>
+          </div>
+        </div>
+
+        <div class="offers-carousel">
+          <button class="arrow prev" onclick="scrollCarousel('trending_list', -1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="arrow next" onclick="scrollCarousel('trending_list', 1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <div class="carousel-container" id="trending_list">
+            {% for product in trending_products %}
+            <div class="product-card">
+              <div class="product-image">
+                <a href="{% url 'product_detail' product.id %}">
+                  <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/190x243{% endif %}"
+                       alt="{{ product.name }}" loading="lazy" />
+                </a>
+                {% if product.sale_price > 0 %}
+                <div class="product-badge sale">Sale</div>
+                {% endif %}
+                <div class="product-actions">
+                  <a href="#" class="action-btn"><i class="far fa-heart"></i></a>
+                  <a href="{% url 'product_detail' product.id %}" class="action-btn"><i class="far fa-eye"></i></a>
+                  <a href="{% url 'add_to_cart' product.id %}" class="action-btn add-to-cart-btn"><i class="fas fa-shopping-basket"></i></a>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="category">{{ product.category.name }}</div>
+                <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <span style="color: #999;">(15)</span>
+                </div>
+                <div class="price">
+                  <span class="current">{{ product.price }}đ</span>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+                <p>Chưa có sản phẩm xu hướng.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </section>
+</section>
+
+<section class="blog">
+  <div class="blog__container">
+    <span class="blog__subtitle">Tin mới nhất</span>
+    <h2 class="blog__title">Bài viết</h2>
+    <div class="blog__grid">
+      <div class="blog__item">
+        <img src="https://i.pinimg.com/1200x/3f/39/62/3f3962f01a632cf46740aa390fd0e3dc.jpg" alt="Blog 1" class="blog__image" />
+        <div class="blog__content">
+          <div class="blog__meta">
+            <span class="blog__author">Đăng bởi Admin</span>
+            <span class="blog__date">7/3/2025</span>
+          </div>
+          <h3 class="blog__post-title">12 loại mỹ phẩm bạn nhất định nên có...</h3>
+          <a href="#" class="blog__link">Xem thêm →</a>
+        </div>
+      </div>
+      </div>
+  </div>
+</section>
+
+<style>
+  /* Kế thừa style width 25% từ #top-offers cho #top-trending */
+  #top-trending .product-card {
+    flex: 0 0 calc(25% - 15px);
+    min-width: calc(25% - 15px);
+    margin: 0;
+  }
+  
+  /* Đảm bảo nút bấm hiện đúng vị trí */
+  .offers-carousel {
+    position: relative;
+  }
+</style>
+
+<script>
+  function scrollCarousel(containerId, direction) {
+    const container = document.getElementById(containerId);
+    if (container) {
+      // Tính toán khoảng trượt: (Chiều rộng thẻ + khoảng cách) * 4 thẻ
+      const card = container.querySelector('.product-card');
+      const cardWidth = card ? card.offsetWidth : 200;
+      const gap = 20; // Khoảng cách giữa các thẻ
+      const scrollAmount = (cardWidth + gap) * 4; 
+
+      if (direction === 1) {
+        container.scrollLeft += scrollAmount;
+      } else {
+        container.scrollLeft -= scrollAmount;
+      }
+    }
+  }
+</script>
+
 {% endblock %}

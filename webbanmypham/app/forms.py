@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import CustomerProfile
+from .models import Product
 
 # Form Đăng Ký
 class RegisterForm(forms.ModelForm):
@@ -31,3 +32,18 @@ class RegisterForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tên đăng nhập'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Mật khẩu'}))
+
+
+# app/forms.py
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__' # Hoặc liệt kê từng trường nếu muốn
+        exclude = ['slug', 'sold_quantity', 'views', 'created_at'] # Loại bỏ các trường tự động
+        
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        # Thêm class CSS cho tất cả các ô input để dễ style
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-input'})    

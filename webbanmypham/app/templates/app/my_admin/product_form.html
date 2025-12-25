@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/css/admin/style_admin.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/css/admin/product-edit.css' %}" />
+
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    {% include 'app/my_admin/includes/sidebar.html' %}
+
+    <div class="content">
+        <nav>
+            <i class="bx bx-menu"></i>
+            <form action="#">
+                <div class="form-input"><input type="search" placeholder="Search..." hidden /></div>
+            </form>
+            <div class="profile-wrapper">
+                <a href="#" class="profile"><img
+                        src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://via.placeholder.com/100{% endif %}"
+                        alt="Admin" /></a>
+            </div>
+        </nav>
+
+        <main>
+            <form method="POST" enctype="multipart/form-data" class="product-form">
+                {% csrf_token %}
+
+                <div class="header">
+                    <div class="left">
+                        <h1>{{ title }}</h1>
+                        <ul class="breadcrumb">
+                            <li><a href="{% url 'admin_products' %}">Sản phẩm</a></li>
+                            <li>/</li>
+                            <li><a href="#" class="active">{{ title }}</a></li>
+                        </ul>
+                    </div>
+                    <div class="actions">
+                        <a href="{% url 'admin_products' %}" class="btn-cancel">Hủy bỏ</a>
+                        <button type="submit" class="btn-save"><i class='bx bx-save'></i> Lưu sản phẩm</button>
+                    </div>
+                </div>
+
+                <div class="form-layout">
+                    <div class="col-main">
+
+                        <div class="card">
+                            <h3>Thông tin chung</h3>
+                            <div class="form-group">
+                                <label>Tên sản phẩm</label>
+                                {{ form.name }}
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Mã SKU</label>
+                                    {{ form.sku }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Thành phần chính</label>
+                                    {{ form.main_ingredients }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả chi tiết</label>
+                                {{ form.description }}
+                            </div>
+                            <div class="form-group">
+                                <label>Hướng dẫn sử dụng</label>
+                                {{ form.usage_instructions }}
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Hình ảnh sản phẩm</h3>
+                            <div class="image-upload-area">
+                                <div class="main-image-preview">
+                                    <img id="preview-img"
+                                        src="{% if form.instance.image %}{{ form.instance.image.url }}{% else %}https://via.placeholder.com/150{% endif %}"
+                                        alt="Preview">
+                                </div>
+                                <div class="upload-control">
+                                    <label for="id_image" class="custom-file-upload">
+                                        <i class="bx bx-cloud-upload"></i> Chọn ảnh đại diện
+                                    </label>
+                                    {{ form.image }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-side">
+
+                        <div class="card">
+                            <h3>Tổ chức</h3>
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <div class="toggle-switch">
+                                    {{ form.status }}
+                                    <span>Đang kinh doanh</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Danh mục</label>
+                                {{ form.category }}
+                            </div>
+                            <div class="form-group">
+                                <label>Thương hiệu</label>
+                                {{ form.brand }}
+                            </div>
+                            <div class="form-group">
+                                <label>Loại da phù hợp</label>
+                                {{ form.target_skin_type }}
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Giá & Kho hàng</h3>
+                            <div class="form-group">
+                                <label>Giá gốc (VNĐ)</label>
+                                {{ form.price }}
+                            </div>
+                            <div class="form-group">
+                                <label>Giá khuyến mãi (VNĐ)</label>
+                                {{ form.sale_price }}
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label>Tồn kho</label>
+                                {{ form.stock_quantity }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // Script xem trước ảnh khi upload
+        document.getElementById('id_image').addEventListener('change', function (event) {
+            const [file] = event.target.files;
+            if (file) {
+                document.getElementById('preview-img').src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+</body>
+
+</html>

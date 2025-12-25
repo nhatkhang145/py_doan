@@ -1,0 +1,62 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Tìm kiếm: {{ searched }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding: 50px 0;">
+    <div class="section-header">
+        {% if searched %}
+        <h2>Kết quả tìm kiếm cho: <span style="color: #ff4757;">"{{ searched }}"</span></h2>
+        <p style="color: #666;">Tìm thấy {{ products|length }} sản phẩm phù hợp.</p>
+        {% else %}
+        <h2>Bạn chưa nhập từ khóa tìm kiếm!</h2>
+        {% endif %}
+    </div>
+
+    <div class="trending-grid" style="display: flex; flex-wrap: wrap; gap: 20px;">
+        {% for product in products %}
+        <div class="product-card" style="width: 23%; min-width: 240px;">
+            <div class="product-image">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/190x243{% endif %}"
+                        alt="{{ product.name }}" loading="lazy" />
+                </a>
+
+                {% if product.sale_price > 0 %}
+                <div class="product-badge sale">Sale</div>
+                {% endif %}
+
+                <div class="product-actions">
+                    <a href="{% url 'product_detail' product.id %}" class="action-btn"><i class="far fa-eye"></i></a>
+                    <a href="{% url 'add_to_cart' product.id %}" class="action-btn"><i
+                            class="fas fa-shopping-basket"></i></a>
+                </div>
+            </div>
+
+            <div class="product-info">
+                <div class="category">{{ product.category.name }}</div>
+                <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                <div class="price">
+                    {% if product.sale_price > 0 %}
+                    <span class="current">{{ product.sale_price }}đ</span>
+                    {% else %}
+                    <span class="current">{{ product.price }}đ</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div style="width: 100%; text-align: center; padding: 40px;">
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/search-not-found-6275834-5210416.png"
+                alt="Not found" style="width: 150px; opacity: 0.7;">
+            <p style="font-size: 1.4rem; color: #777; margin-top: 10px;">Rất tiếc, không tìm thấy sản phẩm nào phù hợp.
+            </p>
+            <a href="{% url 'home' %}" class="fm-btn"
+                style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #ff4757; color: #fff; border-radius: 20px; text-decoration: none;">Về
+                trang chủ</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

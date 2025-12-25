@@ -1,0 +1,323 @@
+/* ===================================
+   Page Title
+   =================================== */
+
+
+/* --- Block: checkout-layout --- */
+.checkout-layout {
+    display: flex;
+    flex-wrap: wrap;
+    /* Cho phép xuống dòng trên màn hình nhỏ */
+    max-width: 1200px;
+    margin: 60px auto;
+    gap: 30px;
+    /* Khoảng cách giữa 2 cột */
+
+}
+
+.checkout-layout__form-wrapper {
+    flex: 1;
+    /* Cột form chiếm không gian */
+    min-width: 300px;
+    /* Đảm bảo không bị co quá nhỏ */
+    flex-basis: 55%;
+    /* Cột form chiếm 55% */
+}
+
+.checkout-layout__summary-wrapper {
+    flex: 1;
+    min-width: 300px;
+    flex-basis: 40%;
+    /* Cột tóm tắt chiếm 40% */
+}
+
+/* --- Block: billing-form --- */
+.billing-form__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.billing-form__row {
+    display: flex;
+    gap: 20px;
+    /* Khoảng cách giữa các input trên 1 hàng */
+}
+
+.billing-form__group {
+    margin-bottom: 20px;
+    width: 100%;
+    /* Mặc định rộng 100% */
+}
+
+.billing-form__group--half {
+    width: 50%;
+    /* Chiếm 50% khi là modifier --half */
+}
+
+.billing-form__label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.billing-form__input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.billing-form__input:focus {
+    outline: none;
+    border-color: #49a474;
+    /* Màu xanh lá cây khi focus */
+    box-shadow: 0 0 0 3px rgba(73, 164, 116, 0.1);
+}
+
+.billing-form__input--textarea {
+    min-height: 120px;
+    resize: vertical;
+    /* Cho phép thay đổi kích thước theo chiều dọc */
+}
+
+/* --- Block: order-summary --- */
+.order-summary {
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.order-summary__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.order-summary__table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Gộp đường viền table */
+    margin-bottom: 25px;
+}
+
+.thead-border {
+    border-bottom: 2px solid #e0e0e0;
+
+}
+
+.order-summary__table tfoot .order-summary__row {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Dòng cuối cùng của tfoot (Tổng cộng) thì không cần border */
+.order-summary__table tfoot .order-summary__row:last-child {
+    border-bottom: none;
+}
+
+/* GIẢM PADDING cho các ô sản phẩm trong tbody 
+  để chúng "gần lại"
+*/
+.order-summary__table tbody .order-summary__cell {
+    padding-top: 8px;
+    /* Giảm padding trên */
+    padding-bottom: 8px;
+    /* Giảm padding dưới */
+}
+
+.order-summary__cell {
+    padding: 15px 10px;
+    text-align: left;
+}
+
+.order-summary__cell--header {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Căn phải cho ô giá */
+.order-summary__cell:last-child {
+    text-align: right;
+}
+
+.order-summary__product-name {
+    font-weight: 500;
+}
+
+.order-summary__price {
+    font-weight: 600;
+    color: #111;
+}
+
+.order-summary__price--shipping {
+    font-weight: 600;
+    color: #111;
+}
+
+.order-summary__cell--label {
+    font-weight: 600;
+}
+
+.order-summary__price--total {
+    font-size: 1.3rem;
+    color: #49a474;
+    /* Màu xanh lá cây cho tổng tiền */
+}
+
+/* --- Block: payment --- */
+.payment__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+}
+
+.payment__option {
+    margin-bottom: 15px;
+}
+
+.payment__radio {
+    margin-right: 10px;
+    /* Tùy chỉnh radio button cho đẹp hơn (tùy chọn) */
+}
+
+.payment__label {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.payment__description {
+    background-color: #f1f1f1;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #555;
+    /* Ẩn/hiện dựa trên radio được chọn (cần JS) */
+}
+
+.payment__privacy-text {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* --- Block: button --- */
+.button {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.button--primary {
+    background-color: #49a474;
+    color: #ffffff;
+}
+
+.button--primary:hover {
+    background-color: #3a835d;
+    /* Màu đậm hơn khi hover */
+}
+
+.button--fullwidth {
+    width: 100%;
+}
+
+/* --- Address Selection Styles --- */
+
+.address-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card chứa địa chỉ */
+.address-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #fff;
+}
+
+.address-card:hover {
+  border-color: #3d8b91; /* Primary Color */
+  background-color: #f9fcfb;
+}
+
+/* Khi được chọn (Class này sẽ được thêm bằng JS hoặc CSS :has) */
+.address-card.selected, 
+.address-card:has(input:checked) {
+  border-color: #3d8b91;
+  background-color: #f0fdf4; /* Nền xanh rất nhạt */
+  box-shadow: 0 0 0 1px #3d8b91;
+}
+
+.address-card__radio {
+  margin-right: 12px;
+  margin-top: 2px;
+}
+
+.address-card__radio input {
+  accent-color: #3d8b91;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.address-card__content {
+  flex: 1;
+}
+
+.address-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.address-card__name {
+  font-weight: 700;
+  color: #333;
+  font-size: 1rem;
+}
+
+.address-card__phone {
+  color: #666;
+  font-size: 0.9rem;
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+}
+
+.address-card__badge {
+  font-size: 0.75rem;
+  background-color: #3d8b91;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.address-card__body {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
+}

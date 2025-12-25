@@ -968,6 +968,108 @@ header {
       rgba(255, 192, 203, 0.4),
       transparent 70%);
 }
+/* --- 1. CSS Cho Carousel (Gợi ý dành cho bạn) --- */
+.carousel-container {
+  display: flex;           /* Xếp các thẻ con nằm ngang */
+  gap: 20px;               /* Khoảng cách giữa các thẻ */
+  overflow-x: auto;        /* Cho phép trượt ngang nếu quá nhiều sp */
+  padding-bottom: 20px;    /* Chừa chỗ cho thanh cuộn */
+  scroll-behavior: smooth; /* Trượt mượt mà */
+}
+
+/* Ẩn thanh cuộn xấu xí (tùy chọn) */
+.carousel-container::-webkit-scrollbar {
+  height: 8px;
+}
+.carousel-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+.carousel-container::-webkit-scrollbar-thumb {
+  background: #fdb5c2; /* Màu hồng chủ đạo của bạn */
+  border-radius: 4px;
+}
+.carousel-container::-webkit-scrollbar-thumb:hover {
+  background: #ff4757;
+}
+
+.carousel-container .product-card {
+  min-width: 240px;       /* Đảm bảo thẻ không bị co nhỏ quá mức */
+  flex-shrink: 0;         /* Giữ nguyên kích thước thẻ */
+}
+/* --- CAROUSEL 4 CỘT CÓ NÚT BẤM --- */
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* Ẩn phần thừa tràn ra ngoài */
+}
+
+.carousel-container {
+    display: flex;
+    gap: 20px;               /* Khoảng cách giữa các thẻ */
+    overflow-x: auto;        /* Cho phép trượt */
+    scroll-behavior: smooth; /* Trượt mượt mà */
+    padding-bottom: 10px;
+    
+    /* Ẩn thanh cuộn của trình duyệt để nhìn cho đẹp */
+    scrollbar-width: none;   /* Firefox */
+}
+.carousel-container::-webkit-scrollbar {
+    display: none;           /* Chrome/Safari */
+}
+
+/* Định kích thước thẻ để luôn hiện 4 cái */
+.carousel-container .product-card {
+    /* Công thức: (100% - (3 khoảng trống * 20px)) / 4 thẻ */
+    min-width: calc((100% - 60px) / 4); 
+    flex-shrink: 0; /* Không cho thẻ bị co lại */
+}
+
+/* Style cho nút bấm */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #eee;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.2rem;
+    color: #333;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background-color: var(--primary-brand-color, #ff4757); /* Dùng màu chủ đạo của bạn */
+    color: white;
+}
+
+.prev-btn { left: 0; }
+.next-btn { right: 0; }
+
+/* Responsive: Trên mobile thì hiện 2 cái thôi cho dễ nhìn */
+@media (max-width: 768px) {
+    .carousel-container .product-card {
+        min-width: calc((100% - 20px) / 2); /* 2 thẻ 1 hàng */
+    }
+}
+
+/* --- 2. CSS Cho Trending (Xu hướng) --- */
+.trending-grid {
+  display: grid;
+  /* Chia lưới tự động: Cột tối thiểu 240px, tự điền đầy dòng */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
 
 /* --- 1. OFFERS (Carousel Layout) --- */
 .offers-carousel {

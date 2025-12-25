@@ -1,0 +1,143 @@
+/* =================================== */
+/* === CSS CHO TRANG QUẢN LÝ KHÁCH HÀNG === */
+/* =================================== */
+
+.content main .insights li .bx.bx-group {
+  background: var(--light-primary);
+  color: var(--primary);
+}
+.content main .insights li .bx.bx-user-plus {
+  background: var(--light-success);
+  color: var(--success);
+}
+.content main .insights li .bx.bx-star {
+  background: var(--light-warning);
+  color: var(--warning);
+}
+.content main .insights li .bx.bx-user-x {
+  background: var(--light-danger);
+  color: var(--danger);
+}
+.content main .bottom-data .orders table td:first-child {
+  display: flex;
+  align-items: center;
+  grid-gap: 12px;
+  padding-left: 6px;
+}
+.content main .bottom-data .orders table td img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.content main .bottom-data .orders table td {
+  vertical-align: middle;
+}
+.content main .bottom-data .orders table tr td .status.active {
+  background: var(--success);
+}
+.content main .bottom-data .orders table tr td .status.banned {
+  background: var(--danger);
+}
+
+/* =================================== */
+/* === CSS CHO TRANG THỐNG KÊ === */
+/* =================================== */
+
+.content main .header .date-range-filter {
+  display: flex;
+  align-items: center;
+  grid-gap: 8px;
+  background: var(--light);
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+.content main .header .date-range-filter i {
+  font-size: 1.2rem;
+}
+.content main .header .date-range-filter input[type="date"] {
+  border: 1px solid var(--grey);
+  background: var(--grey);
+  padding: 5px;
+  border-radius: 6px;
+  color: var(--dark);
+  outline: none;
+}
+.content main .header .date-range-filter span {
+  color: var(--dark-grey);
+}
+.content main .header .date-range-filter .btn-primary {
+  background: var(--primary);
+  color: var(--light);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.content main .header .date-range-filter .btn-primary:hover {
+  opacity: 0.9;
+}
+.content main .insights li .bx.bx-dollar-circle {
+  background: var(--light-success);
+  color: var(--success);
+}
+.content main .insights li .bx.bx-receipt {
+  background: var(--light-primary);
+  color: var(--primary);
+}
+.content main .insights li .bx.bx-line-chart {
+  background: var(--light-warning);
+  color: var(--warning);
+}
+.content main .insights li .bx.bx-user-plus {
+  background: var(--light-primary);
+  color: var(--primary);
+}
+.content main .chart-container {
+  width: 100%;
+  position: relative;
+  margin-top: 20px;
+}
+.content main .bottom-data .chart-box-small {
+  flex-grow: 1;
+  flex-basis: 300px;
+  padding: 24px;
+  border-radius: 20px;
+  background: var(--light);
+}
+.content main .bottom-data .chart-box-small .header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.content main .bottom-data .chart-box-small .header h3 {
+  margin-right: auto;
+  font-size: 20px;
+  font-weight: 600;
+}
+.content main .bottom-data .chart-box-small .header .bx {
+  cursor: pointer;
+}
+.content main .chart-container.pie-chart {
+  max-height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content main .bottom-data .orders table td:first-child {
+  display: flex;
+  align-items: center;
+  grid-gap: 12px;
+  padding-left: 6px;
+}
+.content main .bottom-data .orders table td img {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.content main .bottom-data .orders table td img.avatar {
+  border-radius: 50%;
+}
