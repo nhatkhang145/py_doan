@@ -1,0 +1,254 @@
+/* ================================================= */
+/* === CSS QUẢN LÝ ĐÁNH GIÁ (ĐỒNG BỘ STYLE USER) === */
+/* ================================================= */
+
+/* --- 1. CẤU TRÚC BẢNG (Giữ lại bố cục thoáng đãng) --- */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px; /* Khoảng hở nhỏ giữa các dòng */
+}
+
+table thead th {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: left;
+    color: var(--dark);
+    text-transform: capitalize;
+}
+
+tbody tr {
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: var(--light); /* Hoặc #f9f9f9 */
+}
+
+tbody td {
+    padding: 16px 24px;
+    vertical-align: middle;
+}
+
+/* Bo tròn góc dòng đầu và cuối */
+tbody td:first-child { border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+tbody td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+
+/* --- 2. CỘT SẢN PHẨM & USER (Style giống Users.css) --- */
+.product-info, .user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Avatar User: Tròn, Viền trắng (Copy từ Users.css) */
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Ảnh Product: Vuông bo nhẹ (Để phân biệt với User) */
+.product-info img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px; /* Khác User một chút */
+    object-fit: cover;
+    border: 1px solid var(--grey);
+}
+
+.product-info p, .user-info p {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+}
+
+/* Tag nhỏ dưới tên (SKU hoặc Role) - Style giống Users.css */
+.product-info small, .user-info small {
+    font-size: 0.75rem;
+    color: var(--dark-grey);
+    background-color: var(--grey); /* Nền xám nhạt */
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* --- 3. CỘT SAO & COMMENT --- */
+.stars {
+    display: flex;
+    gap: 2px;
+}
+.stars i {
+    font-size: 1rem;
+    color: var(--grey); /* Sao rỗng màu xám */
+}
+.stars i.bxs-star {
+    color: var(--warning); /* Sao đầy màu vàng (dùng biến) */
+}
+
+.comment-wrapper {
+    max-width: 300px;
+}
+.comment-text {
+    font-size: 0.9rem;
+    color: var(--dark);
+    line-height: 1.4;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+.comment-date {
+    font-size: 0.75rem;
+    color: var(--dark-grey);
+}
+
+/* --- 4. AI BADGE (Style giống Badge Skin) --- */
+/* Đồng bộ logic màu sắc pastel của Badge Skin */
+.ai-badge {
+    padding: 4px 12px;
+    border-radius: 50px; /* Bo tròn kiểu viên thuốc */
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.ai-badge i { font-size: 1rem; }
+
+/* Màu sắc dựa trên biến */
+.ai-badge.positive {
+    background: var(--light-success); 
+    color: var(--success);
+}
+.ai-badge.negative {
+    background: var(--light-danger); 
+    color: var(--danger);
+}
+.ai-badge.neutral {
+    background: var(--grey); 
+    color: var(--dark-grey);
+}
+.ai-badge.spam {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    font-weight: 700;
+}
+
+.ai-badge .confidence {
+    font-weight: 400;
+    opacity: 0.8;
+    margin-left: 2px;
+}
+
+/* --- 5. TRẠNG THÁI (STATUS) - Copy từ Users.css --- */
+.status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+}
+.status.active {
+    background: var(--light-success);
+    color: var(--success);
+}
+.status.banned {
+    background: var(--light-danger);
+    color: var(--danger);
+}
+
+/* --- 6. CỘT HÀNH ĐỘNG (ACTION BUTTONS) - Copy & Map từ Users.css --- */
+.action-cell {
+    white-space: nowrap;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    margin-right: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    vertical-align: middle;
+    cursor: pointer;
+    border: none; /* Đảm bảo không có viền thừa */
+}
+
+/* Nút Trả lời (Reply) -> Dùng màu Primary (giống nút View bên Users) */
+.action-btn.reply {
+    background: var(--light-primary);
+    color: var(--primary);
+}
+.action-btn.reply:hover {
+    background: var(--primary);
+    color: var(--light); /* Chữ trắng khi hover */
+}
+
+/* Nút Ẩn/Khóa (Lock) -> Dùng màu Danger */
+.action-btn.lock {
+    background: var(--light-danger);
+    color: var(--danger);
+}
+.action-btn.lock:hover {
+    background: var(--danger);
+    color: var(--light);
+}
+
+/* Nút Duyệt/Hiện (Unlock) -> Dùng màu Success */
+.action-btn.unlock {
+    background: var(--light-success);
+    color: var(--success);
+}
+.action-btn.unlock:hover {
+    background: var(--success);
+    color: var(--light);
+}
+
+/* --- 7. PAGINATION (Đồng bộ màu Primary) --- */
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--grey);
+    color: var(--dark);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.page-btn.active, .page-btn:hover:not(.disabled) {
+    background: var(--primary);
+    color: var(--light);
+    border-color: var(--primary);
+}
+
+.page-btn.disabled {
+    color: var(--dark-grey);
+    border-color: var(--grey);
+    pointer-events: none;
+}

@@ -1,0 +1,123 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+
+{% block title %}
+  Quản lý Thương hiệu
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/css/admin/style_admin.css' %}" />
+  <link rel="stylesheet" href="{% static 'app/css/admin/categories.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <main>
+    <div class="header">
+      <div class="left">
+        <h1>Quản lý Thương hiệu</h1>
+        <ul class="breadcrumb">
+          <li>
+            <a href="#">Quản lý</a>
+          </li>
+          <li>/</li>
+          <li>
+            <a href="#" class="active">Thương hiệu</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div style="padding: 10px; margin-bottom: 10px; background: #d4edda; color: #155724; border-radius: 5px;">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="bottom-data">
+      <div class="add-category-form">
+        <div class="header">
+          <h3>Thêm thương hiệu mới</h3>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label>Tên thương hiệu</label>
+            <input type="text" name="name" placeholder="Ví dụ: La Roche-Posay" required />
+          </div>
+
+          <div class="form-group">
+            <label>Thuộc danh mục</label>
+            <select name="category">
+              <option value="">— Chọn danh mục (VD: Chăm sóc da) —</option>
+              {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Xuất xứ</label>
+            <input type="text" name="origin" placeholder="Ví dụ: Pháp" />
+          </div>
+
+          <div class="form-group">
+            <label>Logo</label>
+            <input type="file" name="logo" accept="image/*" />
+          </div>
+
+          <button type="submit" class="btn-submit">Thêm thương hiệu</button>
+        </form>
+      </div>
+
+      <div class="category-list">
+        <div class="header">
+          <h3>Danh sách các hãng</h3>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Tên hãng</th>
+              <th>Thuộc danh mục</th>
+              <th>Xuất xứ</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for brand in brands %}
+              <tr>
+                <td>
+                  {% if brand.logo %}
+                    <img src="{{ brand.logo.url }}" style="width: 40px; height: 40px; object-fit: contain;" />
+                  {% else %}
+                    <span style="font-size: 12px; color: #999;">No img</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <strong>{{ brand.name }}</strong>
+                </td>
+                <td>
+                  {% if brand.category %}
+                    <span style="background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 4px; font-size: 12px;">{{ brand.category.name }}</span>
+                  {% else %}
+                    <span style="color: #999;">—</span>
+                  {% endif %}
+                </td>
+                <td>{{ brand.origin }}</td>
+                <td>
+                  <a href="{% url 'admin_brand_delete' brand.id %}" class="action-btn delete" onclick="return confirm('Xóa hãng này?')"><i class="bx bx-trash"></i></a>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" style="text-align: center;">Chưa có thương hiệu nào.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+{% endblock %}

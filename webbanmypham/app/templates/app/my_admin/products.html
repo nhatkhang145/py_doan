@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/css/admin/style_admin.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/css/admin/products.css' %}" />
+
+    <title>Quản lý Sản phẩm</title>
+</head>
+
+<body>
+    {% include 'app/my_admin/includes/sidebar.html' %}
+
+    <div class="content">
+        <nav>
+            <i class="bx bx-menu"></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Tìm kiếm sản phẩm..." />
+                    <button class="search-btn" type="submit"><i class="bx bx-search"></i></button>
+                </div>
+            </form>
+            <div class="profile-wrapper">
+                <a href="#" class="profile"><img
+                        src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://via.placeholder.com/100{% endif %}"
+                        alt="Admin" /></a>
+            </div>
+        </nav>
+
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Quản lý sản phẩm</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="#">Quản lý</a></li>
+                        <li>/</li>
+                        <li><a href="#" class="active">Sản phẩm</a></li>
+                    </ul>
+                </div>
+
+                <a href="{% url 'admin_product_add' %}" class="report">
+                    <i class="bx bx-plus"></i>
+                    <span>Thêm sản phẩm</span>
+                </a>
+            </div>
+
+            <ul class="insights">
+                <li>
+                    <i class="bx bx-basket"></i>
+                    <span class="info">
+                        <h3>{{ products.paginator.count }}</h3>
+                        <p>Tổng sản phẩm</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-purchase-tag'></i>
+                    <span class="info">
+                        <h3>{{ brands|length }}</h3>
+                        <p>Thương hiệu</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bx-category'></i>
+                    <span class="info">
+                        <h3>{{ categories|length }}</h3>
+                        <p>Danh mục</p>
+                    </span>
+                </li>
+            </ul>
+
+            <div class="bottom-data">
+                <div class="orders">
+                    <div class="header">
+                        <h3>Danh sách sản phẩm</h3>
+                        <div class="filters">
+                            <i class="bx bx-filter"></i>
+                            <select>
+                                <option>Tất cả danh mục</option>
+                                {% for cat in categories %}
+                                <option>{{ cat.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <select>
+                                <option>Tất cả thương hiệu</option>
+                                {% for brand in brands %}
+                                <option>{{ brand.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th style="width: 25%;">Tên sản phẩm</th>
+                                <th>Thông tin</th>
+                                <th>Giá bán</th>
+                                <th>Kho</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            <tr>
+                                <td>
+                                    <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/50{% endif %}"
+                                        alt="{{ product.name }}" />
+                                </td>
+
+                                <td>
+                                    <p style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">{{ product.name }}
+                                    </p>
+                                    <div style="font-size: 12px; color: #888;">
+                                        <i class='bx bx-barcode'></i> {{ product.sku }}
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div style="font-size: 13px; margin-bottom: 4px;">
+                                        <strong>Hãng:</strong> {{ product.brand.name|default:"--" }}
+                                    </div>
+                                    {% if product.target_skin_type %}
+                                    <span
+                                        style="background: #e3f2fd; color: #1976d2; padding: 2px 8px; border-radius: 4px; font-size: 11px;">
+                                        {{ product.target_skin_type }}
+                                    </span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if product.sale_price > 0 %}
+                                    <div style="color: #d32f2f; font-weight: bold;">{{ product.sale_price }}đ</div>
+                                    <del style="color: #999; font-size: 12px;">{{ product.price }}đ</del>
+                                    {% else %}
+                                    <div style="font-weight: 600;">{{ product.price }}đ</div>
+                                    {% endif %}
+                                </td>
+
+                               <td>
+                                    {% if product.stock_quantity <= 5 and product.stock_quantity > 0 %}
+                                    <span style="color: orange; font-weight: bold;">{{ product.stock_quantity }}</span>
+                                    {% else %}
+                                    {{ product.stock_quantity }}
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if product.stock_quantity > 0 %}
+                                    <span class="status active">Còn hàng</span>
+                                    {% else %}
+                                    <span class="status hidden">Hết hàng</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <a href="{% url 'admin_product_edit' product.id %}" class="action-btn edit"
+                                        title="Sửa">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+
+                                    <a href="#" class="action-btn delete" title="Xóa"><i class="bx bx-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 20px;">Chưa có sản phẩm nào.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    {% if products.has_previous %}
+                    <a href="?page={{ products.previous_page_number }}" class="page-btn">&laquo;</a>
+                    {% else %}
+                    <a href="#" class="page-btn disabled">&laquo;</a>
+                    {% endif %}
+
+                    <a href="#" class="page-btn active">{{ products.number }}</a>
+
+                    {% if products.has_next %}
+                    <a href="?page={{ products.next_page_number }}" class="page-btn">&raquo;</a>
+                    {% else %}
+                    <a href="#" class="page-btn disabled">&raquo;</a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'app/js/admin/main.js' %}"></script>
+</body>
+
+</html>

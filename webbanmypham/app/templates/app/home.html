@@ -1,0 +1,255 @@
+{% extends 'app/base.html' %} 
+{% load static %}
+
+{% block title %}Trang Chủ - Beauty Shop{% endblock %}
+
+{% block content %}
+<div id="slide">
+  <div class="slide-container">
+    <div class="slide-wrapper">
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Slide 1" />
+        <div class="slide-caption">
+          <h2>Chăm sóc da mặt</h2>
+          <p>Bật sắc xinh, chinh phục cá tính</p>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/e0/17/28/e017286eabf082b5d62f8bcdbe9a426b.jpg" alt="Slide 2" />
+        <div class="slide-caption">
+          <h2>Trang điểm</h2>
+          <p>Biến hoá đa sắc màu</p>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/9f/b1/18/9fb118d3d637cf3ac9bba3343ac52e69.jpg" alt="Slide 3" />
+        <div class="slide-caption">
+          <h2>Phụ kiện làm đẹp</h2>
+          <p>"Hack" nhan sắc, tự tin "Level Max"</p>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/f0/ee/f3/f0eef3a42c6f9e85a3ea25eab01d297b.jpg" alt="Slide 4" />
+        <div class="slide-caption">
+          <h2>Chăm sóc cơ thể</h2>
+          <p>Khiến mọi người phải "GATO", Chinh phục xu hướng mới</p>
+        </div>
+      </div>
+      <div class="slide-item">
+        <img src="https://i.pinimg.com/1200x/eb/79/46/eb794603f0cd90fb31f80dbd70cb4074.jpg" alt="Slide 5" />
+        <div class="slide-caption">
+          <h2>Phụ kiện làm đẹp</h2>
+          <p>Khui chất riêng-Bung màu cá tính</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="nav-button prev-button" onclick="prevSlide()">&#10094;</button>
+    <button class="nav-button next-button" onclick="nextSlide()">&#10095;</button>
+
+    <div class="slide-indicators">
+      <span class="indicator-dot active" onclick="goToSlide(0)"></span>
+      <span class="indicator-dot" onclick="goToSlide(1)"></span>
+      <span class="indicator-dot" onclick="goToSlide(2)"></span>
+      <span class="indicator-dot" onclick="goToSlide(3)"></span>
+      <span class="indicator-dot" onclick="goToSlide(4)"></span>
+    </div>
+  </div>
+</div>
+
+<section id="main">
+  <section id="content">
+    
+    <section id="top-offers">
+      <div class="container">
+        <div class="section-header">
+          <h2>Gợi ý dành cho bạn</h2>
+          <div class="header-icons">
+            <button class="home-icon"><i class="fas fa-home"></i></button>
+          </div>
+        </div>
+
+        <div class="offers-carousel">
+          <button class="arrow prev" onclick="scrollCarousel('offer_list', -1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="arrow next" onclick="scrollCarousel('offer_list', 1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <div class="carousel-container" id="offer_list">
+            {% for product in offer_products %}
+            <div class="product-card">
+              <div class="product-image">
+                <a href="{% url 'product_detail' product.id %}">
+                  <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/190x243{% endif %}"
+                       alt="{{ product.name }}" loading="lazy" />
+                </a>
+                {% if product.sale_price > 0 %}
+                <div class="product-badge sale">Sale</div>
+                {% endif %}
+                <div class="product-actions">
+                  <a href="#" class="action-btn"><i class="far fa-heart"></i></a>
+                  <a href="{% url 'product_detail' product.id %}" class="action-btn"><i class="far fa-eye"></i></a>
+                  <a href="{% url 'add_to_cart' product.id %}" class="action-btn add-to-cart-btn"><i class="fas fa-shopping-basket"></i></a>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="category">{{ product.category.name }}</div>
+                <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <span style="color: #999;">(15)</span>
+                </div>
+                <div class="price">
+                  {% if product.sale_price > 0 %}
+                  <span class="current">{{ product.sale_price }}đ</span>
+                  <span class="original">{{ product.price }}đ</span>
+                  {% else %}
+                  <span class="current">{{ product.price }}đ</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="weekend-deals">
+      <div class="deal-container">
+        <div class="countdown">
+          <div><span>0</span><p>Ngày</p></div>
+          <div><span>19</span><p>Giờ</p></div>
+          <div><span>50</span><p>Phút</p></div>
+          <div><span>57</span><p>Giây</p></div>
+        </div>
+        <div class="deal-item">
+          <div class="deal-left">
+            <p class="sub-title">Hot deal cuối tuần</p>
+            <h2 class="product-title">Son Tint Carslan Lip Glowc</h2>
+            <p class="product-desc">Tăng tốc độ hấp thụ tinh chất chăm sóc đôi môi mềm mại...</p>
+            <p class="product-price">169.000 Đ</p>
+            <a href="#" class="shop-now">MUA NGAY <span class="arrow">→</span></a>
+          </div>
+          <div class="deal-right">
+            <img src="https://mint07.com/wp-content/uploads/2024/06/son-tint-carslan-lip-glow-serum-45g-2-190x243.jpg" alt="Deal" />
+          </div>
+        </div>
+        <button class="deal-btn prev-btn">❮</button>
+        <button class="deal-btn next-btn">❯</button>
+      </div>
+    </section>
+
+    <section id="top-trending">
+      <div class="container">
+        <div class="section-header">
+          <h2>Xu hướng</h2>
+          <div class="header-icons">
+            <button class="home-icon"><i class="fas fa-fire"></i></button>
+          </div>
+        </div>
+
+        <div class="offers-carousel">
+          <button class="arrow prev" onclick="scrollCarousel('trending_list', -1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="arrow next" onclick="scrollCarousel('trending_list', 1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <div class="carousel-container" id="trending_list">
+            {% for product in trending_products %}
+            <div class="product-card">
+              <div class="product-image">
+                <a href="{% url 'product_detail' product.id %}">
+                  <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/190x243{% endif %}"
+                       alt="{{ product.name }}" loading="lazy" />
+                </a>
+                {% if product.sale_price > 0 %}
+                <div class="product-badge sale">Sale</div>
+                {% endif %}
+                <div class="product-actions">
+                  <a href="#" class="action-btn"><i class="far fa-heart"></i></a>
+                  <a href="{% url 'product_detail' product.id %}" class="action-btn"><i class="far fa-eye"></i></a>
+                  <a href="{% url 'add_to_cart' product.id %}" class="action-btn add-to-cart-btn"><i class="fas fa-shopping-basket"></i></a>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="category">{{ product.category.name }}</div>
+                <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                <div class="rating" style="color: #ffc107; font-size: 0.8rem; margin-bottom: 5px;">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <span style="color: #999;">(15)</span>
+                </div>
+                <div class="price">
+                  <span class="current">{{ product.price }}đ</span>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+                <p>Chưa có sản phẩm xu hướng.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </section>
+</section>
+
+<section class="blog">
+  <div class="blog__container">
+    <span class="blog__subtitle">Tin mới nhất</span>
+    <h2 class="blog__title">Bài viết</h2>
+    <div class="blog__grid">
+      <div class="blog__item">
+        <img src="https://i.pinimg.com/1200x/3f/39/62/3f3962f01a632cf46740aa390fd0e3dc.jpg" alt="Blog 1" class="blog__image" />
+        <div class="blog__content">
+          <div class="blog__meta">
+            <span class="blog__author">Đăng bởi Admin</span>
+            <span class="blog__date">7/3/2025</span>
+          </div>
+          <h3 class="blog__post-title">12 loại mỹ phẩm bạn nhất định nên có...</h3>
+          <a href="#" class="blog__link">Xem thêm →</a>
+        </div>
+      </div>
+      </div>
+  </div>
+</section>
+
+<style>
+  /* Kế thừa style width 25% từ #top-offers cho #top-trending */
+  #top-trending .product-card {
+    flex: 0 0 calc(25% - 15px);
+    min-width: calc(25% - 15px);
+    margin: 0;
+  }
+  
+  /* Đảm bảo nút bấm hiện đúng vị trí */
+  .offers-carousel {
+    position: relative;
+  }
+</style>
+
+<script>
+  function scrollCarousel(containerId, direction) {
+    const container = document.getElementById(containerId);
+    if (container) {
+      // Tính toán khoảng trượt: (Chiều rộng thẻ + khoảng cách) * 4 thẻ
+      const card = container.querySelector('.product-card');
+      const cardWidth = card ? card.offsetWidth : 200;
+      const gap = 20; // Khoảng cách giữa các thẻ
+      const scrollAmount = (cardWidth + gap) * 4; 
+
+      if (direction === 1) {
+        container.scrollLeft += scrollAmount;
+      } else {
+        container.scrollLeft -= scrollAmount;
+      }
+    }
+  }
+</script>
+
+{% endblock %}

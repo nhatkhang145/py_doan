@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
+  <link rel="stylesheet" href="{% static 'app/css/admin/style_admin.css' %}" />
+  <link rel="stylesheet" href="{% static 'app/css/admin/dashboard.css' %}" />
+  <title>Tổng quan - Admin</title>
+</head>
+
+<body>
+  {% include 'app/my_admin/includes/sidebar.html' %}
+  <div class="content">
+    <nav>
+      <i class="bx bx-menu"></i>
+      <form action="#">
+        <div class="form-input">
+          <input type="search" placeholder="Search..." />
+          <button class="search-btn" type="submit">
+            <i class="bx bx-search"></i>
+          </button>
+        </div>
+      </form>
+
+      <div class="notification-wrapper">
+        <a href="#" class="notif" id="notifBtn">
+          <i class="bx bx-bell"></i>
+          <span class="count">12</span>
+        </a>
+      </div>
+
+      <div class="profile-wrapper">
+        <a href="#" class="profile" id="profileBtn">
+          <img
+            src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://via.placeholder.com/100{% endif %}"
+            alt="Admin Avatar" />
+        </a>
+
+        <div class="profile-dropdown" id="profileDropdown">
+          <h3 class="dropdown-header">Xin chào, {{ user.username }}</h3>
+          <ul class="profile-menu">
+            <li>
+              <a href="#">
+                <i class="bx bxs-user-circle"></i>
+                <span>Hồ sơ của tôi</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="bx bxs-lock-alt"></i>
+                <span>Đổi mật khẩu</span>
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a href="{% url 'logout' %}" class="logout">
+                <i class="bx bx-log-out-circle"></i>
+                <span>Đăng xuất</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="header">
+        <div class="left">
+          <h1>Tổng quan</h1>
+          <ul class="breadcrumb">
+            <li><a href="#">Quản lý</a></li>
+            <li>/</li>
+            <li><a href="#" class="active">Tổng quan</a></li>
+          </ul>
+        </div>
+      </div>
+
+      {% if low_stock_count > 0 or dead_stock_count > 0 %}
+      <div class="alert-section" style="margin-bottom: 24px;">
+        <h3
+          style="font-size: 1.1rem; margin-bottom: 12px; color: var(--dark); display: flex; align-items: center; gap: 8px;">
+          <i class='bx bx-bell' style="color: var(--danger);"></i> Cần xử lý gấp
+        </h3>
+        <ul class="insights">
+
+          {% if low_stock_count > 0 %}
+          <li onclick="window.location.href='{% url 'admin_inventory_alerts' %}'"
+            style="cursor: pointer; border-left: 4px solid var(--danger); background: #fff5f5;">
+            <i class='bx bx-error' style="background: var(--light-danger); color: var(--danger);"></i>
+            <span class="info">
+              <h3 style="color: var(--danger);">{{ low_stock_count }}</h3>
+              <p>Sản phẩm sắp hết</p>
+              <small style="color: var(--danger); font-weight: 600; font-size: 0.75rem;">Nhập kho ngay &rarr;</small>
+            </span>
+          </li>
+          {% endif %}
+
+          {% if dead_stock_count > 0 %}
+          <li onclick="window.location.href='{% url 'admin_inventory_alerts' %}'"
+            style="cursor: pointer; border-left: 4px solid var(--warning); background: #fffff0;">
+            <i class='bx bx-trending-down' style="background: var(--light-warning); color: var(--warning);"></i>
+            <span class="info">
+              <h3 style="color: #FBC02D;">{{ dead_stock_count }}</h3>
+              <p>Nguy cơ tồn kho</p>
+              <small style="color: #F9A825; font-weight: 600; font-size: 0.75rem;">Xem đề xuất &rarr;</small>
+            </span>
+          </li>
+          {% endif %}
+
+        </ul>
+      </div>
+      {% endif %}
+
+      <ul class="insights">
+        <li>
+          <i class="bx bx-dollar-circle"></i>
+          <span class="info">
+            <h3>1,250,000đ</h3>
+            <p>Doanh thu Hôm nay</p>
+          </span>
+        </li>
+        <li>
+          <i class="bx bx-receipt"></i>
+          <span class="info">
+            <h3>{{ order_count|default:"0" }}</h3>
+            <p>Đơn hàng</p>
+          </span>
+        </li>
+        <li>
+          <i class="bx bx-loader-circle"></i>
+          <span class="info">
+            <h3>{{ product_count|default:"0" }}</h3>
+            <p>Sản phẩm</p>
+          </span>
+        </li>
+        <li>
+          <i class="bx bx-user-plus"></i>
+          <span class="info">
+            <h3>{{ customer_count|default:"0" }}</h3>
+            <p>Khách hàng</p>
+          </span>
+        </li>
+      </ul>
+
+
+      <!-- <div class="bottom-data">
+        <div class="orders">
+          <div class="header">
+            <h3>Đơn hàng mới nhất (Cần xử lý)</h3>
+            <a href="#" class="view-all">Xem tất cả <i class="bx bx-right-arrow-alt"></i></a>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã Đơn Hàng</th>
+                <th>Khách hàng</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#12350</td>
+                <td>Nguyễn Văn A</td>
+                <td>320,000đ</td>
+                <td><span class="status pending">Chờ xử lý</span></td>
+              </tr>
+              <tr>
+                <td>#12349</td>
+                <td>Trần Thị B</td>
+                <td>1,500,000đ</td>
+                <td><span class="status pending">Chờ xử lý</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="reminders">
+          <div class="header">
+            <h3>Sản phẩm sắp hết hàng</h3>
+            <a href="#" class="view-all">Xem tất cả <i class="bx bx-right-arrow-alt"></i></a>
+          </div>
+          <ul class="task-list">
+            <li class="low-stock">
+              <div class="task-title">
+                <img src="https://via.placeholder.com/36x36" alt="Icon" />
+                <p>Dâu tây Hàn Quốc (Hộp 500g)</p>
+              </div>
+              <span class="stock-count">Còn 5</span>
+            </li>
+          </ul>
+        </div>
+      </div> -->
+    </main>
+  </div>
+
+  <script src="{% static 'app/js/admin/main.js' %}"></script>
+</body>
+
+</html>

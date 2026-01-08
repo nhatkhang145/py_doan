@@ -1,0 +1,53 @@
+{% load static %}
+<div class="sidebar">
+  <a href="{% url 'admin_dashboard' %}" class="logo"><img class="navbar__menu-logo-img" src="https://ik.imagekit.io/8tm3umulk/image/logonew_fG_70DXF8?updatedAt=1762866381508" alt="Logo" /></a>
+  <ul class="side-menu">
+    <li class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+      <a href="{% url 'admin_dashboard' %}"><i class="bx bxs-dashboard"></i>Tổng quan</a>
+    </li>
+
+    <li class="{% if 'admin_product' in request.resolver_match.url_name %}active{% endif %}">
+      <a href="{% url 'admin_products' %}"><i class="bx bx-basket"></i>Quản lý sản phẩm</a>
+    </li>
+
+    <!--  <li>
+      <a href="#"><i class="bx bx-category"></i>Quản lý danh mục</a>
+    </li>
+
+    <li>
+      <a href="#"><i class="bx bx-receipt"></i>Quản lý đơn hàng</a>
+    </li>  -->
+
+    <li class="{% if 'admin_customer' in request.resolver_match.url_name %}active{% endif %}">
+      <a href="{% url 'admin_customers' %}"><i class="bx bx-group"></i>Quản lý khách hàng</a>
+    </li>
+
+    <li class="{% if request.resolver_match.url_name == 'admin_categories' %}active{% endif %}">
+      <a href="{% url 'admin_categories' %}"><i class="bx bx-category"></i>Quản lý danh mục</a>
+    </li>
+
+    <li class="{% if request.resolver_match.url_name == 'admin_brands' %}active{% endif %}">
+      <a href="{% url 'admin_brands' %}"><i class="bx bx-label"></i>Quản lý thương hiệu</a>
+    </li>
+
+    <li class="{% if request.resolver_match.url_name == 'admin_reviews' %}active{% endif %}">
+      <a href="{% url 'admin_reviews' %}"><i class="bx bx-star"></i>Quản lý đánh giá</a>
+    </li>
+
+    <!-- <li class="{% if 'admin_spam_keywords' in request.resolver_match.url_name %}active{% endif %}">
+      <a href="{% url 'admin_spam_keywords' %}"><i class="bx bx-shield-quarter"></i>Spam Keywords</a>
+    </li> -->
+
+    <li class="{% if request.resolver_match.url_name == 'admin_inventory_alerts' %}active{% endif %}">
+      <a href="{% url 'admin_inventory_alerts' %}"><i class="bx bx-error-circle"></i>Cảnh báo kho hàng</a>
+    </li>
+    <!--  <li><a href="#"><i class='bx bx-images'></i>Quản lý Banner</a></li>
+    <li><a href="#"><i class='bx bx-purchase-tag-alt'></i>Mã giảm giá</a></li>
+    <li><a href="#"><i class="bx bx-star"></i>Đánh giá</a></li>
+    <li><a href="#"><i class='bx bx-news'></i>Tin tức / Blog</a></li>
+    <li><a href="#"><i class="bx bx-bell"></i>Lịch sử Thông báo</a></li>
+    <li><a href="#"><i class="bx bx-message-detail"></i>Tin nhắn</a></li>
+    <li><a href="#"><i class="bx bx-line-chart"></i>Thống kê</a></li>
+    <li><a href="#"><i class="bx bx-cog"></i>Cài đặt</a></li>  -->
+  </ul>
+</div>

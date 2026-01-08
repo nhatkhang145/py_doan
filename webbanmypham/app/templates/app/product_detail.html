@@ -1,0 +1,235 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/product_detail.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+  <div class="container">
+    <a href="{% url 'home' %}">Trang chủ</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <a href="{% url 'shop' %}">Sản phẩm</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <span>{{ product.name }}</span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="product-detail__container">
+    
+    <div class="product-detail__top">
+      <div class="product-gallery">
+        <div class="product-gallery__thumbs">
+          <div class="thumb-item active" onclick="changeImage(this)">
+            <img src="{{ product.image.url }}" alt="Thumb">
+          </div>
+          </div>
+        <div class="product-gallery__main">
+          <img id="mainImage" src="{{ product.image.url }}" alt="{{ product.name }}">
+          {% if product.sale_price > 0 %}
+             <div class="product-badge sale">Sale</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="product-info">
+        <h1 class="product-title">{{ product.name }}</h1>
+        
+        <div class="product-meta-row">
+          <div class="product-rating">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <span class="divider">|</span>
+          <span class="product-sku">Mã: <strong>{{ product.sku }}</strong></span>
+          <span class="divider">|</span>
+          <span class="stock-status in-stock">
+              {% if product.stock_quantity > 0 %}Còn hàng{% else %}Hết hàng{% endif %}
+          </span>
+        </div>
+
+        <div class="product-price-box">
+          {% if product.sale_price > 0 %}
+             <span class="current-price">{{ product.sale_price }}₫</span>
+             <span class="old-price">{{ product.price }}₫</span>
+          {% else %}
+             <span class="current-price">{{ product.price }}₫</span>
+          {% endif %}
+        </div>
+
+        <div class="product-description-short">
+          <p>{{ product.description|linebreaks|truncatewords:50 }}</p>
+        </div>
+
+        <hr class="product-divider">
+
+        <div class="product-actions-wrapper">
+          <div class="qty-wrapper">
+            <button class="qty-btn" onclick="decreaseQty()">-</button>
+            <input type="number" value="1" min="1" id="qtyInput" class="qty-input">
+            <button class="qty-btn" onclick="increaseQty()">+</button>
+          </div>
+
+          <div class="action-buttons">
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-add-cart" style="display:flex; align-items:center; justify-content:center; text-decoration:none;">
+              <i class="fa-solid fa-cart-plus"></i> &nbsp; Thêm vào giỏ
+            </a>
+            <button class="btn btn-buy-now">Mua ngay</button>
+          </div>
+        </div>
+
+        <div class="product-policies">
+           <div class="policy-item"><i class="fa-solid fa-truck-fast"></i><span>Giao hàng nhanh</span></div>
+           <div class="policy-item"><i class="fa-solid fa-rotate-left"></i><span>Đổi trả 24H</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-detail__bottom">
+       <div id="desc" class="tab-content" style="display: block;">
+          <h3 style="font-size: 20px; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px;">Mô tả sản phẩm</h3>
+          <div class="content-inner">
+            <p>{{ product.description|linebreaks }}</p>
+          </div>
+       </div>
+    </div>
+
+    <div class="review-container">
+        <div class="review-section">
+            <h3>Đánh giá từ khách hàng ({{ reviews|length }})</h3>
+
+            <div class="review-list">
+                {% for review in reviews %}
+                <div class="review-item">
+                    <div class="review-avatar">
+                        <img src="{% if review.user.profile.avatar %}{{ review.user.profile.avatar.url }}{% else %}https://ui-avatars.com/api/?name={{ review.user.username }}&background=random{% endif %}" alt="Avatar">
+                    </div>
+                    <div class="review-content">
+                        <div class="review-header">
+                            <span class="review-author">{{ review.user.username }}</span>
+                            <span class="review-date">{{ review.created_at|date:"d/m/Y H:i" }}</span>
+                        </div>
+                        
+                        <div class="star-rating-static">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    <i class="fa-solid fa-star"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="review-text">
+                            {{ review.comment|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    <div class="empty-review">
+                        <i class="fa-regular fa-comment-dots"></i>
+                        <p>Chưa có đánh giá nào. Hãy là người đầu tiên chia sẻ cảm nhận!</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="review-form-wrapper">
+                {% if request.user.is_authenticated %}
+                    <div class="form-header">
+                        <h4>Viết đánh giá của bạn</h4>
+                        <p>Bạn cảm thấy thế nào về sản phẩm này?</p>
+                    </div>
+                    
+                    <form action="{% url 'submit_review' product.id %}" method="POST" class="review-form">
+                        {% csrf_token %}
+                        
+                        <div class="rating-group">
+                            <label>Chọn mức độ hài lòng:</label>
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rating" value="5" checked />
+                                <label for="star5" title="Tuyệt vời">5 stars</label>
+                                
+                                <input type="radio" id="star4" name="rating" value="4" />
+                                <label for="star4" title="Tốt">4 stars</label>
+                                
+                                <input type="radio" id="star3" name="rating" value="3" />
+                                <label for="star3" title="Bình thường">3 stars</label>
+                                
+                                <input type="radio" id="star2" name="rating" value="2" />
+                                <label for="star2" title="Tệ">2 stars</label>
+                                
+                                <input type="radio" id="star1" name="rating" value="1" />
+                                <label for="star1" title="Rất tệ">1 star</label>
+                            </div>
+                        </div>
+
+                        <div class="comment-group">
+                            <textarea class="form-control" name="comment" rows="4" placeholder="Chia sẻ kinh nghiệm sử dụng, chất lượng sản phẩm..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit-review">
+                            <i class="fa-solid fa-paper-plane"></i> Gửi đánh giá
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="login-prompt">
+                        <p>Vui lòng <a href="{% url 'login' %}?next={{ request.path }}">Đăng nhập</a> để viết đánh giá.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="related-products-section">
+      <h2 class="section-title">Sản phẩm liên quan</h2>
+      <div class="trending-grid">
+        {% for item in related_products %}
+         <div class="product-card">
+          <div class="product-image">
+            <a href="{% url 'product_detail' item.id %}">
+                <img src="{{ item.image.url }}" alt="{{ item.name }}">
+            </a>
+            <div class="product-actions">
+              <a href="{% url 'add_to_cart' item.id %}"><button class="action-btn"><i class="fas fa-shopping-basket"></i></button></a>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3><a href="{% url 'product_detail' item.id %}">{{ item.name }}</a></h3>
+            <div class="price">
+               {% if item.sale_price > 0 %}
+                  <span class="current">{{ item.sale_price }}₫</span>
+               {% else %}
+                  <span class="current">{{ item.price }}₫</span>
+               {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function changeImage(element) {
+    document.querySelectorAll('.thumb-item').forEach(el => el.classList.remove('active'));
+    element.classList.add('active');
+    const newSrc = element.querySelector('img').src;
+    document.getElementById('mainImage').src = newSrc;
+  }
+
+  const qtyInput = document.getElementById('qtyInput');
+  function increaseQty() {
+    qtyInput.value = parseInt(qtyInput.value) + 1;
+  }
+  function decreaseQty() {
+    if (parseInt(qtyInput.value) > 1) {
+      qtyInput.value = parseInt(qtyInput.value) - 1;
+    }
+  }
+</script>
+{% endblock %}

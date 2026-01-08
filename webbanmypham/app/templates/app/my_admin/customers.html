@@ -1,0 +1,169 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Quản lý Khách hàng{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/admin/users.css' %}" />
+{% endblock %}
+
+{% block search_placeholder %}Tìm tên, email, SĐT...{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="left">
+        <h1>Quản lý khách hàng</h1>
+        <ul class="breadcrumb">
+            <li><a href="#">Quản lý</a></li>
+            <li>/</li>
+            <li><a href="#" class="active">Khách hàng</a></li>
+        </ul>
+    </div>
+    <a href="#" class="report">
+        <i class="bx bx-download"></i>
+        <span>Xuất Excel/CSV</span>
+    </a>
+</div>
+
+<ul class="insights">
+    <li>
+        <i class="bx bx-group"></i>
+        <span class="info">
+            <h3>{{ customers|length }}</h3>
+            <p>Tổng khách hàng</p>
+        </span>
+    </li>
+    <li>
+        <i class="bx bx-user-plus"></i>
+        <span class="info">
+            <h3>0</h3>
+            <p>Khách hàng mới</p>
+        </span>
+    </li>
+    <li>
+        <i class="bx bx-user-x"></i>
+        <span class="info">
+            <h3>0</h3>
+            <p>Tài khoản bị khóa</p>
+        </span>
+    </li>
+    <li>
+        <i class='bx bx-diamond'></i>
+        <span class="info">
+            <h3>0</h3>
+            <p>Khách hàng VIP</p>
+        </span>
+    </li>
+</ul>
+
+<div class="bottom-data">
+    <div class="orders">
+        <div class="header">
+            <h3>Danh sách khách hàng</h3>
+            <div class="filters">
+                <i class="bx bx-filter"></i>
+                <select>
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="active">Hoạt động</option>
+                    <option value="banned">Bị khóa</option>
+                </select>
+                <select>
+                    <option value="">Tất cả loại da</option>
+                    <option value="dry">Da khô</option>
+                    <option value="oily">Da dầu</option>
+                    <option value="sensitive">Nhạy cảm</option>
+                    <option value="combination">Hỗn hợp</option>
+                </select>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Khách hàng</th>
+                    <th>Liên hệ</th>
+                    <th>Ngày tham gia</th>
+                    <th>Loại da</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>
+                        <div class="user-info">
+                            <img src="{% if customer.avatar %}{{ customer.avatar.url }}{% else %}https://via.placeholder.com/40x40{% endif %}" alt="Avatar" />
+                            <div>
+                                <p>{{ customer.fullname|default:customer.user.username }}</p>
+                                <small>ID: #{{ customer.user.id }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="contact-row">{{ customer.user.email }}</div>
+                        <div class="contact-row sub"><i class='bx bx-phone'></i> {{ customer.phone|default:"---" }}</div>
+                    </td>
+                    <td>{{ customer.created_at|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if customer.skin_type == 'unknown' %}
+                            <span class="badge-skin unknown">Chưa rõ</span>
+                        {% else %}
+                            <span class="badge-skin {{ customer.skin_type }}">
+                                {{ customer.get_skin_type_display }}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if customer.status %}
+                            <span class="status active">Hoạt động</span>
+                        {% else %}
+                            <span class="status banned">Bị khóa</span>
+                        {% endif %}
+                    </td>
+                    <td class="action-cell">
+                        <a href="{% url 'admin_customer_detail' customer.id %}" class="action-btn view" title="Xem chi tiết">
+                            <i class="bx bx-show"></i>
+                        </a>
+                        
+                        {% if customer.status %}
+                            <a href="#" class="action-btn lock" title="Khóa tài khoản">
+                                <i class='bx bx-lock-alt'></i>
+                            </a>
+                        {% else %}
+                            <a href="#" class="action-btn unlock" title="Mở khóa">
+                                <i class='bx bx-lock-open-alt'></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 30px;">
+                        <p>Không tìm thấy khách hàng nào.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if customers.has_other_pages %}
+    <div class="pagination">
+        {% if customers.has_previous %}
+            <a href="?page={{ customers.previous_page_number }}" class="page-btn">&laquo;</a>
+        {% else %}
+            <a href="#" class="page-btn disabled">&laquo;</a>
+        {% endif %}
+
+        <a href="#" class="page-btn active">{{ customers.number }}</a>
+
+        {% if customers.has_next %}
+            <a href="?page={{ customers.next_page_number }}" class="page-btn">&raquo;</a>
+        {% else %}
+            <a href="#" class="page-btn disabled">&raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

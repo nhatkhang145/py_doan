@@ -1,0 +1,166 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Hồ sơ khách hàng{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/admin/user-detail.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="left">
+        <h1>Hồ sơ khách hàng</h1>
+        <ul class="breadcrumb">
+            <li><a href="{% url 'admin_dashboard' %}">Quản lý</a></li>
+            <li>/</li>
+            <li><a href="{% url 'admin_customers' %}">Khách hàng</a></li>
+            <li>/</li>
+            <li><a href="#" class="active">Chi tiết</a></li>
+        </ul>
+    </div>
+    <a href="{% url 'admin_customers' %}" class="report">
+        <i class='bx bx-arrow-back'></i>
+        <span>Quay lại</span>
+    </a>
+</div>
+
+<div class="profile-layout">
+    
+    <div class="profile-main">
+        
+        <div class="card profile-card">
+            <div class="profile-cover"></div>
+            
+            <div class="profile-content-wrap">
+                <div class="profile-avatar-section">
+                    <div class="avatar-border">
+                        <img src="{% if customer.avatar %}{{ customer.avatar.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="Avatar">
+                    </div>
+                </div>
+
+                <div class="profile-info-section">
+                    <div class="info-top">
+                        <h2>{{ customer.fullname|default:customer.user.username }}</h2>
+                        <p class="join-date">Thành viên từ: {{ customer.created_at|date:"d/m/Y" }}</p>
+                    </div>
+
+                    <div class="info-bottom">
+                        {% if customer.skin_type == 'unknown' %}
+                            <span class="badge-skin unknown">Chưa rõ</span>
+                        {% else %}
+                            <span class="badge-skin {{ customer.skin_type }}">
+                                {{ customer.get_skin_type_display }}
+                            </span>
+                        {% endif %}
+
+                        {% if customer.status %}
+                            <span class="status active">Hoạt động</span>
+                        {% else %}
+                            <span class="status banned">Đang khóa</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <h3>0</h3> <p>Đơn hàng</p>
+                </div>
+                <div class="stat-item">
+                    <h3>0đ</h3> <p>Tổng chi tiêu</p>
+                </div>
+                <div class="stat-item">
+                    <h3>0</h3>
+                    <p>Đánh giá</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card recent-orders">
+            <div class="card-header">
+                <h3>Lịch sử mua hàng gần đây</h3>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.created_at|date:"d/m/Y" }}</td>
+                        <td>{{ order.total_price }}đ</td>
+                        <td><span class="status {{ order.status }}">{{ order.get_status_display }}</span></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px; color: #888;">
+                            Khách hàng chưa có đơn hàng nào.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="profile-sidebar">
+        
+        <div class="card contact-info">
+            <div class="card-header">
+                <h3>Thông tin liên hệ</h3>
+            </div>
+            <ul class="info-list">
+                <li>
+                    <i class='bx bx-envelope'></i>
+                    <div>
+                        <strong>Email</strong>
+                        <span>{{ customer.user.email }}</span>
+                    </div>
+                </li>
+                <li>
+                    <i class='bx bx-phone'></i>
+                    <div>
+                        <strong>Số điện thoại</strong>
+                        <span>{{ customer.phone|default:"Chưa cập nhật" }}</span>
+                    </div>
+                </li>
+                <li>
+                    <i class='bx bx-map'></i>
+                    <div>
+                        <strong>Địa chỉ</strong>
+                        <span>{{ customer.address|default:"Chưa cập nhật địa chỉ" }}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card actions">
+            <div class="card-header">
+                <h3>Tác vụ</h3>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-password">
+                    <i class='bx bx-key'></i> Đặt lại mật khẩu
+                </button>
+                
+                {% if customer.status %}
+                    <button class="btn btn-ban">
+                        <i class='bx bx-lock-alt'></i> Khóa tài khoản
+                    </button>
+                {% else %}
+                    <button class="btn btn-unlock">
+                        <i class='bx bx-lock-open-alt'></i> Mở khóa
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

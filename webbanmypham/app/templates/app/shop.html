@@ -1,0 +1,110 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}
+  Cửa Hàng - Beauty Shop
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'app/css/shop.css' %}" />
+{% endblock %}
+{% block content %}
+  <div class="app__container">
+    <div class="grid">
+      <div class="grid__row app__content">
+        <div class="grid__column-2">
+          <nav class="category">
+            <h3 class="category_heading"><i class="category__heading-icon fas fa-list"></i> Danh Mục</h3>
+
+            <ul class="category-list">
+              <li class="category-item {% if not active_category %}active{% endif %}">
+                <a href="{% url 'shop' %}">Tất cả sản phẩm</a>
+              </li>
+
+              {% for item in sidebar_data %}
+                <li class="category-item">
+                  <a href="?category={{ item.category.id }}" style="font-weight: bold; {% if active_category == item.category.id|stringformat:'s' and not active_brand %}color: var(--primary-color);{% endif %}">{{ item.category.name }}</a>
+
+                  {% if item.brands %}
+                    <ul class="sub-category-list" style="padding-left: 15px; margin-top: 5px;">
+                      {% for brand in item.brands %}
+                        <li class="sub-category-item" style="list-style: none; margin-bottom: 5px;">
+                          <a href="?category={{ item.category.id }}&brand={{ brand.id }}" style="font-size: 1.2rem; color: #666; {% if active_brand == brand.id|stringformat:'s' and active_category == item.category.id|stringformat:'s' %}color: var(--primary-color); font-weight: bold;{% endif %}">- {{ brand.name }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        </div>
+
+        <div class="grid__column-10">
+          <div class="sort-filter"></div>
+
+          <div class="home-product">
+            <div class="grid__row">
+              {% for product in page_obj %}
+                <div class="grid__column-2-4">
+                  <div class="product-card">
+                    <div class="product-image">
+                      <a href="{% url 'product_detail' product.id %}">
+                        <img src="{% if product.image %}
+                            {{ product.image.url }}
+                          {% else %}
+                            
+                            https://via.placeholder.com/300
+
+                          {% endif %}"
+                          alt="{{ product.name }}"
+                          loading="lazy" />
+                      </a>
+
+                      {% if product.sale_price > 0 %}
+                        <div class="product-badge sale">Sale</div>
+                      {% endif %}
+
+                      <div class="product-actions">
+                        <a href="#" class="action-btn" title="Yêu thích"><i class="far fa-heart"></i></a>
+                        <a href="{% url 'product_detail' product.id %}" class="action-btn" title="Xem nhanh"><i class="far fa-eye"></i></a>
+                        <a href="{% url 'add_to_cart' product.id %}" class="action-btn add-to-cart-btn" title="Thêm vào giỏ"><i class="fas fa-shopping-basket"></i></a>
+                      </div>
+                    </div>
+
+                    <div class="product-info">
+                      <div class="category">{{ product.category.name }}</div>
+                      <h3><a href="{% url 'product_detail' product.id %}" title="{{ product.name }}">{{ product.name }}</a></h3>
+                      <div class="price">
+                        {% if product.sale_price > 0 %}
+                          <span class="current">{{ product.sale_price }}đ</span>
+                          <span class="original">{{ product.price }}đ</span>
+                        {% else %}
+                          <span class="current">{{ product.price }}đ</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+                <div style="padding: 20px;">Chưa có sản phẩm nào.</div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="pagination" style="margin-top: 20px; display: flex; justify-content: center;">
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}" class="btn">Example &laquo;</a>
+            {% endif %}
+
+            <span class="btn btn--primary">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}" class="btn">&raquo;</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

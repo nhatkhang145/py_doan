@@ -1,0 +1,197 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Quản lý Spam Keywords{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/admin/spam_keywords.css' %}" />
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="header">
+        <div class="left">
+            <h1>Quản lý Spam Keywords</h1>
+            <ul class="breadcrumb">
+                <li><a href="{% url 'admin_dashboard' %}">Admin</a></li>
+                <li><i class='bx bx-chevron-right'></i></li>
+                <li><a class="active" href="#">Spam Keywords</a></li>
+            </ul>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Stats Cards -->
+    <ul class="box-info">
+        <li>
+            <i class='bx bx-shield-quarter'></i>
+            <span class="text">
+                <h3>{{ total_keywords }}</h3>
+                <p>Tổng Keywords</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-check-circle'></i>
+            <span class="text">
+                <h3>{{ active_keywords }}</h3>
+                <p>Đang Kích Hoạt</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bx-x-circle'></i>
+            <span class="text">
+                <h3>{{ inactive_keywords }}</h3>
+                <p>Đã Tắt</p>
+            </span>
+        </li>
+    </ul>
+
+    <div class="bottom-data">
+        <!-- Add New Keyword Form -->
+        <div class="add-keyword-form">
+            <div class="header">
+                <i class='bx bx-plus-circle'></i>
+                <h3>Thêm Spam Keyword Mới</h3>
+            </div>
+            <form method="POST" action="{% url 'admin_spam_keywords_create' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Từ khóa spam <span class="required">*</span></label>
+                    <input type="text" name="keyword" required placeholder="vd: vay tiền, quảng cáo...">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Danh mục</label>
+                        <select name="category">
+                            <option value="FINANCE">Tài chính/Cho vay</option>
+                            <option value="CONTACT">Liên hệ/Quảng cáo</option>
+                            <option value="EXTERNAL">Link bên ngoài</option>
+                            <option value="FAKE">Hàng giả/Hàng nhái</option>
+                            <option value="REPEAT">Lặp từ/Spam</option>
+                            <option value="OTHER">Khác</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Độ nghiêm trọng (0-100)</label>
+                        <input type="number" name="severity" value="100" min="0" max="100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả (tùy chọn)</label>
+                    <textarea name="description" rows="2" placeholder="Giải thích tại sao là spam..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="is_active" checked>
+                        Kích hoạt ngay
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class='bx bx-save'></i> Thêm Keyword
+                </button>
+            </form>
+        </div>
+
+        <!-- Keywords List -->
+        <div class="orders">
+            <div class="header">
+                <i class='bx bx-list-ul'></i>
+                <h3>Danh sách Spam Keywords</h3>
+                <form method="GET" class="filter-form">
+                    <select name="category" onchange="this.form.submit()">
+                        <option value="">Tất cả danh mục</option>
+                        <option value="FINANCE" {% if request.GET.category == 'FINANCE' %}selected{% endif %}>Tài chính</option>
+                        <option value="CONTACT" {% if request.GET.category == 'CONTACT' %}selected{% endif %}>Liên hệ</option>
+                        <option value="EXTERNAL" {% if request.GET.category == 'EXTERNAL' %}selected{% endif %}>Link ngoài</option>
+                        <option value="FAKE" {% if request.GET.category == 'FAKE' %}selected{% endif %}>Hàng giả</option>
+                        <option value="REPEAT" {% if request.GET.category == 'REPEAT' %}selected{% endif %}>Lặp từ</option>
+                        <option value="OTHER" {% if request.GET.category == 'OTHER' %}selected{% endif %}>Khác</option>
+                    </select>
+                </form>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Từ khóa</th>
+                        <th>Danh mục</th>
+                        <th>Độ nghiêm trọng</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for keyword in keywords %}
+                    <tr>
+                        <td class="keyword-text">{{ keyword.keyword }}</td>
+                        <td>
+                            <span class="category-badge category-{{ keyword.category }}">
+                                {{ keyword.get_category_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="severity-bar">
+                                <div class="severity-fill" style="width: {{ keyword.severity }}%; background: 
+                                    {% if keyword.severity >= 90 %}#dc3545
+                                    {% elif keyword.severity >= 70 %}#fd7e14
+                                    {% elif keyword.severity >= 50 %}#ffc107
+                                    {% else %}#28a745{% endif %}">
+                                </div>
+                                <span class="severity-value">{{ keyword.severity }}%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <form method="POST" action="{% url 'admin_spam_keywords_toggle' keyword.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="toggle-btn {% if keyword.is_active %}active{% endif %}">
+                                    {% if keyword.is_active %}
+                                        <i class='bx bx-check-circle'></i> Bật
+                                    {% else %}
+                                        <i class='bx bx-x-circle'></i> Tắt
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </td>
+                        <td>{{ keyword.created_at|date:"d/m/Y" }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'admin_spam_keywords_edit' keyword.id %}" class="btn-edit" title="Sửa">
+                                    <i class='bx bx-edit'></i>
+                                </a>
+                                <form method="POST" action="{% url 'admin_spam_keywords_delete' keyword.id %}" 
+                                      onsubmit="return confirm('Xóa keyword này?');" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete" title="Xóa">
+                                        <i class='bx bx-trash'></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px;">
+                            <i class='bx bx-info-circle' style="font-size: 48px; color: #ccc;"></i>
+                            <p>Chưa có spam keyword nào</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+{% endblock %}

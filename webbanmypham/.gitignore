@@ -1,0 +1,14 @@
+# Bỏ qua môi trường ảo
+venv/
+env/
+.env
+
+# Bỏ qua file rác của Python
+__pycache__/
+*.pyc
+
+# Bỏ qua database (nếu dùng sqlite)
+db.sqlite3
+
+# Bỏ qua thư mục media (ảnh upload test)
+media/

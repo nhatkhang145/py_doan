@@ -1,0 +1,198 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Quản lý Đánh giá & AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/admin/reviews.css' %}" />
+{% endblock %}
+
+{% block search_placeholder %}Tìm nội dung, tên khách hàng...{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="left">
+        <h1>Đánh giá & Phân tích AI</h1>
+        <ul class="breadcrumb">
+            <li><a href="{% url 'admin_dashboard' %}">Quản lý</a></li>
+            <li>/</li>
+            <li><a href="#" class="active">Đánh giá</a></li>
+        </ul>
+    </div>
+</div>
+
+<ul class="insights">
+    <li>
+        <i class='bx bx-smile'></i>
+        <span class="info">
+            <h3>{{ pos_percent }}%</h3>
+            <p>Phản hồi Tích cực</p>
+        </span>
+    </li>
+    <li>
+        <i class='bx bx-angry'></i>
+        <span class="info">
+            <h3>{{ neg_percent }}%</h3>
+            <p>Phản hồi Tiêu cực</p>
+        </span>
+    </li>
+    <li>
+        <i class='bx bx-star'></i>
+        <span class="info">
+            <h3>{{ avg_rating }}/5</h3>
+            <p>Điểm trung bình</p>
+        </span>
+    </li>
+    <li>
+        <i class='bx bx-message-square-dots'></i>
+        <span class="info">
+            <h3>{{ total_reviews }}</h3>
+            <p>Tổng đánh giá</p>
+        </span>
+    </li>
+    <li>
+        <i class='bx bx-spam'></i>
+        <span class="info">
+            <h3>{{ spam_count }}</h3>
+            <p>Comment Spam</p>
+        </span>
+    </li>
+</ul>
+
+<div class="bottom-data">
+    <div class="orders">
+        <div class="header">
+            <h3>Danh sách đánh giá</h3>
+
+            <div class="filters">
+                <select>
+                    <option value="">Tất cả cảm xúc</option>
+                    <option value="POS"> Tích cực (Positive)</option>
+                    <option value="NEG"> Tiêu cực (Negative)</option>
+                    <option value="NEU"> Trung tính (Neutral)</option>
+                </select>
+                <select>
+                    <option value="">Số sao</option>
+                    <option value="5">5 Sao</option>
+                    <option value="1">1 Sao</option>
+                </select>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 180px;">Sản phẩm</th>
+                    <th>Khách hàng</th>
+                    <th style="width: 100px;">Đánh giá</th>
+                    <th>Nội dung bình luận</th>
+                    <th style="width: 150px;">AI Phân tích</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td>
+                        <div class="product-info">
+                            <img src="{{ review.product.image.url }}" alt="Product">
+                            <div>
+                                <p>{{ review.product.name }}</p>
+                                <small>#{{ review.product.sku }}</small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="user-info">
+                            <img src="{{ review.customer.avatar.url|default:'/static/img/default.png' }}" alt="User">
+                            <div>
+                                <p>{{ review.customer.user.username }}</p>
+                                <small>Customer</small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="stars">
+                            {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %} <i class='bx bxs-star'></i>
+                                {% else %}
+                                <i class='bx bx-star'></i>
+                                {% endif %}
+                                {% endfor %}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="comment-wrapper">
+                            <div class="comment-text">"{{ review.comment }}"</div>
+                            <span class="comment-date">{{ review.created_at|date:"d/m/Y" }}</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        {% if review.is_spam %}
+                        <div class="ai-badge spam" title="{{ review.spam_reason }}">
+                            <span>🚨 SPAM</span>
+                            <span class="confidence">{{ review.spam_reason }}</span>
+                        </div>
+                        {% elif review.sentiment == 'POS' %}
+                        <div class="ai-badge positive">
+                            <span>Tích cực</span>
+                            <span class="confidence">{{ review.confidence_score }}%</span>
+                        </div>
+                        {% elif review.sentiment == 'NEG' %}
+                        <div class="ai-badge negative">
+                            <span>Tiêu cực</span>
+                            <span class="confidence">{{ review.confidence_score }}%</span>
+                        </div>
+                        {% else %}
+                        <div class="ai-badge neutral">
+                            <span>Trung tính</span>
+                            <span class="confidence">{{ review.confidence_score }}%</span>
+                        </div>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if review.is_approved %}
+                        <div class="status active">Hiển thị</div>
+                        {% else %}
+                        <div class="status banned">Đang ẩn</div>
+                        {% endif %}
+                    </td>
+
+                    <td class="action-cell">
+                        <a href="#" class="action-btn reply" title="Trả lời">
+                            <i class='bx bx-reply'></i>
+                        </a>
+                        {% if review.is_spam %}
+                        <a href="#" class="action-btn delete" title="Xóa spam">
+                            <i class='bx bx-trash'></i>
+                        </a>
+                        {% elif review.is_approved %}
+                        <a href="#" class="action-btn lock" title="Ẩn">
+                            <i class='bx bx-hide'></i>
+                        </a>
+                        {% else %}
+                        <a href="#" class="action-btn unlock" title="Duyệt">
+                            <i class='bx bx-check'></i>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <a href="#" class="page-btn disabled">&laquo;</a>
+        <a href="#" class="page-btn active">1</a>
+        <a href="#" class="page-btn">2</a>
+        <a href="#" class="page-btn">&raquo;</a>
+    </div>
+</div>
+{% endblock %}

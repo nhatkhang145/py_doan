@@ -1,0 +1,92 @@
+/* =================================== */
+/* === CSS CHO TRANG QUẢN LÝ DANH MỤC === */
+/* =================================== */
+
+.content main .bottom-data .add-category-form {
+    flex-basis: 350px;
+    flex-grow: 1;
+    min-width: 300px;
+    background: var(--light);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.content main .bottom-data .category-list {
+    flex-basis: 400px;
+    flex-grow: 2;
+}
+
+.add-category-form .form-group {
+    margin-bottom: 16px;
+}
+
+.add-category-form .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.add-category-form .form-group input[type="text"],
+.add-category-form .form-group input[type="file"],
+.add-category-form .form-group select,
+.add-category-form .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--grey);
+    background: var(--grey);
+    border-radius: 6px;
+    color: var(--dark);
+    outline: none;
+    font-size: 14px;
+}
+
+.add-category-form .form-group input[type="file"] {
+    background: var(--light);
+    padding: 10px;
+}
+
+.add-category-form .form-group textarea {
+    resize: vertical;
+}
+
+.add-category-form .btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: var(--light);
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    margin-top: 10px;
+}
+
+.add-category-form .btn-submit:hover {
+    opacity: 0.9;
+}
+
+.category-list table td strong {
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.category-list table .indent-1 {
+    padding-left: 25px;
+    color: var(--dark-grey);
+}
+
+.category-list table .indent-2 {
+    padding-left: 50px;
+    color: var(--dark-grey);
+}
+
+.category-list table td {
+    vertical-align: middle;
+}
+
+.category-list .header {
+    margin-bottom: 20px;
+}

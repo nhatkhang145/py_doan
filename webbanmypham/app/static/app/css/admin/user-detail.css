@@ -1,0 +1,264 @@
+/* ========================================= */
+/* === CSS CHI TIẾT KHÁCH HÀNG (USER-DETAIL.CSS) === */
+/* ========================================= */
+
+/* --- LAYOUT CHÍNH (GRID 2 CỘT) --- */
+.profile-layout {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr; /* Trái rộng gấp 2.5 lần Phải */
+    gap: 24px;
+    margin-top: 20px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .profile-layout {
+        grid-template-columns: 1fr; /* Mobile về 1 cột */
+    }
+}
+
+/* --- CARD STYLE CHUNG --- */
+.card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+    overflow: visible; /* QUAN TRỌNG: Để avatar nổi lên được */
+}
+
+.card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--grey);
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+}
+
+/* --- 1. HEADER HỒ SƠ (PROFILE CARD) - CẤU TRÚC MỚI --- */
+.profile-card {
+    padding: 0;
+}
+
+/* Ảnh bìa */
+.profile-cover {
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--light-primary) 100%);
+    border-radius: 20px 20px 0 0;
+}
+
+/* Wrapper chứa Avatar + Info (Flexbox) */
+.profile-content-wrap {
+    display: flex;
+    align-items: flex-end; /* Căn đáy thẳng hàng */
+    padding: 0 30px 24px;  /* Khoảng cách lề */
+    gap: 24px;             /* Khoảng cách giữa Avatar và Tên */
+    position: relative;
+}
+
+/* KHỐI 1: AVATAR (BÊN TRÁI) */
+.profile-avatar-section {
+    margin-top: -60px; /* Margin âm để đẩy Avatar lên đè ảnh bìa */
+    flex-shrink: 0;    /* Giữ kích thước avatar cố định */
+}
+
+.avatar-border {
+    width: 100px;
+    height: 100px;
+    margin-top: 80px;
+    border-radius: 50%;
+    padding: 5px;      /* Khoảng trắng viền */
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.avatar-border img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* KHỐI 2: THÔNG TIN (BÊN PHẢI) */
+.profile-info-section {
+    flex: 1; /* Chiếm hết không gian còn lại */
+    padding-bottom: 5px; /* Căn chỉnh nhẹ với đáy avatar */
+}
+
+.info-top h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+}
+
+.info-top .join-date {
+    font-size: 0.9rem;
+    color: var(--dark-grey);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.info-bottom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Badge Style */
+.badge-skin, .status {
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Màu Badge */
+.badge-skin.unknown { background: var(--grey); color: var(--dark-grey); }
+.badge-skin.oily { background: #FFF8E1; color: #F57F17; }
+.badge-skin.dry { background: #E3F2FD; color: #1976D2; }
+.badge-skin.sensitive { background: #FFEBEE; color: #D32F2F; }
+.badge-skin.combination { background: #E0F2F1; color: #00695C; }
+
+.status.active { background: var(--light-success); color: var(--success); }
+.status.banned { background: var(--light-danger); color: var(--danger); }
+
+/* --- THỐNG KÊ (STATS) --- */
+.profile-stats {
+    display: flex;
+    border-top: 1px solid var(--grey);
+    padding: 20px 0;
+    margin-top: 10px;
+}
+
+.stat-item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid var(--grey);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-item h3 {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+.stat-item p {
+    font-size: 0.9rem;
+    color: var(--dark-grey);
+}
+
+/* --- SIDEBAR LIST (LIÊN HỆ) --- */
+.info-list {
+    padding: 20px 24px;
+}
+
+.info-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.info-list li:last-child { margin-bottom: 0; }
+
+.info-list li i {
+    font-size: 1.2rem;
+    color: var(--primary);
+    background: var(--light-primary);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.info-list li div strong {
+    display: block;
+    color: var(--dark);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+.info-list li div span {
+    color: var(--dark-grey);
+    font-size: 0.95rem;
+    word-break: break-all;
+}
+
+/* --- ACTION BUTTONS --- */
+.actions { padding-bottom: 20px; }
+.action-buttons {
+    padding: 20px 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+
+.btn-password { background: var(--grey); color: var(--dark); }
+.btn-password:hover { background: #e0e0e0; }
+
+.btn-ban { background: var(--light-danger); color: var(--danger); }
+.btn-ban:hover { background: #fee2e2; transform: translateY(-2px); }
+
+.btn-unlock { background: var(--light-success); color: var(--success); }
+.btn-unlock:hover { background: #dcfce7; transform: translateY(-2px); }
+
+/* --- TABLE (LỊCH SỬ ĐƠN HÀNG) --- */
+.recent-orders table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.recent-orders th, .recent-orders td {
+    padding: 15px 24px;
+    text-align: left;
+    border-bottom: 1px solid var(--grey);
+    font-size: 0.9rem;
+}
+.recent-orders th {
+    background: #f9fafb;
+    color: var(--dark-grey);
+    font-weight: 600;
+}
+.recent-orders td {
+    color: var(--dark);
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 576px) {
+    .profile-content-wrap {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: -50px;
+    }
+    
+    .profile-avatar-section {
+        margin-top: 0;
+    }
+    
+    .profile-info-section {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .info-bottom {
+        justify-content: center;
+    }
+}

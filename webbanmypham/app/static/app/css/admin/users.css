@@ -1,0 +1,165 @@
+/* ================================================= */
+/* === CSS RIÊNG CHO TRANG KHÁCH HÀNG (USERS) === */
+/* ================================================= */
+
+/* --- 1. CỘT THÔNG TIN USER (Avatar + Tên) --- */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.user-info p {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+}
+
+.user-info small {
+    font-size: 0.75rem;
+    color: var(--dark-grey);
+    background-color: var(--grey);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* --- 2. CỘT LIÊN HỆ (Email + SĐT) --- */
+.contact-row {
+    font-size: 0.9rem;
+    color: var(--dark);
+    line-height: 1.4;
+}
+
+.contact-row.sub {
+    font-size: 0.8rem;
+    color: var(--dark-grey);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* --- 3. BADGE LOẠI DA (ĐẶC THÙ MỸ PHẨM) --- */
+.badge-skin {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Màu Badge Skin (Vẫn giữ mã màu riêng vì biến chung không đủ màu cho các loại da) */
+.badge-skin.oily {
+    background: #FFF8E1; color: #F57F17; /* Vàng cam */
+}
+.badge-skin.dry {
+    background: #E3F2FD; color: #1976D2; /* Xanh dương */
+}
+.badge-skin.sensitive {
+    background: #FFEBEE; color: #D32F2F; /* Đỏ hồng */
+}
+.badge-skin.combination {
+    background: #E0F2F1; color: #00695C; /* Xanh ngọc */
+}
+.badge-skin.unknown {
+    background: var(--grey); color: var(--dark-grey);
+}
+
+/* --- 4. TRẠNG THÁI (STATUS) - ĐÃ CẬP NHẬT THEO BIẾN CỦA BẠN --- */
+.status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.status.active {
+    background: var(--light-success); /* Dùng biến */
+    color: var(--success);            /* Dùng biến */
+}
+
+.status.banned {
+    background: var(--light-danger);  /* Dùng biến */
+    color: var(--danger);             /* Dùng biến */
+}
+
+/* --- 5. CỘT HÀNH ĐỘNG (ACTION BUTTONS) --- */
+.action-cell {
+    white-space: nowrap;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    margin-right: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    vertical-align: middle;
+}
+
+/* Màu View (Primary) */
+.action-btn.view {
+    background: var(--light-primary);
+    color: var(--primary);
+}
+.action-btn.view:hover {
+    background: var(--primary);
+    color: var(--light); /* Đảo màu chữ thành sáng khi hover */
+}
+
+/* Màu Lock (Danger) */
+.action-btn.lock {
+    background: var(--light-danger);
+    color: var(--danger);
+}
+.action-btn.lock:hover {
+    background: var(--danger);
+    color: var(--light);
+}
+
+/* Màu Unlock (Success) */
+.action-btn.unlock {
+    background: var(--light-success);
+    color: var(--success);
+}
+.action-btn.unlock:hover {
+    background: var(--success);
+    color: var(--light);
+}
+
+/* --- 6. GHI ĐÈ MÀU ICON INSIGHTS (Dùng biến chung) --- */
+.insights li .bx-group {
+    background: var(--light-primary);
+    color: var(--primary);
+}
+.insights li .bx-user-plus {
+    background: var(--light-success);
+    color: var(--success);
+}
+.insights li .bx-user-x {
+    background: var(--light-danger);
+    color: var(--danger);
+}
+.insights li .bx-diamond {
+    background: var(--light-warning);
+    color: var(--warning);
+}

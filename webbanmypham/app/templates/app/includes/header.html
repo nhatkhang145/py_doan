@@ -1,0 +1,135 @@
+{% load static %}
+<header class="header">
+    <nav class="navbar">
+        <div class="navbar__wrapper">
+            <div class="navbar__content">
+                <ul class="navbar-list">
+                    <li class="navbar-item navbar-item--no-click">
+                        Kết nối :
+                        <a href="#" class="navbar-icon__link">
+                            <i class="navbar-icon fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="#" class="navbar-icon__link">
+                            <i class="navbar-icon fa-brands fa-instagram"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-list">
+                    <li class="navbar-item">
+                        <a href="#" class="navbar-item__link"> <span class="navbar-icon__link">
+                                <i class="navbar-icon fa-regular fa-circle-question"></i>
+                            </span>
+                            Hỗ trợ
+                        </a>
+                    </li>
+
+                    {% if not user.is_authenticated %}
+                    <li class="navbar-item">
+                        <a href="{% url 'register' %}" class="navbar-item__link">Đăng ký</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="{% url 'login' %}" class="navbar-item__link">Đăng nhập</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="navbar__menu">
+            <div class="navbar__menu-inner">
+                <div class="navbar__menu-logo">
+                    <a href="{% url 'home' %}">
+                        <img class="navbar__menu-logo-img"
+                            src="https://mint07.com/wp-content/uploads/2022/10/logo-web.png"
+                            alt="Logo" />
+                    </a>
+                </div>
+
+                <ul class="main-nav-links subnav-links">
+                    <li><a href="{% url 'home' %}">Trang chủ</a></li>
+                    <li><a href="{% url 'shop' %}">Sản Phẩm</a></li>
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Bài viết</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+
+                <div class="navbar__menu-search">
+                    <form class="search-form" action="{% url 'search' %}" method="get" role="search">
+                        <select name="category" class="search-cat" aria-label="Category">
+                            <option value="all">Danh mục</option>
+                            <option value="fruits">Mỹ phẩm</option>
+                            <option value="vegetables">Son</option>
+                        </select>
+                        <input name="searched" class="search-input" type="search" placeholder="Tìm kiếm sản phẩm..."
+                            aria-label="Search" required />
+                        <button type="submit" class="search-btn" aria-label="Search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="navbar__menu-actions">
+                    <a href="#" class="icon-btn wishlist-btn" title="Yêu thích">
+                        <i class="fa-solid fa-heart"></i>
+                        <span class="badge">0</span>
+                    </a>
+                    
+                    <a href="{% url 'cart_detail' %}" class="icon-btn cart-btn" title="Giỏ hàng">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <span class="badge">{{ cart|length }}</span> </a>
+
+                    <div class="header__account">
+                        <a class="icon-btn account-btn" title="Tài khoản">
+                            <i class="fa-regular fa-user"></i>
+                        </a>
+
+                        <div class="account-dropdown">
+                            <div class="account-user">
+                                {% if user.is_authenticated %}
+                                <div class="user-info">
+                                    <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://via.placeholder.com/100{% endif %}"
+                                        alt="User Avatar" class="user-avatar" />
+
+                                    <div class="user-details">
+                                        <span class="user-name">
+                                            {% if user.first_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}
+                                        </span>
+                                        <span class="user-email">{{ user.email }}</span>
+                                    </div>
+                                </div>
+
+                                <ul class="account-menu">
+                                    <li><a href="#"><i class="fa-regular fa-id-card"></i> Hồ sơ của tôi</a></li>
+                                    <li><a href="#"><i class="fa-solid fa-box-open"></i> Đơn mua</a></li>
+                                    <li><a href="#"><i class="fa-regular fa-heart"></i> Sản phẩm yêu thích</a></li>
+                                    <li><a href="#"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a></li>
+                                    <li class="border-top">
+                                        <a href="{% url 'logout' %}" class="text-danger">
+                                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+                                        </a>
+                                    </li>
+                                </ul>
+                                {% else %}
+                                <div style="padding: 20px; text-align: center;">
+                                    <p style="margin-bottom: 15px; color: #666; font-size: 1.4rem;">
+                                        Vui lòng đăng nhập để xem thông tin
+                                    </p>
+                                    <a href="{% url 'login' %}" 
+                                       style="display: block; background: #ff4757; color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; text-decoration: none; font-weight: 600;">
+                                        Đăng nhập
+                                    </a>
+                                    <a href="{% url 'register' %}" 
+                                       style="display: block; border: 1px solid #ff4757; color: #ff4757; padding: 10px; border-radius: 5px; text-decoration: none; font-weight: 600;">
+                                        Đăng ký
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

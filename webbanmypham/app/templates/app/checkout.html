@@ -1,0 +1,194 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Thanh toán - Beauty Shop{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/checkout.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+  <div class="grid">
+    <a href="{% url 'cart_detail' %}">Giỏ hàng</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <span>Thanh toán</span>
+  </div>
+</div>
+
+<div class="container-checkout page-container">
+  <form method="POST" action="{% url 'checkout' %}" id="checkout-form">
+    {% csrf_token %}
+    
+    <div class="checkout-layout">
+      <div class="checkout-layout__form-wrapper">
+        <div class="checkout-section">
+          <h2 class="billing-form__title">Địa chỉ nhận hàng</h2>
+
+          <div class="address-selection">
+            {% if request.user.is_authenticated and user_addresses %}
+                {% for addr in user_addresses %}
+                <label class="address-card {% if addr.is_default %}selected{% endif %}">
+                  <div class="address-card__radio">
+                    <input type="radio" name="selected_address" value="{{ addr.id }}" 
+                           {% if addr.is_default or forloop.first %}checked{% endif %}
+                           onchange="toggleAddressForm(false, this)" />
+                  </div>
+                  <div class="address-card__content">
+                    <div class="address-card__header">
+                      <span class="address-card__name">{{ addr.receiver_name }}</span>
+                      <span class="address-card__phone">{{ addr.phone }}</span>
+                    </div>
+                    <div class="address-card__body">
+                      {{ addr.detail_address }}, {{ addr.district }}, {{ addr.city }}
+                    </div>
+                  </div>
+                </label>
+                {% endfor %}
+            {% endif %}
+
+            <label class="address-card">
+              <div class="address-card__radio">
+                <input type="radio" name="selected_address" value="new" id="newAddressRadio"
+                       {% if not user_addresses %}checked{% endif %}
+                       onchange="toggleAddressForm(true, this)" />
+              </div>
+              <div class="address-card__content">
+                <span class="address-card__name">Giao đến địa chỉ khác / Nhập mới</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div id="new-address-form" style="display: none; margin-top: 20px;">
+          <h3 class="billing-form__title">Thông tin người nhận</h3>
+          <div class="billing-form__group">
+            <label class="billing-form__label">Họ và tên *</label>
+            <input class="billing-form__input" type="text" name="fullname" placeholder="Nguyễn Văn A" />
+          </div>
+          <div class="billing-form__group">
+            <label class="billing-form__label">Số điện thoại *</label>
+            <input class="billing-form__input" type="tel" name="phone" placeholder="09xxxx..." />
+          </div>
+          <div class="billing-form__group">
+            <label class="billing-form__label">Địa chỉ chi tiết *</label>
+            <input class="billing-form__input" type="text" name="address" placeholder="Số nhà, tên đường, Phường/Xã..." />
+          </div>
+          <div class="billing-form__group">
+            <label class="billing-form__label">Tỉnh / Thành phố *</label>
+            <input class="billing-form__input" type="text" name="city" />
+          </div>
+        </div>
+
+        <div class="billing-form__group" style="margin-top: 20px">
+          <label class="billing-form__label">Ghi chú đơn hàng (tùy chọn)</label>
+          <textarea class="billing-form__input" name="note" rows="3" placeholder="Ví dụ: Giao hàng giờ hành chính"></textarea>
+        </div>
+      </div>
+
+      <div class="checkout-layout__summary-wrapper">
+        <div class="order-summary">
+          <h2 class="order-summary__title">Đơn hàng của bạn</h2>
+
+          <table class="order-summary__table">
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th style="text-align: right;">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in cart %}
+              <tr>
+                <td>
+                  {{ item.product.name }} 
+                  <strong>&times; {{ item.quantity }}</strong>
+                </td>
+                <td style="text-align: right;">
+                  {{ item.total_price|floatformat:0|intcomma }}₫
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Tạm tính</th>
+                <td style="text-align: right;">{{ cart.get_total_price|floatformat:0|intcomma }}₫</td>
+              </tr>
+              <tr>
+                <th>Phí vận chuyển</th>
+                <td style="text-align: right; color: #28a745;">Miễn phí</td>
+              </tr>
+              <tr>
+                <th>Tổng cộng</th>
+                <td style="text-align: right;">
+                  <span class="order-summary__price--total">{{ cart.get_total_price|floatformat:0|intcomma }}₫</span>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <div class="payment">
+            <h3 style="margin-bottom: 15px;">Phương thức thanh toán</h3>
+            <ul class="payment__list" style="list-style: none; padding: 0;">
+              <li class="payment__option" style="margin-bottom: 10px;">
+                <input type="radio" name="payment_method" value="COD" id="payment-cod" checked />
+                <label for="payment-cod">Thanh toán khi nhận hàng (COD)</label>
+              </li>
+              <li class="payment__option">
+                <input type="radio" name="payment_method" value="BANK" id="payment-bank" />
+                <label for="payment-bank">Chuyển khoản ngân hàng</label>
+              </li>
+            </ul>
+            <button type="submit" class="button button--fullwidth" style="margin-top: 20px;">
+              ĐẶT HÀNG
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // 1. Kiểm tra trạng thái ban đầu khi load trang
+      const newAddressRadio = document.getElementById('newAddressRadio');
+      const checkedRadio = document.querySelector('input[name="selected_address"]:checked');
+      
+      // Nếu user chọn "Nhập mới" hoặc chưa có địa chỉ nào -> Hiện form
+      if (newAddressRadio.checked) {
+          toggleAddressForm(true, newAddressRadio);
+      } else if (checkedRadio) {
+          toggleAddressForm(false, checkedRadio);
+      }
+  });
+
+  function toggleAddressForm(showNew, element) {
+      const form = document.getElementById('new-address-form');
+      // Chỉ lấy input trong form nhập mới
+      const inputs = form.querySelectorAll('input');
+      
+      if (showNew) {
+          form.style.display = 'block';
+          // KHI HIỆN: Thêm required để bắt buộc nhập
+          inputs.forEach(input => input.setAttribute('required', 'true'));
+      } else {
+          form.style.display = 'none';
+          // KHI ẨN: Bỏ required để submit được form với địa chỉ cũ
+          inputs.forEach(input => input.removeAttribute('required'));
+      }
+      
+      // Xử lý class CSS 'selected' cho đẹp
+      document.querySelectorAll('.address-card').forEach(card => card.classList.remove('selected'));
+      
+      if (element) {
+          const card = element.closest('.address-card');
+          if (card) {
+              card.classList.add('selected');
+          }
+      }
+  }
+</script>
+{% endblock %}

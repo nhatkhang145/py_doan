@@ -1,0 +1,64 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Đăng Nhập{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'app/css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="fm-auth" style="margin-top: 40px; margin-bottom: 60px;">
+    <div class="fm-card"> <aside class="fm-left">
+            <img class="fm-logo-img" 
+                 src="https://mint07.com/wp-content/uploads/2022/10/logo-web.png" 
+                 alt="Logo" style="height: 70px; width: auto; margin-bottom: 30px;">
+            <h2>Chào mừng trở lại!</h2>
+            <p>Đăng nhập để tiếp tục mua sắm các sản phẩm làm đẹp.</p>
+        </aside>
+
+        <section class="fm-right">
+            <div class="fm-form-wrap">
+                <div class="fm-tabs">
+                    <button class="fm-tab active">Đăng nhập</button>
+                    <a href="{% url 'register' %}" class="fm-tab" style="text-decoration: none; color: #999;">Đăng ký</a>
+                </div>
+
+                <div class="fm-panel">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p style="color: red; text-align: center;">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+
+                        <label class="fm-label">Tên đăng nhập
+                            {{ form.username }} 
+                        </label>
+
+                        <label class="fm-label">Mật khẩu
+                            {{ form.password }}
+                        </label>
+
+                        <div class="fm-row">
+                            <label class="fm-check">
+                                <input type="checkbox" name="remember"> Ghi nhớ tôi
+                            </label>
+                            <a class="fm-link" href="#">Quên mật khẩu?</a>
+                        </div>
+
+                        <button type="submit" class="fm-btn">Đăng nhập</button>
+                        
+                        <p class="fm-or">
+                            Bạn chưa có tài khoản? 
+                            <a href="{% url 'register' %}">Tạo tài khoản</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

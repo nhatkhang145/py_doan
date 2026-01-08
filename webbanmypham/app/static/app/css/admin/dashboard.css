@@ -1,0 +1,70 @@
+/* =================================== */
+/* === CSS CHO TRANG TỔNG QUAN (INDEX) === */
+/* =================================== */
+
+.content main .insights li .bx.bx-dollar-circle {
+  background: var(--light-success);
+  color: var(--success);
+}
+.content main .insights li .bx.bx-receipt {
+  background: var(--light-primary);
+  color: var(--primary);
+}
+.content main .insights li .bx.bx-loader-circle {
+  background: var(--light-warning);
+  color: var(--warning);
+}
+.content main .insights li .bx.bx-user-plus {
+  background: var(--light-success);
+  color: var(--success);
+}
+.content main .bottom-data .header .view-all {
+  font-size: 14px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity 0.3s ease;
+}
+.content main .bottom-data .header .view-all:hover {
+  opacity: 0.7;
+}
+.content main .chart-container-sm {
+  width: 100%;
+  position: relative;
+  margin-top: 20px;
+  min-height: 250px;
+}
+.content main .bottom-data .reminders .task-list li {
+  padding: 14px 10px;
+  background: var(--light);
+  border-left: 10px solid var(--success);
+}
+.content main .bottom-data .reminders .task-list li.low-stock {
+  background: var(--light-warning);
+  border-left-color: var(--warning);
+}
+.content main .bottom-data .reminders .task-list li .task-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.content main .bottom-data .reminders .task-list li .task-title img {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.content main .bottom-data .reminders .task-list li .stock-count {
+  font-weight: 600;
+  color: var(--dark);
+}
+.content main .bottom-data .reminders .task-list li.low-stock .stock-count {
+  color: var(--danger);
+}
+.content main .bottom-data .orders table tr td .status.pending {
+  background: var(--warning);
+}
+.content main .bottom-data .orders table tr td .status.processing {
+  background: var(--primary);
+}

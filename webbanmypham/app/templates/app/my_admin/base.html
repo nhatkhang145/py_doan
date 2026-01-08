@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/css/admin/style_admin.css' %}" />
+    
+    {% block extra_css %}{% endblock %}
+    
+    <title>{% block title %}Quản trị viên{% endblock %}</title>
+</head>
+<body>
+
+    {% include 'app/my_admin/includes/sidebar.html' %}
+
+    <div class="content">
+        
+        <nav>
+            <i class="bx bx-menu"></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="{% block search_placeholder %}Tìm kiếm...{% endblock %}" />
+                    <button class="search-btn" type="submit"><i class="bx bx-search"></i></button>
+                </div>
+            </form>
+            
+            <div class="notification-wrapper">
+                <a href="#" class="notif">
+                    <i class="bx bx-bell"></i>
+                    <span class="count">0</span>
+                </a>
+            </div>
+
+            <div class="profile-wrapper">
+                <a href="#" class="profile">
+                    <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}https://via.placeholder.com/100{% endif %}" alt="Admin" />
+                </a>
+                </div>
+        </nav>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
+
+    <script src="{% static 'app/js/admin/main.js' %}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

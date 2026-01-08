@@ -1,0 +1,106 @@
+/* =================================== */
+/* === CSS CHO TRANG QUẢN LÝ SẢN PHẨM === */
+/* =================================== */
+
+.content main .insights li .bx.bx-box {
+  background: var(--light-primary);
+  color: var(--primary);
+}
+.content main .insights li .bx.bx-show {
+  background: var(--light-success);
+  color: var(--success);
+}
+.content main .insights li .bx.bx-hide {
+  background: var(--light-warning);
+  color: var(--warning);
+}
+.content main .insights li .bx.bxs-error-circle {
+  background: var(--light-danger);
+  color: var(--danger);
+}
+.content main .bottom-data .orders .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.content main .bottom-data .orders .header .filters {
+  display: flex;
+  align-items: center;
+  grid-gap: 10px;
+}
+.content main .bottom-data .orders .header .filters select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--grey);
+  background: var(--light);
+  color: var(--dark);
+  outline: none;
+  font-size: 14px;
+}
+.content main .bottom-data .orders .header .filters .bx {
+  font-size: 1.5rem;
+}
+.content main .bottom-data .orders table td {
+  vertical-align: middle;
+  padding: 14px 0;
+}
+.content main .bottom-data .orders table td img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.content main .bottom-data .orders table tr td .status.active {
+  background: var(--success);
+}
+.content main .bottom-data .orders table tr td .status.low-stock {
+  background: var(--warning);
+}
+.content main .bottom-data .orders table tr td .status.hidden {
+  background: var(--dark-grey);
+}
+.content main .bottom-data .orders table td .action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-right: 5px;
+  font-size: 1.2rem;
+  color: var(--light);
+  transition: opacity 0.3s ease;
+}
+.content main .bottom-data .orders table td .action-btn:hover {
+  opacity: 0.8;
+}
+.content main .bottom-data .orders table td .action-btn.edit {
+  background: var(--primary);
+}
+.content main .bottom-data .orders table td .action-btn.delete {
+  background: var(--danger);
+}
+.content main .bottom-data .pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+.content main .bottom-data .pagination .page-btn {
+  padding: 8px 14px;
+  background: var(--light);
+  color: var(--dark);
+  margin: 0 4px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.content main .bottom-data .pagination .page-btn:hover,
+.content main .bottom-data .pagination .page-btn.active {
+  background: var(--primary);
+  color: var(--light);
+}
+.content main .bottom-data .pagination .page-btn.disabled {
+  pointer-events: none;
+  color: var(--dark-grey);
+}

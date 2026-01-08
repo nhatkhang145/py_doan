@@ -1,0 +1,59 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Đăng Ký{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'app/css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="fm-auth" style="margin-top: 40px; margin-bottom: 60px;">
+    <div class="fm-card">
+        <aside class="fm-left">
+            <img class="fm-logo-img"
+                src="https://ik.imagekit.io/8tm3umulk/image/logonew_fG_70DXF8?updatedAt=1762866381508"
+                style="height: 70px;">
+            <h2>Tạo tài khoản mới</h2>
+            <p>Tham gia cộng đồng làm đẹp ngay hôm nay.</p>
+        </aside>
+
+        <section class="fm-right">
+            <div class="fm-form-wrap">
+                <div class="fm-tabs">
+                    <a href="{% url 'login' %}" class="fm-tab" style="text-decoration: none; color: #999;">Đăng nhập</a>
+                    <button class="fm-tab active">Đăng ký</button>
+                </div>
+
+                <div class="fm-panel">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {% if messages %}
+                        {% for message in messages %}
+                        <p style="color: red; text-align: center;">{{ message }}</p>
+                        {% endfor %}
+                        {% endif %}
+
+                        {% for field in form %}
+                        <label class="fm-label">{{ field.label }}
+                            {{ field }}
+                            {% if field.errors %}
+                            <span style="color: red; font-size: 12px;">{{ field.errors.0 }}</span>
+                            {% endif %}
+                        </label>
+                        {% endfor %}
+
+                        <button type="submit" class="fm-btn">Tạo tài khoản</button>
+
+                        <p class="fm-or">
+                            Đã có tài khoản?
+                            <a href="{% url 'login' %}">Đăng nhập</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+
+{% block title %}
+  Quản lý Danh mục
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'app/css/admin/style_admin.css' %}" />
+  <link rel="stylesheet" href="{% static 'app/css/admin/categories.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <main>
+    <div class="header">
+      <div class="left">
+        <h1>Quản lý danh mục</h1>
+        <ul class="breadcrumb">
+          <li>
+            <a href="#">Quản lý</a>
+          </li>
+          <li>/</li>
+          <li>
+            <a href="#" class="active">Danh mục</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div style="padding: 10px; margin-bottom: 10px; border-radius: 5px; 
+                        {% if message.tags == 'success' %}
+            
+            
+            
+            
+            
+            
+            background: #d4edda; color: #155724;
+
+
+
+
+
+
+
+          {% else %}
+            
+            
+            
+            
+            
+            
+            background: #f8d7da; color: #721c24;
+
+
+
+
+
+
+          {% endif %}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="bottom-data">
+      <div class="add-category-form">
+        <div class="header">
+          <h3>Thêm danh mục mới</h3>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="categoryName">Tên danh mục</label>
+            <input type="text" name="name" id="categoryName" placeholder="Ví dụ: Son môi..." required />
+          </div>
+
+          <div class="form-group">
+            <label for="categorySlug">Đường dẫn (Slug)</label>
+            <input type="text" name="slug" id="categorySlug" placeholder="Để trống để tự tạo" />
+          </div>
+
+          <div class="form-group">
+            <label for="categoryParent">Danh mục cha</label>
+            <select name="parent" id="categoryParent">
+              <option value="">— Không có (Là danh mục gốc) —</option>
+              {% for item in parents %}
+                <option value="{{ item.id }}">{{ item.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="categoryDesc">Mô tả</label>
+            <textarea name="description" id="categoryDesc" rows="4" placeholder="Mô tả ngắn..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="categoryImage">Hình ảnh</label>
+            <input type="file" name="image" id="categoryImage" accept="image/*" />
+          </div>
+
+          <button type="submit" class="btn-submit">Thêm danh mục</button>
+        </form>
+      </div>
+
+      <div class="orders category-list">
+        <div class="header">
+          <h3>Danh sách danh mục</h3>
+          <i class="bx bx-search"></i>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Tên</th>
+              <th>Slug</th>
+              <th>Số lượng SP</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cat in categories %}
+              <tr>
+                <td>
+                  {% if cat.parent %}
+                    <span class="indent-1" style="padding-left: 20px; color: #666;">— {{ cat.name }}</span>
+                  {% else %}
+                    <strong>{{ cat.name }}</strong>
+                  {% endif %}
+                </td>
+                <td>{{ cat.slug }}</td>
+                <td>{{ cat.product_count }}</td>
+                <td>
+                  <a href="{% url 'admin_category_edit' cat.id %}" class="action-btn edit" title="Sửa"><i class="bx bx-edit"></i></a>
+                  <a href="{% url 'admin_category_delete' cat.id %}" class="action-btn delete" onclick="return confirm('Bạn có chắc muốn xóa danh mục này?')" title="Xóa"><i class="bx bx-trash"></i></a>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4" style="text-align: center;">Chưa có danh mục nào.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+{% endblock %}

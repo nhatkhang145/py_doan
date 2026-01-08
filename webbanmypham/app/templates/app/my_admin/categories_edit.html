@@ -1,0 +1,86 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+
+{% block title %}
+  Sửa danh mục
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'app/css/admin/categories.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <main>
+    <div class="header">
+      <div class="left">
+        <h1>Cập nhật danh mục</h1>
+        <ul class="breadcrumb">
+          <li>
+            <a href="{% url 'admin_categories' %}">Danh mục</a>
+          </li>
+          <li>/</li>
+          <li>
+            <a href="#" class="active">Sửa: {{ category.name }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom-data" style="justify-content: center;">
+      <div class="add-category-form" style="max-width: 600px; width: 100%;">
+        <div class="header">
+          <h3>Thông tin danh mục</h3>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label>Tên danh mục</label>
+            <input type="text" name="name" value="{{ form.name.value }}" required />
+          </div>
+
+          <div class="form-group">
+            <label>Đường dẫn (Slug)</label>
+            <input type="text" name="slug" value="{{ form.slug.value }}" />
+          </div>
+
+          <div class="form-group">
+            <label>Danh mục cha</label>
+            <select name="parent">
+              <option value="">— Không có (Là danh mục gốc) —</option>
+
+              {% for item in parents %}
+                {% if form.parent.value|stringformat:'s' == item.id|stringformat:'s' %}
+                  <option value="{{ item.id }}" selected>{{ item.name }}</option>
+                {% else %}
+                  <option value="{{ item.id }}">{{ item.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Mô tả</label>
+            <textarea name="description" rows="4">{{ form.description.value|default_if_none:'' }}</textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Hình ảnh hiện tại</label>
+            {% if category.image %}
+              <div style="margin-bottom: 10px;">
+                <img src="{{ category.image.url }}" style="height: 80px; border-radius: 5px;" />
+              </div>
+            {% endif %}
+            <input type="file" name="image" accept="image/*" />
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn-submit">Lưu thay đổi</button>
+            <a href="{% url 'admin_categories' %}" class="btn-submit" style="background: #ccc; color: #333; text-align: center; text-decoration: none;">Hủy bỏ</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+{% endblock %}
