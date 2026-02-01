@@ -1,0 +1,137 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Chi tiết đơn hàng #{{ order.order_code }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/admin/order-detail.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="left">
+        <h1>Chi tiết đơn hàng: {{ order.order_code }}</h1>
+        <ul class="breadcrumb">
+            <li><a href="{% url 'admin_orders' %}">Đơn hàng</a></li>
+            <li>/</li>
+            <li><a href="#" class="active">Chi tiết</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="order-detail">
+    <div class="order-detail__form">
+        
+        <div class="order-detail__main">
+            <div class="order-detail__card">
+                <h3 class="order-detail__legend">Sản phẩm đã mua</h3>
+                <table class="order-items-table">
+                    <thead>
+                        <tr>
+                            <th width="50%">Sản phẩm</th>
+                            <th width="15%">Giá</th>
+                            <th width="15%">Số lượng</th>
+                            <th width="20%" style="text-align: right;">Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order_items %}
+                        <tr>
+                            <td>
+                                <div class="item-info">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="Product Image">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/50" alt="No Image">
+                                    {% endif %}
+                                    <div>
+                                        <strong>{{ item.product_name }}</strong><br>
+                                        <small style="color: #888;">SKU: {{ item.product.sku }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ item.price|intcomma }} đ</td>
+                            <td>x {{ item.quantity }}</td>
+                            <td style="text-align: right; font-weight: bold;">
+                                {% widthratio item.price 1 item.quantity %} đ
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-detail__card">
+                <h3 class="order-detail__legend">Thông tin giao hàng</h3>
+                <div class="order-detail__customer-info">
+                    <p><i class="bx bx-user"></i> <strong>Người nhận:</strong> {{ order.fullname }}</p>
+                    <p><i class="bx bx-phone"></i> <strong>Số điện thoại:</strong> {{ order.phone }}</p>
+                    <p><i class="bx bx-map"></i> <strong>Địa chỉ:</strong> {{ order.address }}</p>
+                    <hr>
+                    <p class="order-detail__customer-note">
+                        <i class="bx bx-notepad"></i> <strong>Ghi chú của khách:</strong> 
+                        {{ order.note|default:"Không có ghi chú" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-detail__sidebar">
+            
+            <div class="order-detail__card">
+                <h3 class="order-detail__legend">Cập nhật trạng thái</h3>
+                <form action="{% url 'update_order_status' order.id %}" method="POST">
+                    {% csrf_token %} <div class="form-group">
+                        <label>Trạng thái hiện tại:</label>
+                        <select name="status" class="form-select">
+                            {% for code, label in status_choices %}
+                                <option value="{{ code }}" {% if order.order_status == code %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-update">
+                        <i class="bx bx-save"></i> Cập nhật ngay
+                    </button>
+                </form>
+            </div>
+
+            <div class="order-detail__card">
+                <h3 class="order-detail__legend">Thanh toán</h3>
+                <ul class="order-detail__financials">
+                    <li>
+                        <span>Tiền hàng:</span>
+                        <span>{{ order.total_money|intcomma }} đ</span>
+                    </li>
+                    <li>
+                        <span>Phí vận chuyển:</span>
+                        <span>{{ order.shipping_fee|intcomma }} đ</span>
+                    </li>
+                    <li class="total">
+                        <span>TỔNG CỘNG:</span>
+                        <span>{{ order.final_money|intcomma }} đ</span>
+                    </li>
+                </ul>
+                <hr>
+                <p><strong>Phương thức:</strong> {{ order.payment_method }}</p>
+                <p>
+                    <strong>Trạng thái TT:</strong>
+                    {% if order.payment_status %}
+                        <span style="color: green; font-weight: bold;">Đã thanh toán</span>
+                    {% else %}
+                        <span style="color: orange; font-weight: bold;">Chưa thanh toán</span>
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div style="text-align: center; color: #999; font-size: 0.8rem;">
+                Ngày đặt: {{ order.created_at|date:"d/m/Y H:i:s" }}
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

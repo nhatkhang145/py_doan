@@ -1,0 +1,95 @@
+{% extends 'app/my_admin/base.html' %}
+{% load static %}
+{% load humanize %} {% block title %}Quản lý đơn hàng{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/admin/Order.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="left">
+        <h1>Quản lý đơn hàng</h1>
+        <ul class="breadcrumb">
+            <li><a href="{% url 'admin_dashboard' %}">Quản lý</a></li>
+            <li>/</li>
+            <li><a href="#" class="active">Đơn hàng</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>Danh sách đơn hàng</h3>
+        </div>
+
+        <form method="GET" class="filters">
+            <select name="status" onchange="this.form.submit()">
+                <option value="all" {% if current_status == 'all' or not current_status %}selected{% endif %}>Tất cả trạng thái</option>
+                <option value="pending" {% if current_status == 'pending' %}selected{% endif %}>Chờ xử lý</option>
+                <option value="confirmed" {% if current_status == 'confirmed' %}selected{% endif %}>Đã xác nhận</option>
+                <option value="shipping" {% if current_status == 'shipping' %}selected{% endif %}>Đang giao</option>
+                <option value="completed" {% if current_status == 'completed' %}selected{% endif %}>Hoàn thành</option>
+                <option value="cancelled" {% if current_status == 'cancelled' %}selected{% endif %}>Đã hủy</option>
+            </select>
+
+            <input type="text" name="search" placeholder="Nhập mã đơn hoặc tên khách..." value="{{ search_query }}">
+            <button type="submit" class="status confirmed" style="border:none; cursor:pointer;">Tìm</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in orders %} <tr>
+                    <td><b>{{ o.order_code }}</b></td>
+                    <td>
+                        <p>{{ o.fullname }}</p>
+                        <small style="color: #888;">{{ o.phone }}</small>
+                    </td>
+                    <td>{{ o.created_at|date:"d/m/Y H:i" }}</td>
+                    
+                    <td style="font-weight: bold;">{{ o.final_money|intcomma }} đ</td>
+                    
+                    <td>
+                        <span class="status {{ o.order_status }}">
+                            {{ o.get_order_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'admin_order_detail' o.id %}" class="action-btn view" title="Xem chi tiết">
+                            <i class='bx bx-show'></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px;">Không tìm thấy đơn hàng nào.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            {% if orders.has_previous %}
+                <a href="?page={{ orders.previous_page_number }}&status={{ current_status }}&search={{ search_query }}">«</a>
+            {% endif %}
+            
+            <span class="current">{{ orders.number }} / {{ orders.paginator.num_pages }}</span>
+
+            {% if orders.has_next %}
+                <a href="?page={{ orders.next_page_number }}&status={{ current_status }}&search={{ search_query }}">»</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

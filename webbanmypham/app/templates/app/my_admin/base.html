@@ -41,6 +41,28 @@
                 </a>
                 </div>
         </nav>
+        
+        <!-- Messages Django -->
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {% if message.tags == 'success' %}
+                    <i class="bx bx-check-circle"></i>
+                {% elif message.tags == 'error' %}
+                    <i class="bx bx-error-circle"></i>
+                {% elif message.tags == 'warning' %}
+                    <i class="bx bx-error"></i>
+                {% else %}
+                    <i class="bx bx-info-circle"></i>
+                {% endif %}
+                <span>{{ message }}</span>
+                <button class="close-alert" onclick="this.parentElement.remove()">×</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
         <main>
             {% block content %}
             {% endblock %}

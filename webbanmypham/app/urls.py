@@ -54,6 +54,11 @@ urlpatterns = [
     
     # Profile
     path('profile/', views.profile, name='profile'),
+
+    
+    path('my-admin/orders/', views.admin_orders, name='admin_orders'),
+    path('my-admin/order-detail/<int:id>/', views.admin_order_detail, name='admin_order_detail'),
+    path('my-admin/order/update-status/<int:id>/', views.update_order_status, name='update_order_status'),
 ]
 
 

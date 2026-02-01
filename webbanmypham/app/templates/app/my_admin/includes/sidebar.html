@@ -18,6 +18,11 @@
       <a href="#"><i class="bx bx-receipt"></i>Quản lý đơn hàng</a>
     </li>  -->
 
+    <li class="{% if 'admin_order' in request.resolver_match.url_name %}active{% endif %}">
+      <a href="{% url 'admin_orders' %}"><i class="bx bx-basket"></i>Quản lý đơn hàng</a>
+    </li>
+
+
     <li class="{% if 'admin_customer' in request.resolver_match.url_name %}active{% endif %}">
       <a href="{% url 'admin_customers' %}"><i class="bx bx-group"></i>Quản lý khách hàng</a>
     </li>

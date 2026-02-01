@@ -74,6 +74,11 @@ def login_view(request):
                     return redirect(next_url)
 
                 # 2. Phân quyền chuyển hướng
+                # Kiểm tra superuser trước
+                if user.is_superuser:
+                    return redirect('admin_dashboard')
+                
+                # Kiểm tra role trong profile
                 try:
                     user_role = user.profile.role 
                     
@@ -85,9 +90,7 @@ def login_view(request):
                         return redirect('home')
                         
                 except Exception as e:
-                    # Trường hợp User chưa có Profile (VD: superuser)
-                    if user.is_superuser:
-                        return redirect('admin_dashboard')
+                    # Trường hợp User chưa có Profile - redirect về home
                     return redirect('home')
                 
             else:
@@ -1107,3 +1110,81 @@ def admin_spam_keywords_delete(request, keyword_id):
             messages.error(request, f'✗ Không thể xóa: {str(e)}')
     
     return redirect('admin_spam_keywords')
+
+@login_required(login_url='login')
+@user_passes_test(is_admin, login_url='home')
+def admin_orders(request):
+    # 1. Lấy tham số từ URL (giống req.getParameter)
+    status_filter = request.GET.get('status', '')
+    search_query = request.GET.get('search', '')
+
+    # 2. Logic lấy dữ liệu (Tương ứng OrderDAO.getAllOrders / getOrdersByStatus)
+    orders_list = Order.objects.all().order_by('-created_at')
+
+    # Lọc theo trạng thái
+    if status_filter and status_filter != 'all':
+        orders_list = orders_list.filter(order_status=status_filter)
+
+    # Tìm kiếm (Mã đơn hoặc Tên khách) - Tương ứng logic search DataTables nhưng xử lý ở server cho nhẹ
+    if search_query:
+        orders_list = orders_list.filter(
+            Q(order_code__icontains=search_query) | 
+            Q(fullname__icontains=search_query)
+        )
+
+    # 3. Phân trang (Pagination)
+    paginator = Paginator(orders_list, 10) # 10 đơn mỗi trang
+    page_number = request.GET.get('page')
+    orders = paginator.get_page(page_number)
+
+    context = {
+        'orders': orders,
+        'current_status': status_filter,
+        'search_query': search_query,
+    }
+    return render(request, 'app/my_admin/orders.html', context)
+
+
+@login_required(login_url='login')
+@user_passes_test(is_admin, login_url='home')
+def admin_order_detail(request, id):
+   
+    order = get_object_or_404(Order, id=id)
+    
+    order_items = OrderItem.objects.filter(order=order)
+    status_choices = Order.STATUS_CHOICES 
+
+    context = {
+        'order': order,
+        'order_items': order_items,
+        'status_choices': status_choices
+    }
+    return render(request, 'app/my_admin/order-detail.html', context)
+
+
+@login_required(login_url='login')
+@user_passes_test(is_admin, login_url='home')
+def update_order_status(request, id):
+    """
+    Tương ứng với: AdminOrderDetailServlet.doPost
+    Chức năng: Cập nhật trạng thái đơn hàng
+    """
+    if request.method == 'POST':
+        order = get_object_or_404(Order, id=id)
+        new_status = request.POST.get('status') # Lấy từ <select name="status">
+        
+        # Cập nhật DB 
+        if new_status:
+            order.order_status = new_status
+            
+            # Logic phụ: Nếu chọn 'completed' -> Tự động set Đã thanh toán (nếu muốn)
+            if new_status == 'completed':
+                order.payment_status = True
+            
+            order.save()
+            messages.success(request, f"Cập nhật trạng thái đơn {order.order_code} thành công!")
+        else:
+            messages.error(request, "Vui lòng chọn trạng thái hợp lệ.")
+
+    # Redirect lại trang chi tiết 
+    return redirect('admin_order_detail', id=id)
