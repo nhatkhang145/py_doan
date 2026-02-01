@@ -59,6 +59,10 @@ urlpatterns = [
     path('my-admin/orders/', views.admin_orders, name='admin_orders'),
     path('my-admin/order-detail/<int:id>/', views.admin_order_detail, name='admin_order_detail'),
     path('my-admin/order/update-status/<int:id>/', views.update_order_status, name='update_order_status'),
+
+    path('wishlist/', views.wishlist_view, name='wishlist'),
+    path('wishlist/add/<int:product_id>/', views.add_to_wishlist, name='add_to_wishlist'),
+    path('wishlist/remove/<int:product_id>/', views.remove_from_wishlist, name='remove_from_wishlist')
 ]
 
 

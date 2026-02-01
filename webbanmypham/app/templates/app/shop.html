@@ -54,7 +54,9 @@
                             {{ product.image.url }}
                           {% else %}
                             
+                            
                             https://via.placeholder.com/300
+
 
                           {% endif %}"
                           alt="{{ product.name }}"
@@ -66,7 +68,7 @@
                       {% endif %}
 
                       <div class="product-actions">
-                        <a href="#" class="action-btn" title="Yêu thích"><i class="far fa-heart"></i></a>
+                        <a href="{% url 'add_to_wishlist' product.id %}" class="action-btn" title="Yêu thích"><i class="far fa-heart"></i></a>
                         <a href="{% url 'product_detail' product.id %}" class="action-btn" title="Xem nhanh"><i class="far fa-eye"></i></a>
                         <a href="{% url 'add_to_cart' product.id %}" class="action-btn add-to-cart-btn" title="Thêm vào giỏ"><i class="fas fa-shopping-basket"></i></a>
                       </div>

@@ -235,3 +235,18 @@ class SpamKeyword(models.Model):
     
     def __str__(self):
         return f"{self.keyword} ({self.get_category_display()}) - {self.severity}%"
+    
+    
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='wishlisted_by')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Ngăn chặn việc một người thích 1 sản phẩm nhiều lần (giống INSERT IGNORE/Primary Key composite)
+        unique_together = ('user', 'product') 
+        verbose_name = "Danh sách yêu thích"
+        verbose_name_plural = "Danh sách yêu thích"
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name}"

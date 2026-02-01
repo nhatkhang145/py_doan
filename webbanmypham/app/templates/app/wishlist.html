@@ -1,0 +1,256 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+  Danh sách yêu thích
+{% endblock %}
+
+{% block extra_css %}
+  <style>
+    /* ==========================================
+           WISHLIST STYLES (Tích hợp từ wishlist.css)
+           ========================================== */
+    .wishlist-container {
+      padding: 40px 0;
+      background-color: #f5f5f5;
+      min-height: 80vh;
+    }
+    
+    /* Header */
+    .wishlist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eaeaea;
+      margin-bottom: 20px;
+    }
+    .wishlist-header h3 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+      color: #333;
+    }
+    .wishlist-count {
+      font-size: 1.1rem;
+      color: #666;
+      background: #e9ecef;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+    
+    /* Grid Layout */
+    .wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 25px;
+    }
+    
+    /* Wishlist Item Card */
+    .wishlist-item {
+      background: #fff;
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .wishlist-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Image Area */
+    .wishlist-img-wrapper {
+      position: relative;
+      padding-top: 100%; /* Aspect Ratio 1:1 */
+      overflow: hidden;
+    }
+    .wishlist-img-wrapper img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .wishlist-item:hover .wishlist-img-wrapper img {
+      transform: scale(1.05);
+    }
+    
+    /* Remove Button (X) */
+    .btn-remove {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff4d4f;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+      transition: all 0.2s;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-remove:hover {
+      background: #ff4d4f;
+      color: #fff;
+      transform: rotate(90deg);
+    }
+    
+    /* Content Area */
+    .wishlist-content {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .wishlist-name {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #333;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+    .wishlist-name:hover {
+      color: var(--blue, #007bff);
+    }
+    .wishlist-meta {
+      margin-top: auto; /* Đẩy giá và nút xuống đáy */
+    }
+    .wishlist-price {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .new-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #d0011b;
+    }
+    .old-price {
+      font-size: 0.9rem;
+      text-decoration: line-through;
+      color: #999;
+    }
+    
+    /* Action Button */
+    .btn-cart {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      text-align: center;
+      background: var(--blue, #007bff); /* Fallback color */
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-cart:hover {
+      opacity: 0.9;
+    }
+    
+    /* Disabled State */
+    .wishlist-item.disabled {
+      opacity: 0.7;
+    }
+    .wishlist-item.disabled .btn-cart {
+      background: #ccc;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .overlay-out {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      font-weight: 600;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="wishlist-container">
+    <div class="grid wide">
+      <div class="row">
+        <div class="col l-12 m-12 c-12">
+          <div class="wishlist-header">
+            <h3>Danh sách yêu thích của bạn</h3>
+            <span class="wishlist-count">{{ wishlist_items|length }} sản phẩm</span>
+          </div>
+
+          <div class="wishlist-grid">
+            {% for item in wishlist_items %}
+              <div class="wishlist-item {% if item.product.stock_quantity <= 0 %}disabled{% endif %}">
+                <a href="{% url 'remove_from_wishlist' item.product.id %}" class="btn-remove" title="Xóa khỏi yêu thích"><i class="bx bx-x"></i></a>
+
+                <div class="wishlist-img-wrapper">
+                  <a href="{% url 'product_detail' item.product.id %}"><img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" /></a>
+                  {% if item.product.stock_quantity <= 0 %}
+                    <div class="overlay-out">HẾT HÀNG</div>
+                  {% endif %}
+                </div>
+
+                <div class="wishlist-content">
+                  <a href="{% url 'product_detail' item.product.id %}" class="wishlist-name">{{ item.product.name }}</a>
+
+                  <div class="wishlist-meta">
+                    <div class="wishlist-price">
+                      {% if item.product.sale_price > 0 %}
+                        <span class="new-price">{{ item.product.sale_price|intcomma }} đ</span>
+                        <span class="old-price">{{ item.product.price|intcomma }} đ</span>
+                      {% else %}
+                        <span class="new-price">{{ item.product.price|intcomma }} đ</span>
+                      {% endif %}
+                    </div>
+
+                    {% if item.product.stock_quantity > 0 %}
+                      <a href="{% url 'add_to_cart' item.product.id %}" class="btn-cart"><i class="bx bx-cart-add"></i> Thêm vào giỏ</a>
+                    {% else %}
+                      <button class="btn-cart" disabled><i class="bx bx-block"></i> Hết hàng</button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% empty %}
+              <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="Empty" style="width: 200px; opacity: 0.5;" />
+                <p style="margin-top: 20px; color: #666;">Danh sách yêu thích của bạn đang trống.</p>
+                <a href="{% url 'shop' %}" class="btn-cart" style="max-width: 200px; margin: 20px auto;">Mua sắm ngay</a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Script nhỏ để xử lý xóa bằng AJAX nếu muốn (Optional)
+    // Hiện tại đang dùng thẻ <a> để reload trang cho đơn giản
+  </script>
+{% endblock %}

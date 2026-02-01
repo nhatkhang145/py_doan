@@ -8,13 +8,14 @@ from .models import CustomerProfile, Product, Category, Order, Brand, OrderItem,
 from .cart import Cart 
 from .forms import ProductForm
 from datetime import datetime
-from .ai_utils import analyze_sentiment
-from django.db.models import Avg
+# from .ai_utils import analyze_sentiment  # Commented out - AI module disabled
+from django.db.models import Avg, Sum, Q
 import random
-from django.db.models import Sum
 from datetime import timedelta
 from django.utils import timezone
 from .vnpay import VNPay, get_client_ip
+from django.http import JsonResponse
+from .models import Wishlist
 
 # --- TRANG CHỦ ---
 def home(request):
@@ -714,13 +715,15 @@ def submit_review(request, product_id):
             return redirect('product_detail', id=product_id)
 
         #  Gọi AI phân tích
-        logger.info(f"Calling analyze_sentiment...")
-        try:
-            ai_label, ai_score = analyze_sentiment(text_comment)
-            logger.info(f"✓ AI Result - Label: {ai_label}, Score: {ai_score}")
-        except Exception as e:
-            logger.error(f"✗ AI Error: {e}", exc_info=True)
-            ai_label, ai_score = 'NEU', 50.0
+        # logger.info(f"Calling analyze_sentiment...")
+        # try:
+        #     ai_label, ai_score = analyze_sentiment(text_comment)
+        #     logger.info(f"✓ AI Result - Label: {ai_label}, Score: {ai_score}")
+        # except Exception as e:
+        #     logger.error(f"✗ AI Error: {e}", exc_info=True)
+        #     ai_label, ai_score = 'NEU', 50.0
+        # AI disabled - using default neutral sentiment
+        ai_label, ai_score = 'NEU', 50.0
         
         # Kiểm tra spam
         from .services.review_service import is_review_spam
@@ -1188,3 +1191,66 @@ def update_order_status(request, id):
 
     # Redirect lại trang chi tiết 
     return redirect('admin_order_detail', id=id)
+
+
+@login_required(login_url='login')
+def wishlist_view(request):
+    """
+    Tương ứng: WishlistServlet (action=view)
+    Hiển thị danh sách yêu thích của user
+    """
+
+    # Django ORM tự động join bảng Product qua khóa ngoại
+    wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product').order_by('-created_at')
+    
+    return render(request, 'app/wishlist.html', {'wishlist_items': wishlist_items})
+
+@login_required(login_url='login')
+def add_to_wishlist(request, product_id):
+    """
+    Tương ứng: WishlistServlet (action=add)
+    Thêm sản phẩm vào yêu thích
+    """
+    product = get_object_or_404(Product, id=product_id)
+    
+    # get_or_create: Nếu có rồi thì lấy, chưa có thì tạo (Tránh trùng lặp)
+    obj, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+    
+    # Đếm lại tổng số lượng để update lên header
+    count = Wishlist.objects.filter(user=request.user).count()
+
+    # Nếu là AJAX request (fetch/axios) thì trả về JSON
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({
+            'success': True, 
+            'action': 'added' if created else 'exists',
+            'count': count
+        })
+    
+    # Nếu truy cập trực tiếp thì quay lại trang cũ
+    messages.success(request, f"Đã thêm {product.name} vào yêu thích!")
+    return redirect(request.META.get('HTTP_REFERER', 'shop'))
+
+@login_required(login_url='login')
+def remove_from_wishlist(request, product_id):
+    """
+    Tương ứng: WishlistServlet (action=remove)
+    Xóa sản phẩm khỏi yêu thích
+    """
+    product = get_object_or_404(Product, id=product_id)
+    
+    # Xóa
+    deleted_count, _ = Wishlist.objects.filter(user=request.user, product=product).delete()
+    
+    # Đếm lại
+    count = Wishlist.objects.filter(user=request.user).count()
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({
+            'success': True, 
+            'action': 'removed',
+            'count': count
+        })
+
+    messages.success(request, f"Đã xóa {product.name} khỏi yêu thích.")
+    return redirect('wishlist')
