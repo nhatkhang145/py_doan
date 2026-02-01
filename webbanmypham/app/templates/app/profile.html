@@ -1,0 +1,259 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block title %}Hồ sơ của tôi - Beauty Shop{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/profile_layout.css' %}" />
+<link rel="stylesheet" href="{% static 'app/css/profile.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+  <div class="grid">
+    <a href="{% url 'home' %}">Trang chủ</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <span>Hồ sơ của tôi</span>
+  </div>
+</div>
+
+<section class="profile-section">
+  <div class="profile-container">
+    <aside class="profile-sidebar">
+      <div class="profile-user-brief">
+        {% if profile.avatar %}
+          <img src="{{ profile.avatar.url }}" alt="Avatar" class="brief-avatar" id="briefAvatar" />
+        {% else %}
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="brief-avatar" id="briefAvatar" />
+        {% endif %}
+        <div class="brief-info">
+          <span class="brief-name">{{ request.user.username }}</span>
+          <a href="{% url 'profile' %}" class="brief-edit"><i class="fa-solid fa-pen"></i> Sửa hồ sơ</a>
+        </div>
+      </div>
+
+      <ul class="profile-menu">
+        <li class="profile-menu-item active">
+          <a href="{% url 'profile' %}"><i class="fa-regular fa-user"></i> Hồ sơ của tôi</a>
+        </li>
+        <li class="profile-menu-item">
+          <a href="{% url 'my_orders' %}"><i class="fa-solid fa-box-open"></i> Đơn mua</a>
+        </li>
+        <li class="profile-menu-item">
+          <a href="#"><i class="fa-solid fa-location-dot"></i> Địa chỉ</a>
+        </li>
+        <li class="profile-menu-item">
+          <a href="#"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a>
+        </li>
+        <li class="profile-menu-item">
+          <a href="{% url 'logout' %}" style="color: red;"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="profile-content">
+      <div class="profile-header">
+        <h3>Hồ sơ của tôi</h3>
+        <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {% if message.tags == 'success' %}
+              <i class="fa-solid fa-circle-check"></i>
+            {% else %}
+              <i class="fa-solid fa-circle-xmark"></i>
+            {% endif %}
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form class="profile-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="profile-form-left">
+          <div class="form-group">
+            <label>Email (Tên đăng nhập)</label>
+            <div class="input-with-link">
+              <input type="text" class="form-input" value="{{ request.user.email }}" readonly style="background-color: #f9f9f9; color: #666;">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Họ và tên</label>
+            <input type="text" name="fullname" class="form-input" value="{{ profile.fullname }}" required />
+          </div>
+
+          <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="phone" class="form-input" value="{{ profile.phone|default:'' }}" />
+          </div>
+
+          <div class="form-group">
+            <label>Giới tính</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="gender" value="Nam" /> Nam
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="gender" value="Nữ" /> Nữ
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="gender" value="Khác" /> Khác
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Ngày sinh</label>
+            <div class="date-dropdown-group">
+              <!-- Dropdown Ngày -->
+              <div class="dropdown-wrapper">
+                <input type="hidden" name="birthDay" id="birthDayInput" value="{{ birth_day }}" />
+                <div class="dropdown-trigger" id="dayTrigger">
+                  <span id="dayLabel">{% if birth_day %}{{ birth_day }}{% else %}Ngày{% endif %}</span>
+                </div>
+                <div class="dropdown-menu" id="dayMenu">
+                  {% for day in "x"|rjust:"31" %}
+                    <div class="dropdown-item {% if birth_day == forloop.counter|stringformat:'s' %}selected{% endif %}" data-value="{{ forloop.counter }}">
+                      {{ forloop.counter }}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Dropdown Tháng -->
+              <div class="dropdown-wrapper">
+                <input type="hidden" name="birthMonth" id="birthMonthInput" value="{{ birth_month }}" />
+                <div class="dropdown-trigger" id="monthTrigger">
+                  <span id="monthLabel">{% if birth_month %}Tháng {{ birth_month }}{% else %}Tháng{% endif %}</span>
+                </div>
+                <div class="dropdown-menu" id="monthMenu">
+                  {% for month in "x"|rjust:"12" %}
+                    <div class="dropdown-item {% if birth_month == forloop.counter|stringformat:'s' %}selected{% endif %}" data-value="{{ forloop.counter }}">
+                      Tháng {{ forloop.counter }}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Dropdown Năm -->
+              <div class="dropdown-wrapper">
+                <input type="hidden" name="birthYear" id="birthYearInput" value="{{ birth_year }}" />
+                <div class="dropdown-trigger" id="yearTrigger">
+                  <span id="yearLabel">{% if birth_year %}{{ birth_year }}{% else %}Năm{% endif %}</span>
+                </div>
+                <div class="dropdown-menu" id="yearMenu">
+                  {% for i in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" %}
+                    {% with calc_year=1950|add:forloop.counter0 %}
+                      {% if calc_year <= 2010 %}
+                        <div class="dropdown-item {% if birth_year == calc_year|stringformat:'s' %}selected{% endif %}" data-value="{{ calc_year }}">
+                          {{ calc_year }}
+                        </div>
+                      {% endif %}
+                    {% endwith %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-save">Lưu thay đổi</button>
+        </div>
+
+        <div class="profile-form-right">
+          <div class="avatar-uploader">
+            {% if profile.avatar %}
+              <img src="{{ profile.avatar.url }}" alt="User Avatar" id="profileAvatarPreview" />
+            {% else %}
+              <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Avatar" id="profileAvatarPreview" />
+            {% endif %}
+            <label for="avatarFile" class="btn-outline-light">Chọn ảnh</label>
+            <input type="file" name="avatarFile" id="avatarFile" accept=".jpg,.jpeg,.png" hidden />
+            <div class="avatar-note">
+              Dụng lượng file tối đa 1 MB<br />Định dạng: JPEG, PNG
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+</section>
+
+<script>
+// Preview ảnh khi chọn file
+document.getElementById('avatarFile').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      document.getElementById('profileAvatarPreview').src = event.target.result;
+      document.getElementById('briefAvatar').src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Custom Dropdown cho Ngày sinh
+document.addEventListener('DOMContentLoaded', function () {
+  setupDropdown('dayTrigger', 'dayMenu', 'birthDayInput', 'dayLabel', false);
+  setupDropdown('monthTrigger', 'monthMenu', 'birthMonthInput', 'monthLabel', true);
+  setupDropdown('yearTrigger', 'yearMenu', 'birthYearInput', 'yearLabel', false);
+
+  function setupDropdown(triggerId, menuId, inputId, labelId, isMonth) {
+    const trigger = document.getElementById(triggerId);
+    const menu = document.getElementById(menuId);
+    const input = document.getElementById(inputId);
+    const label = document.getElementById(labelId);
+
+    if (!trigger || !menu) return;
+
+    // Toggle dropdown
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.querySelectorAll('.dropdown-menu').forEach(m => {
+        if (m !== menu) m.classList.remove('show');
+      });
+      document.querySelectorAll('.dropdown-trigger').forEach(t => {
+        if (t !== trigger) t.classList.remove('active');
+      });
+      menu.classList.toggle('show');
+      trigger.classList.toggle('active');
+
+      const selected = menu.querySelector('.selected');
+      if (selected) {
+        selected.scrollIntoView({ block: 'center' });
+      }
+    });
+
+    // Chọn item
+    menu.querySelectorAll('.dropdown-item').forEach(item => {
+      item.addEventListener('click', function () {
+        const value = this.dataset.value;
+        input.value = value;
+
+        if (isMonth) {
+          label.textContent = 'Tháng ' + value;
+        } else {
+          label.textContent = value;
+        }
+
+        menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
+        this.classList.add('selected');
+
+        menu.classList.remove('show');
+        trigger.classList.remove('active');
+      });
+    });
+  }
+
+  // Đóng dropdown khi click ra ngoài
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    document.querySelectorAll('.dropdown-trigger').forEach(t => t.classList.remove('active'));
+  });
+});
+</script>
+{% endblock %}

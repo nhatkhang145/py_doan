@@ -1,0 +1,293 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Chi tiết đơn hàng #{{ order.order_code }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .order-detail-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  .order-header {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  .order-code {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  .order-status-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .status-pending { background: #fef3c7; color: #b45309; }
+  .status-confirmed { background: #e0f2fe; color: #0369a1; }
+  .status-shipping { background: #ddd6fe; color: #6d28d9; }
+  .status-completed { background: #d1fae5; color: #047857; }
+  .status-cancelled { background: #fee2e2; color: #b91c1c; }
+  
+  .order-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .info-row:last-child {
+    border-bottom: none;
+  }
+  .info-label {
+    font-weight: 600;
+    color: #666;
+  }
+  .info-value {
+    color: #333;
+    text-align: right;
+  }
+  .order-items-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .order-items-table th,
+  .order-items-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .order-items-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+  }
+  .product-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  .total-row {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .btn-back:hover {
+    background: #5a6268;
+  }
+  .btn-continue {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .btn-continue:hover {
+    background: #2c6b70;
+  }
+  @media (max-width: 768px) {
+    .order-detail-container {
+      padding: 10px;
+    }
+    .order-header, .order-section {
+      padding: 20px;
+    }
+    .info-row {
+      flex-direction: column;
+      gap: 5px;
+    }
+    .info-value {
+      text-align: left;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+  <div class="grid">
+    <a href="{% url 'home' %}">Trang chủ</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <a href="{% url 'my_orders' %}">Đơn mua</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <span>#{{ order.order_code }}</span>
+  </div>
+</div>
+
+<div class="order-detail-container">
+  <!-- Header -->
+  <div class="order-header">
+    <div class="order-code">Đơn hàng #{{ order.order_code }}</div>
+    <div class="order-status-row">
+      <span class="status-badge status-{{ order.order_status }}">
+        {% if order.order_status == 'pending' %}Chờ xác nhận
+        {% elif order.order_status == 'confirmed' %}Đã xác nhận
+        {% elif order.order_status == 'shipping' %}Đang giao
+        {% elif order.order_status == 'completed' %}Hoàn thành
+        {% elif order.order_status == 'cancelled' %}Đã hủy
+        {% else %}{{ order.get_order_status_display }}
+        {% endif %}
+      </span>
+      {% if order.payment_status %}
+        <span class="status-badge" style="background: #d1fae5; color: #047857;">
+          ✓ Đã thanh toán
+        </span>
+      {% else %}
+        <span class="status-badge" style="background: #fef3c7; color: #b45309;">
+          Chưa thanh toán
+        </span>
+      {% endif %}
+      <span class="info-value">{{ order.created_at|date:"d/m/Y H:i" }}</span>
+    </div>
+  </div>
+
+  <!-- Thông tin khách hàng -->
+  <div class="order-section">
+    <div class="section-title">Thông tin nhận hàng</div>
+    <div class="info-row">
+      <span class="info-label">Người nhận:</span>
+      <span class="info-value">{{ order.fullname }}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Số điện thoại:</span>
+      <span class="info-value">{{ order.phone }}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Địa chỉ:</span>
+      <span class="info-value">{{ order.address }}</span>
+    </div>
+    {% if order.note %}
+    <div class="info-row">
+      <span class="info-label">Ghi chú:</span>
+      <span class="info-value">{{ order.note }}</span>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Thông tin thanh toán -->
+  <div class="order-section">
+    <div class="section-title">Thông tin thanh toán</div>
+    <div class="info-row">
+      <span class="info-label">Phương thức:</span>
+      <span class="info-value">
+        {% if order.payment_method == 'VNPAY' %}
+          🏦 VNPay
+        {% else %}
+          💵 COD - Thanh toán khi nhận hàng
+        {% endif %}
+      </span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Trạng thái thanh toán:</span>
+      <span class="info-value" style="font-weight: 600; {% if order.payment_status %}color: #047857;{% else %}color: #b45309;{% endif %}">
+        {% if order.payment_status %}✓ Đã thanh toán{% else %}Chưa thanh toán{% endif %}
+      </span>
+    </div>
+  </div>
+
+  <!-- Sản phẩm -->
+  <div class="order-section">
+    <div class="section-title">Sản phẩm đã đặt</div>
+    <table class="order-items-table">
+      <thead>
+        <tr>
+          <th>Sản phẩm</th>
+          <th style="text-align: center;">Số lượng</th>
+          <th style="text-align: right;">Đơn giá</th>
+          <th style="text-align: right;">Thành tiền</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order_items %}
+        <tr>
+          <td>
+            <div class="product-info">
+              {% if item.product and item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product_name }}" class="product-img">
+              {% endif %}
+              <span>{{ item.product_name }}</span>
+            </div>
+          </td>
+          <td style="text-align: center;">{{ item.quantity }}</td>
+          <td style="text-align: right;">{{ item.price|floatformat:0|intcomma }}₫</td>
+          <td style="text-align: right;">{{ item.get_total_price|floatformat:0|intcomma }}₫</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align: right; font-weight: 600;">Tạm tính:</td>
+          <td style="text-align: right;">{{ order.total_money|floatformat:0|intcomma }}₫</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align: right; font-weight: 600;">Phí vận chuyển:</td>
+          <td style="text-align: right; color: #28a745;">Miễn phí</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3" style="text-align: right;">Tổng cộng:</td>
+          <td style="text-align: right;">{{ order.final_money|floatformat:0|intcomma }}₫</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div style="text-align: center; margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+    <a href="{% url 'my_orders' %}" class="btn-back">
+      <i class="fa-solid fa-arrow-left"></i> Quay lại đơn hàng
+    </a>
+    <a href="{% url 'shop' %}" class="btn-continue">
+      <i class="fa-solid fa-shopping-bag"></i> Tiếp tục mua sắm
+    </a>
+  </div>
+</div>
+{% endblock %}

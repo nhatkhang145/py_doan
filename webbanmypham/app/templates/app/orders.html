@@ -1,0 +1,170 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Đơn mua - Beauty Shop{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/profile_layout.css' %}" />
+<link rel="stylesheet" href="{% static 'app/css/orders.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+  <div class="grid">
+    <a href="{% url 'home' %}">Trang chủ</a>
+    <i class="fa-solid fa-angle-right"></i>
+    <span>Đơn mua</span>
+  </div>
+</div>
+
+<section class="profile-section">
+  <div class="profile-container">
+    <aside class="profile-sidebar">
+      <div class="profile-user-brief">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Avatar" class="brief-avatar" />
+        <div class="brief-info">
+          <span class="brief-name">{{ request.user.username }}</span>
+          <a href="#" class="brief-edit"><i class="fa-solid fa-pen"></i> Sửa hồ sơ</a>
+        </div>
+      </div>
+
+      <ul class="profile-menu">
+        <li class="profile-menu-item">
+          <a href="{% url 'profile' %}"><i class="fa-regular fa-user"></i> Hồ sơ của tôi</a>
+        </li>
+        <li class="profile-menu-item active">
+          <a href="{% url 'my_orders' %}"><i class="fa-solid fa-box-open"></i> Đơn mua</a>
+        </li>
+        <li class="profile-menu-item">
+          <a href="#"><i class="fa-solid fa-location-dot"></i> Địa chỉ</a>
+        </li>
+        <li class="profile-menu-item">
+          <a href="#"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a>
+        </li>
+        <li class="profile-menu-item">
+          <a href="{% url 'logout' %}" style="color: red;"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="profile-content orders-content">
+      <div class="orders-header">
+        <h2>Đơn mua của tôi</h2>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {% if message.tags == 'success' %}
+              <i class="fa-solid fa-circle-check"></i>
+            {% else %}
+              <i class="fa-solid fa-circle-xmark"></i>
+            {% endif %}
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="orders-tabs">
+        <a href="{% url 'my_orders' %}?status=all" 
+           class="tab-item {% if not filter_status or filter_status == 'all' %}active{% endif %}">
+          Tất cả
+        </a>
+        <a href="{% url 'my_orders' %}?status=pending" 
+           class="tab-item {% if filter_status == 'pending' %}active{% endif %}">
+          Chờ xác nhận
+          {% if pending_count > 0 %}
+            <span class="badge">{{ pending_count }}</span>
+          {% endif %}
+        </a>
+        <a href="{% url 'my_orders' %}?status=confirmed" 
+           class="tab-item {% if filter_status == 'confirmed' %}active{% endif %}">
+          Đã xác nhận
+          {% if confirmed_count > 0 %}
+            <span class="badge">{{ confirmed_count }}</span>
+          {% endif %}
+        </a>
+        <a href="{% url 'my_orders' %}?status=shipping" 
+           class="tab-item {% if filter_status == 'shipping' %}active{% endif %}">
+          Đang giao
+          {% if shipping_count > 0 %}
+            <span class="badge">{{ shipping_count }}</span>
+          {% endif %}
+        </a>
+        <a href="{% url 'my_orders' %}?status=completed" 
+           class="tab-item {% if filter_status == 'completed' %}active{% endif %}">
+          Hoàn thành
+        </a>
+        <a href="{% url 'my_orders' %}?status=cancelled" 
+           class="tab-item {% if filter_status == 'cancelled' %}active{% endif %}">
+          Đã hủy
+        </a>
+      </div>
+
+      <div class="orders-list">
+        {% if orders %}
+          {% for order in orders %}
+            <div class="order-card">
+              <div class="order-card__header">
+                <div class="order-info">
+                  <span class="order-id">Mã đơn: #{{ order.order_code }}</span>
+                  <span class="order-date">{{ order.created_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                <span class="order-status status-{{ order.order_status }}">
+                  {% if order.order_status == 'pending' %}Chờ xác nhận
+                  {% elif order.order_status == 'confirmed' %}Đã xác nhận
+                  {% elif order.order_status == 'shipping' %}Đang giao
+                  {% elif order.order_status == 'completed' %}Hoàn thành
+                  {% elif order.order_status == 'cancelled' %}Đã hủy
+                  {% else %}{{ order.get_order_status_display }}
+                  {% endif %}
+                </span>
+              </div>
+
+              <div class="order-card__body">
+                <div class="order-address">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <div>
+                    <strong>{{ order.fullname }}</strong> - {{ order.phone }}<br />
+                    {{ order.address }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="order-card__footer">
+                <div class="order-total">
+                  <span>Tổng tiền:</span>
+                  <strong class="price">{{ order.final_money|floatformat:0|intcomma }}₫</strong>
+                </div>
+                <div class="order-actions">
+                  <a href="{% url 'order_detail' order.id %}" class="btn btn-outline">
+                    Xem chi tiết
+                  </a>
+                  {% if order.order_status == 'pending' or order.order_status == 'confirmed' %}
+                    <form method="post" style="display: inline;" 
+                          onsubmit="return confirm('Bạn có chắc muốn hủy đơn hàng này?');">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="cancel" />
+                      <input type="hidden" name="order_id" value="{{ order.id }}" />
+                      <button type="submit" class="btn btn-danger">Hủy đơn</button>
+                    </form>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <i class="fa-solid fa-box-open"></i>
+            <p>Chưa có đơn hàng nào</p>
+            <a href="{% url 'shop' %}" class="btn btn-primary">
+              Mua sắm ngay
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+</section>
+{% endblock %}

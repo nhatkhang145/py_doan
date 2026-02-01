@@ -1,0 +1,165 @@
+/* ======================================
+   PROFILE LAYOUT - COMMON STYLES
+   Dùng chung cho: Profile, Orders, Addresses, Change Password
+   ====================================== */
+
+/* Profile Section */
+.profile-section {
+  padding: 40px 0 80px;
+  background-color: #f5f5f5;
+}
+
+.profile-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- SIDEBAR (LEFT) --- */
+.profile-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+/* User Brief */
+.profile-user-brief {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.brief-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f0f0f0;
+  background-color: #fff;
+  padding: 2px;
+}
+
+.brief-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.brief-name {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brief-edit {
+  color: #888;
+  font-size: 13px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.brief-edit:hover {
+  color: var(--primary-color);
+}
+
+/* Profile Menu */
+.profile-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.profile-menu-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-menu-item:last-child {
+  border-bottom: none;
+}
+
+.profile-menu-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 20px;
+  color: #555;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.profile-menu-item a:hover {
+  background: #f8f8f8;
+  color: var(--primary-color);
+}
+
+.profile-menu-item.active a {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+.profile-menu-item a i {
+  width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* --- MAIN CONTENT (RIGHT) --- */
+.profile-content {
+  min-width: 0;
+  flex: 1;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 30px;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 992px) {
+  .profile-container {
+    gap: 15px;
+  }
+  
+  .profile-content {
+    padding: 25px;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 768px) {
+  .profile-section {
+    padding: 20px 0 40px;
+  }
+
+  .profile-container {
+    flex-direction: column;
+    padding: 0 15px;
+  }
+
+  .profile-sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .profile-content {
+    padding: 20px;
+  }
+}

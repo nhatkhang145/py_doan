@@ -43,6 +43,17 @@ urlpatterns = [
     path('my-admin/spam-keywords/edit/<int:keyword_id>/', views.admin_spam_keywords_edit, name='admin_spam_keywords_edit'),
     path('my-admin/spam-keywords/toggle/<int:keyword_id>/', views.admin_spam_keywords_toggle, name='admin_spam_keywords_toggle'),
     path('my-admin/spam-keywords/delete/<int:keyword_id>/', views.admin_spam_keywords_delete, name='admin_spam_keywords_delete'),
+    
+    # VNPay Payment
+    path('payment/vnpay/<int:order_id>/', views.vnpay_payment, name='vnpay_payment'),
+    path('payment/vnpay/return/', views.vnpay_return, name='vnpay_return'),
+    
+    # My Orders
+    path('my-orders/', views.my_orders, name='my_orders'),
+    path('order/<int:order_id>/', views.order_detail, name='order_detail'),
+    
+    # Profile
+    path('profile/', views.profile, name='profile'),
 ]
 
 

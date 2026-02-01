@@ -159,6 +159,10 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1, verbose_name="Số lượng")
     price = models.DecimalField(max_digits=15, decimal_places=0, verbose_name="Giá bán lúc mua")
 
+    def get_total_price(self):
+        """Tính tổng tiền của item"""
+        return self.price * self.quantity
+
     def __str__(self):
         return f"{self.product_name} x {self.quantity}"
 

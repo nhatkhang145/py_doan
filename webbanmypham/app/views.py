@@ -14,6 +14,7 @@ import random
 from django.db.models import Sum
 from datetime import timedelta
 from django.utils import timezone
+from .vnpay import VNPay, get_client_ip
 
 # --- TRANG CHỦ ---
 def home(request):
@@ -270,7 +271,16 @@ def checkout(request):
         # Xóa giỏ hàng sau khi đặt xong
         cart.clear()
         
-        # Thông báo thành công và chuyển hướng
+        # Kiểm tra phương thức thanh toán
+        payment_method = request.POST.get('payment_method')
+        
+        # Nếu chọn VNPay -> Chuyển hướng sang trang thanh toán VNPay
+        if payment_method == 'VNPAY':
+            # Lưu order_id vào session để xử lý sau khi thanh toán
+            request.session['pending_order_id'] = new_order.id
+            return redirect('vnpay_payment', order_id=new_order.id)
+        
+        # Thanh toán COD -> Thông báo thành công
         messages.success(request, f"Đặt hàng thành công! Mã đơn: {order_code}")
         return redirect('home')
 
@@ -287,7 +297,228 @@ def checkout(request):
     })
 
 
+# ==================== VNPAY PAYMENT ====================
 
+@login_required(login_url='login')
+def vnpay_payment(request, order_id):
+    """Chuyển hướng đến trang thanh toán VNPay"""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Kiểm tra đơn hàng đã thanh toán chưa
+    if order.payment_status:
+        messages.warning(request, "Đơn hàng này đã được thanh toán!")
+        return redirect('home')
+    
+    # Lấy IP client
+    ip_address = get_client_ip(request)
+    
+    # Tạo URL callback
+    return_url = request.build_absolute_uri('/payment/vnpay/return/')
+    
+    # Tạo đối tượng VNPay
+    vnpay = VNPay()
+    
+    # Tạo URL thanh toán
+    payment_url = vnpay.build_payment_url(
+        return_url=return_url,
+        order_code=order.order_code,
+        amount=int(order.final_money),
+        order_desc=f"Thanh toan don hang {order.order_code}",
+        ip_address=ip_address
+    )
+    
+    # Chuyển hướng đến VNPay
+    return redirect(payment_url)
+
+
+def vnpay_return(request):
+    """Xử lý kết quả trả về từ VNPay"""
+    
+    # Lấy tất cả params từ URL
+    response_data = request.GET.dict()
+    
+    if not response_data:
+        messages.error(request, "Không nhận được phản hồi từ VNPay!")
+        return redirect('home')
+    
+    # Tạo đối tượng VNPay để validate
+    vnpay = VNPay()
+    
+    # Kiểm tra chữ ký
+    is_valid = vnpay.validate_response(response_data)
+    
+    if is_valid:
+        # Lấy thông tin từ response
+        order_code = response_data.get('vnp_TxnRef', '')
+        response_code = response_data.get('vnp_ResponseCode', '')
+        transaction_id = response_data.get('vnp_TransactionNo', '')
+        amount = int(response_data.get('vnp_Amount', 0)) / 100  # Chia 100 vì VNPay * 100
+        bank_code = response_data.get('vnp_BankCode', '')
+        
+        try:
+            # Tìm đơn hàng
+            order = Order.objects.get(order_code=order_code)
+            
+            if response_code == '00':
+                # Thanh toán thành công
+                order.payment_status = True
+                order.order_status = 'confirmed'
+                order.save()
+                
+                messages.success(
+                    request, 
+                    f"✓ Thanh toán thành công!\n"
+                    f"Mã đơn hàng: {order_code}\n"
+                    f"Mã giao dịch: {transaction_id}\n"
+                    f"Ngân hàng: {bank_code}"
+                )
+            else:
+                # Thanh toán thất bại
+                error_msg = VNPay.get_response_message(response_code)
+                messages.error(request, f"✗ Thanh toán thất bại: {error_msg}")
+                
+        except Order.DoesNotExist:
+            messages.error(request, "Không tìm thấy đơn hàng!")
+    else:
+        messages.error(request, "✗ Chữ ký không hợp lệ! Giao dịch bị nghi ngờ giả mạo.")
+    
+    return redirect('home')
+
+
+# ==================== MY ORDERS (Đơn hàng của tôi) ====================
+
+@login_required(login_url='login')
+def my_orders(request):
+    """Danh sách đơn hàng của người dùng"""
+    
+    # Lấy filter status từ query parameter
+    filter_status = request.GET.get('status', 'all')
+    
+    # Lấy tất cả đơn hàng của user
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    
+    # Đếm số lượng theo từng trạng thái
+    pending_count = orders.filter(order_status='pending').count()
+    confirmed_count = orders.filter(order_status='confirmed').count()
+    shipping_count = orders.filter(order_status='shipping').count()
+    completed_count = orders.filter(order_status='completed').count()
+    cancelled_count = orders.filter(order_status='cancelled').count()
+    
+    # Lọc theo status nếu không phải "all"
+    if filter_status != 'all':
+        orders = orders.filter(order_status=filter_status)
+    
+    # Xử lý POST (Hủy đơn hàng)
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        order_id = request.POST.get('order_id')
+        
+        if action == 'cancel':
+            try:
+                order = Order.objects.get(id=order_id, user=request.user)
+                
+                # Chỉ cho phép hủy nếu đơn ở trạng thái pending hoặc confirmed
+                if order.order_status in ['pending', 'confirmed']:
+                    order.order_status = 'cancelled'
+                    order.save()
+                    messages.success(request, f"✓ Đã hủy đơn hàng #{order.order_code}")
+                else:
+                    messages.error(request, "✗ Không thể hủy đơn hàng ở trạng thái này!")
+                    
+            except Order.DoesNotExist:
+                messages.error(request, "✗ Đơn hàng không tồn tại!")
+        
+        return redirect('my_orders')
+    
+    context = {
+        'orders': orders,
+        'filter_status': filter_status,
+        'pending_count': pending_count,
+        'confirmed_count': confirmed_count,
+        'shipping_count': shipping_count,
+        'completed_count': completed_count,
+        'cancelled_count': cancelled_count,
+    }
+    
+    return render(request, 'app/orders.html', context)
+
+
+@login_required(login_url='login')
+def order_detail(request, order_id):
+    """Chi tiết đơn hàng"""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order_items = order.items.all()
+    
+    context = {
+        'order': order,
+        'order_items': order_items,
+    }
+    
+    return render(request, 'app/order_detail.html', context)
+
+
+# ==================== PROFILE (Hồ sơ cá nhân) ====================
+
+@login_required(login_url='login')
+def profile(request):
+    """Trang hồ sơ cá nhân"""
+    
+    # Lấy hoặc tạo profile
+    profile, created = CustomerProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        # Lấy dữ liệu từ form
+        fullname = request.POST.get('fullname')
+        phone = request.POST.get('phone')
+        gender = request.POST.get('gender')
+        
+        # Lấy ngày sinh từ dropdown
+        birth_day = request.POST.get('birthDay')
+        birth_month = request.POST.get('birthMonth')
+        birth_year = request.POST.get('birthYear')
+        
+        # Xử lý avatar upload
+        avatar_file = request.FILES.get('avatarFile')
+        
+        # Cập nhật thông tin profile
+        profile.fullname = fullname
+        profile.phone = phone
+        
+        # Lưu ngày sinh nếu đầy đủ
+        if birth_day and birth_month and birth_year:
+            try:
+                from datetime import date
+                birth_date = date(int(birth_year), int(birth_month), int(birth_day))
+                # Lưu vào JSONField hoặc thêm field mới
+                # Tạm thời lưu vào skin_concerns để demo
+                profile.skin_concerns = {
+                    'birth_day': birth_day,
+                    'birth_month': birth_month,
+                    'birth_year': birth_year
+                }
+            except:
+                pass
+        
+        # Lưu avatar nếu có
+        if avatar_file:
+            profile.avatar = avatar_file
+        
+        profile.save()
+        
+        messages.success(request, '✓ Cập nhật hồ sơ thành công!')
+        return redirect('profile')
+    
+    # Lấy thông tin ngày sinh từ skin_concerns (tạm thời)
+    birth_data = profile.skin_concerns if isinstance(profile.skin_concerns, dict) else {}
+    
+    context = {
+        'profile': profile,
+        'birth_day': birth_data.get('birth_day', ''),
+        'birth_month': birth_data.get('birth_month', ''),
+        'birth_year': birth_data.get('birth_year', ''),
+    }
+    
+    return render(request, 'app/profile.html', context)
 
 
 # --- LOGIC ADMIN  ---
